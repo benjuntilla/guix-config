@@ -1,16 +1,47 @@
-;; This "home-environment" file can be passed to 'guix home reconfigure'
-;; to reproduce the content of your profile.  This is "symbolic": it only
-;; specifies package names.  To reproduce the exact same profile, you also
-;; need to capture the channels being used, as returned by "guix describe".
-;; See the "Replicating Guix" section in the manual.
-
-(use-modules (gnu home)
+(use-modules (gnu)
+			 (gnu home)
              (gnu packages)
              (gnu services)
              (guix gexp)
+             (guix channels)
+             (gnu home services)
              (gnu home services shells)
-			       (gnu home services gnupg)
-             (gnu packages gnupg))
+             (gnu home services shepherd)
+			 (gnu home services gnupg)
+			 (gnu home services desktop)
+			 (gnu home services pm)
+			 (gnu home services guix))
+(use-package-modules gnupg emacs)
+
+(define (home-emacs-profile-service config)
+  (list emacs-next))
+
+(define (home-emacs-files-service config)
+  (list `(".config/emacs/config.org" ,(local-file "emacs/config.org"))
+		`(".config/emacs/init.el" ,(local-file "emacs/init.el"))
+		`(".config/emacs/early-init.el" ,(local-file "emacs/early-init.el"))))
+
+(define (home-emacs-shepherd-service config)
+  (list (shepherd-service
+		  (provision '(emacs-next))
+		  (documentation "Run emacs.")
+		  (start #~(make-forkexec-constructor '("emacs" "--fg-daemon")))
+		  (stop #~(make-kill-destructor)))))
+
+(define home-emacs-service-type
+  (service-type (name 'home-emacs)
+				(extensions
+				  (list (service-extension
+						  home-profile-service-type
+						  home-emacs-profile-service)
+						(service-extension
+						  home-shepherd-service-type
+						  home-emacs-shepherd-service)
+						(service-extension
+						  home-files-service-type
+						  home-emacs-files-service)))
+				(default-value #f)
+				(description "Emacs :)")))
 
 (home-environment
   ;; Below is the list of packages that will show up in your
@@ -205,10 +236,51 @@
   ;; services, run 'guix home search KEYWORD' in a terminal.
   (services
    (list
+	(service home-dbus-service-type)
+	(service home-batsignal-service-type)
+	(service home-emacs-service-type)
+	(simple-service 'extra-channels-service
+					home-channels-service-type
+					(list (channel
+							(name 'guix)
+							(url "https://git.savannah.gnu.org/git/guix.git")
+							(branch "master")
+							(introduction
+							  (make-channel-introduction
+								"9edb3f66fd807b096b48283debdcddccfea34bad"
+								(openpgp-fingerprint
+								  "BBB0 2DDF 2CEA F6A8 0D1D  E643 A2A0 6DF2 A33A 54FA"))))
+						  (channel
+							(name 'guix-gaming-games)
+							(url "https://gitlab.com/guix-gaming-channels/games.git")
+							;; Enable signature verification:
+							(introduction
+							  (make-channel-introduction
+								"c23d64f1b8cc086659f8781b27ab6c7314c5cca5"
+								(openpgp-fingerprint
+								  "50F3 3E2E 5B0C 3D90 0424  ABE8 9BDC F497 A4BB CC7F"))))
+						  (channel
+							(name 'small-guix)
+							(url "https://gitlab.com/orang3/small-guix")
+							;; Enable signature verification:
+							(introduction
+							  (make-channel-introduction
+								"940e21366a8c986d1e10a851c7ce62223b6891ef"
+								(openpgp-fingerprint
+								  "D088 4467 87F7 CBB2 AE08  BE6D D075 F59A 4805 49C3"))))
+						  (channel
+							(name 'nonguix)
+							(url "https://gitlab.com/nonguix/nonguix")
+							(branch "master")
+							(introduction
+							  (make-channel-introduction
+								"897c1a470da759236cc11798f4e0a5f7d4d59fbc"
+								(openpgp-fingerprint
+								  "2A39 3FFF 68F4 EF7A 3D29  12AF 6F51 20A0 22FB B2D5"))))))
     (service home-gpg-agent-service-type
              (home-gpg-agent-configuration
               (pinentry-program
-               (file-append pinentry-gtk2 "/bin/pinentry-gtk2"))
+               (file-append pinentry-rofi "/bin/pinentry-rofi"))
               (ssh-support? #t)))
     (service home-zsh-service-type
              (home-zsh-configuration

@@ -11,7 +11,7 @@
 ;; used in this configuration.
 (use-modules (gnu) (nongnu packages linux))
 (use-service-modules cups desktop networking ssh xorg pm dbus)
-(use-package-modules wm shells)
+(use-package-modules wm shells security-token)
 
 (operating-system
   (kernel linux)
@@ -28,7 +28,7 @@
                   (group "users")
                   (home-directory "/home/ben")
 		  (shell (file-append zsh "/bin/zsh"))
-                  (supplementary-groups '("wheel" "netdev" "audio" "video")))
+                  (supplementary-groups '("wheel" "netdev" "audio" "video" "plugdev")))
                 %base-user-accounts))
 
   ;; Packages installed system-wide.  Users can also install packages
@@ -41,6 +41,7 @@
   (services 
    (cons* (service openssh-service-type)
           (service cups-service-type)
+		  (udev-rules-service 'fido2 libfido2 #:groups '("plugdev"))
           (service screen-locker-service-type
                    (screen-locker-configuration
                     (name "swaylock")
@@ -52,8 +53,8 @@
                     (cpu-scaling-governor-on-ac (list "performance"))
                     (sched-powersave-on-bat? #t)))
           (service bluetooth-service-type)
-          (set-xorg-configuration
-           (xorg-configuration (keyboard-layout keyboard-layout)))
+;;          (set-xorg-configuration
+;;           (xorg-configuration (keyboard-layout keyboard-layout)))
           (modify-services %desktop-services
                            (delete gdm-service-type)
                            (guix-service-type config => (guix-configuration
