@@ -1628,7 +1628,7 @@ Use ~adaptive-wrap~ to indent paragraphs
 #+begin_src emacs-lisp
 (use-package zoom
   :delight
-  :custom (zoom-mode))
+  :config (zoom-mode))
 #+end_src
 ** ~centaur-tabs~
 #+begin_src emacs-lisp :tangle no
@@ -1789,6 +1789,11 @@ Adds SVG icons to ~corfu~
   (read-buffer-completion-ignore-case t)
   (completion-ignore-case t)
   (vertico-cycle t))
+#+end_src
+*** ~vertico-posframe~
+#+begin_src emacs-lisp
+(use-package vertico-posframe
+  :config (vertico-posframe-mode 1))
 #+end_src
 ** ~orderless~
 #+begin_src emacs-lisp
