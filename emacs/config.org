@@ -396,6 +396,11 @@ Prefer newer package files
   (which-key-max-description-length 50)
   :config (which-key-mode))
 #+end_src
+*** ~which-key-posframe~
+#+begin_src emacs-lisp
+(use-package which-key-posframe
+  :config (which-key-posframe-mode 1))
+#+end_src
 ** ~emacs-application-framework~
 see [[https://github.com/emacs-eaf/emacs-application-framework/discussions/799][discussion]] and related [[https://github.com/emacs-eaf/emacs-application-framework/pull/866][pr]]
 #+begin_src emacs-lisp :tangle no
