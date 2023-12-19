@@ -502,6 +502,8 @@ see [[https://github.com/emacs-eaf/emacs-application-framework/discussions/799][
                       ;; ,(concat org-directory "/inbox.org")))
   (org-tags-exclude-from-inheritance '("todo"))
   (org-agenda-tags-column 0)
+  (org-tags-column 0)
+  (org-auto-align-tags nil)
   (org-agenda-prefix-format '((agenda . " %i %-12:c%-12t%-6e% s")
                                 (todo . " %i %-12:c %-6e")
                                 (tags . " %i %-12:c")
@@ -1575,6 +1577,11 @@ Use ~adaptive-wrap~ to indent paragraphs
   (doom-modeline-indent-info t)
   :init (doom-modeline-mode 1))
 #+end_src
+** ~org-modern~
+#+begin_src emacs-lisp
+(use-package org-modern
+  :config (global-org-modern-mode))
+#+end_src
 ** ~page-break-lines~
 #+begin_src emacs-lisp
 (use-package page-break-lines)
@@ -1589,11 +1596,21 @@ Use ~adaptive-wrap~ to indent paragraphs
   :hook org-mode)
 #+end_src
 ** ~highlight-indent-guides~
+the following package prevents emacs daemons from connecting to clients
 #+begin_src emacs-lisp :tangle no
 (use-package highlight-indent-guides
   :delight
   :hook (prog-mode org-mode)
-  :custom (highlight-indent-guides-responsive 'top))
+  :custom (highlight-indent-guides-responsive 'top)
+          (highlight-indent-guides-auto-odd-face-perc 30)
+          (highlight-indent-guides-auto-even-face-perc 50)
+          (highlight-indent-guides-auto-top-odd-face-perc 90)
+          (highlight-indent-guides-auto-top-even-face-perc 90))
+#+end_src
+** ~indent-bars~
+#+begin_src emacs-lisp :tangle no
+(use-package indent-bars
+  :straight (indent-bars :type git :host github :repo "jdtsmith/indent-bars"))
 #+end_src
 ** ~dimmer~
 #+begin_src emacs-lisp

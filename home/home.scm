@@ -1,3 +1,16 @@
+; !!!!!!!!!!!!       TODO     !!!!!!!!!!!!!!!!
+
+; https://www.reddit.com/r/GUIX/comments/127kml7/comment/kajwlop/?utm_source=reddit&utm_medium=web2x&context=3
+
+;(define-public desktop-services
+  ;(list
+    ;(simple-service 'gtk-config
+                   ;home-files-service-type
+                   ;`(("config/gtk-3.0/settings.ini"
+                      ;,(local-file "../files/gtk3.ini"))
+                     ;("config/gtk-3.0/gtk.css"
+                      ;,(local-file "../files/gtk3.css"))))))          
+
 (use-modules (gnu)
 			 (gnu home)
              (gnu packages)
@@ -17,9 +30,9 @@
   (list emacs-next))
 
 (define (home-emacs-files-service config)
-  (list `(".config/emacs/config.org" ,(local-file "emacs/config.org"))
-		`(".config/emacs/init.el" ,(local-file "emacs/init.el"))
-		`(".config/emacs/early-init.el" ,(local-file "emacs/early-init.el"))))
+  (list `(".config/emacs/config.org" ,(local-file "files/emacs/config.org"))
+		`(".config/emacs/init.el" ,(local-file "files/emacs/init.el"))
+		`(".config/emacs/early-init.el" ,(local-file "files/emacs/early-init.el"))))
 
 (define (home-emacs-shepherd-service config)
   (list (shepherd-service
@@ -34,9 +47,9 @@
 				  (list (service-extension
 						  home-profile-service-type
 						  home-emacs-profile-service)
-						(service-extension
-						  home-shepherd-service-type
-						  home-emacs-shepherd-service)
+						;(service-extension
+						  ;home-shepherd-service-type
+						  ;home-emacs-shepherd-service)
 						(service-extension
 						  home-files-service-type
 						  home-emacs-files-service)))
@@ -284,6 +297,6 @@
               (ssh-support? #t)))
     (service home-zsh-service-type
              (home-zsh-configuration
-              (zshrc (list (local-file "/home/ben/src/guix-config/.zshrc" "zshrc")))
-              (zshenv (list (local-file "/home/ben/src/guix-config/.zshenv" "zshenv")))
-              (zprofile (list (local-file "/home/ben/src/guix-config/.zprofile" "zprofile"))))))))
+              (zshrc (list (local-file "files/dot_zshrc" "zshrc")))
+              (zshenv (list (local-file "files/dot_zshenv" "zshenv")))
+              (zprofile (list (local-file "files/dot_zprofile" "zprofile"))))))))
