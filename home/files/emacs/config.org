@@ -895,7 +895,10 @@ Install ~dired-ranger~ for intuitive copy & move/paste via clipboard
 ** ~git-auto-commit-mode~
 #+begin_src emacs-lisp
 (use-package git-auto-commit-mode
-   :custom (gac-automatically-push-p t))
+  :custom (gac-automatically-push-p t)
+  :config
+  ;; add to safe values for use in .dir-locals
+  (add-to-list 'safe-local-variable-values '(gac-automatically-add-new-files-p . t)))
 #+end_src
 ** ~chezmoi~
 #+begin_src emacs-lisp
