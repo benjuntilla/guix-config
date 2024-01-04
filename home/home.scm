@@ -31,6 +31,7 @@
 
 (define (home-emacs-files-service config)
   (list `(".config/emacs/config.org" ,(local-file "files/emacs/config.org"))
+        `(".config/emacs/templates" ,(local-file "files/emacs/templates"))
 		`(".config/emacs/init.el" ,(local-file "files/emacs/init.el"))
 		`(".config/emacs/early-init.el" ,(local-file "files/emacs/early-init.el"))))
 
