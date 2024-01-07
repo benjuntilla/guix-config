@@ -723,7 +723,7 @@ Add mouse support
 (use-package dirvish
   :init (dirvish-override-dired-mode)
   :custom (dirvish-attributes
-           '(vc-state subtree-state all-the-icons collapse git-msg file-time file-size))
+           '(vc-state subtree-state all-the-icons git-msg file-size))
   (dired-listing-switches
         "-l --almost-all --human-readable --group-directories-first --no-group")
   (dirvish-use-header-line 'global)
@@ -824,6 +824,13 @@ Add mouse support
 (setq org-confirm-babel-evaluate nil)
 (setq sentence-end-double-space nil)
 (delete-selection-mode t)
+#+end_src
+
+Set up tab stuff
+#+begin_src emacs-lisp
+(setq-default tab-width 4)
+(defvaralias 'c-basic-offset 'tab-width)
+(defvaralias 'cperl-indent-level 'tab-width)
 #+end_src
 
 Use ~autofill-mode~ for hard wrapping
@@ -985,7 +992,10 @@ Install ~ibuffer-vc~ to dynamically create filter groups by VC project
             "C-c e x" 'eglot-code-action-extract
             "C-c e i" 'eglot-code-action-inline
             "C-c e w" 'eglot-code-action-rewrite
-            "C-c e SPC" 'eglot-code-actions))
+            "C-c e SPC" 'eglot-code-actions)
+  :config
+  (add-to-list 'eglot-server-programs
+	       '(svelte-mode . ("svelteserver" "--stdio"))))
 #+end_src
 ** ~literate-calc-mode~
 #+begin_src emacs-lisp
