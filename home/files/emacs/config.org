@@ -935,7 +935,7 @@ Install ~bm~ for bookmarks
   :general (LaTeX-mode-map
             "TAB" 'cdlatex-tab)
   :hook
-  (LaTeX-mode . (lambda () (reftex-mode) (olivetti-mode) (display-line-numbers-mode) (TeX-source-correlate-mode) (outline-minor-mode))))
+  (LaTeX-mode . (lambda () (reftex-mode) (display-line-numbers-mode) (TeX-source-correlate-mode) (outline-minor-mode))))
 #+end_src
 *** ~cdlatex~
 #+begin_src emacs-lisp
