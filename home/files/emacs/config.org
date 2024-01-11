@@ -976,11 +976,13 @@ Install ~ibuffer-vc~ to dynamically create filter groups by VC project
 (use-package treesit
   :custom
   (treesit-extra-load-path '("~/.guix-profile/lib/tree-sitter/"))
-  (major-mode-remap-alist 
+  (major-mode-remap-alist
     '((css-mode  . css-ts-mode)
       (rust-mode . rust-ts-mode)
       (javascript-mode . js-ts-mode)
-      (ruby-mode . ruby-ts-mode))))
+      (ruby-mode . ruby-ts-mode)))
+  :mode
+  ("\\.ts" . typescript-ts-mode))
 #+end_src
 ** ~eglot~
 #+begin_src emacs-lisp
