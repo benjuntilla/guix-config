@@ -1206,8 +1206,7 @@ Add interface for ~flyspell~
 #+begin_src emacs-lisp
 (use-package flyspell-correct
   :general
-  (flyspell-mode-map "C-'" 'flyspell-correct-wrapper)
-  (flyspell-mouse-map "<mouse-1>" 'flyspell-correct-wrapper))
+  (flyspell-mode-map "C-'" 'flyspell-correct-wrapper))
 #+end_src
 ** Snippets
 ~tempel~
