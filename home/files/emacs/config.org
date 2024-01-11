@@ -723,6 +723,8 @@ Add mouse support
 #+begin_src emacs-lisp
 (use-package dirvish
   :init (dirvish-override-dired-mode)
+  :general (dirvish-mode-map
+            "g z" 'dirvish-quick-access)
   :custom (dirvish-attributes
            '(vc-state subtree-state all-the-icons git-msg file-size))
   (dired-listing-switches
