@@ -354,10 +354,10 @@ Prefer newer package files
 #+begin_src emacs-lisp
 (use-package vterm-toggle
   :general
-  ([f12] 'vterm-toggle)
-  ([C-f12] 'vterm-toggle-cd)
+  ("C-c t" 'vterm-toggle)
+  ("C-c T" 'vterm-toggle-cd)
   (:keymaps 'vterm-mode-map
-   [f12] 'vterm-toggle
+   "C-c t" 'vterm-toggle
    [(control return)] 'vterm-toggle-insert-cd))
 #+end_src
 ** restart-emacs
