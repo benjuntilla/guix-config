@@ -389,7 +389,8 @@ Prefer newer package files
          ;; redisplay inline images after org-babel execution
          (org-babel-after-execute . (lambda ()
                                       (when org-inline-image-overlays
-                                        (org-redisplay-inline-images)))))
+                                        (org-redisplay-inline-images))))
+         (org-mode . org-cdlatex-mode))
   :general
   ("C-c A" 'org-capture
    "C-c a" 'org-agenda)
