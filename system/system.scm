@@ -11,7 +11,7 @@
 ;; used in this configuration.
 (use-modules (gnu) (nongnu packages linux))
 (use-service-modules cups desktop networking ssh xorg pm dbus)
-(use-package-modules wm shells security-token)
+(use-package-modules wm shells security-token cups)
 
 (operating-system
   (kernel linux)
@@ -40,7 +40,11 @@
 
   (services 
    (cons* (service openssh-service-type)
-          (service cups-service-type)
+          (service cups-service-type
+		           (cups-configuration
+					 (web-interface? #t)
+					 (extensions
+    					 (list cups-filters hplip-minimal))))
 		  (udev-rules-service 'fido2 libfido2 #:groups '("plugdev"))
           (service screen-locker-service-type
                    (screen-locker-configuration
