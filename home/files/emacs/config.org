@@ -1181,7 +1181,7 @@ Highlight color hexes
 ** ~iedit~
 #+begin_src emacs-lisp
 (use-package iedit
-  :general ('visual "C-;" #'iedit-mode))
+  :general ('visual "C-;" iedit-mode))
 #+end_src
 ** Error checking
 Install ~flycheck~ for syntax checking
