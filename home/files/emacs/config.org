@@ -163,6 +163,12 @@ Delete text when selecting and typing over it
 (setq delete-selection-mode t)
 #+end_src
 
+Pinentry
+#+begin_src emacs-lisp
+(use-package pinentry
+  :config (pinentry-start))
+#+end_src
+
 Store undo-tree files in emacs directory
 #+begin_src emacs-lisp
 (setq undo-tree-history-directory-alist `(("." . ,(concat user-emacs-directory "undo"))))
