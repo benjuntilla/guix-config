@@ -295,7 +295,8 @@
              (home-gpg-agent-configuration
               (pinentry-program
                (file-append pinentry-rofi "/bin/pinentry-rofi"))
-              (ssh-support? #t)))
+              (ssh-support? #t)
+			  (extra-content "allow-emacs-pinentry")))
     (service home-zsh-service-type
              (home-zsh-configuration
               (zshrc (list (local-file "files/dot_zshrc" "zshrc")))
