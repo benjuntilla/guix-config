@@ -284,6 +284,7 @@ alias port="sudo netstat -lntup | grep"
 # guix
 alias gu="guix"
 alias gui="guix install"
+alias gur="guix remove"
 alias gus="guix search"
 alias guss="guix package -I"
 
