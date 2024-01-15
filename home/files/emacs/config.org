@@ -388,7 +388,6 @@ Prefer newer package files
                        ;; enable certain modes when in roam dir
                        (when (string-prefix-p (expand-file-name org-root-dir) (buffer-file-name))
                          (adaptive-wrap-prefix-mode)
-                         (olivetti-mode)
                          (mixed-pitch-mode))))
          ;; automatically switch TODO entry to done when all its subentries are complete
          (org-after-todo-statistics . my/org-summary-todo)
@@ -633,7 +632,7 @@ methods the save hook cannot detect, like file synchronization."
   (biblio-bibtex-use-autokey t))
 #+end_src
 ** ~citar~
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :tangle no
 (use-package citar
   :after all-the-icons
   :general
@@ -1430,11 +1429,6 @@ Show whitespace information
 ** Line Numbers
 #+begin_src emacs-lisp
 (add-hook 'prog-mode-hook 'display-line-numbers-mode)
-#+end_src
-** olivetti
-#+begin_src emacs-lisp
-(use-package olivetti
-  :delight)
 #+end_src
 ** Fonts w/ ~mixed-pitch~
 #+begin_src emacs-lisp
