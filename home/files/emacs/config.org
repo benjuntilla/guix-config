@@ -1399,7 +1399,9 @@ Show whitespace information
 #+begin_src emacs-lisp
 (use-package org-modern
   :config (global-org-modern-mode)
-  :custom (org-modern-priority-faces
+  :custom
+  (org-modern-table nil)
+  (org-modern-priority-faces
            (quote ((?A :background "red"
                        :foreground "white")
                    (?B :background "orange"
