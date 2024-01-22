@@ -1716,6 +1716,14 @@ Adds SVG icons to ~corfu~
                  ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
                  ("\\paragraph{%s}" . "\\paragraph*{%s}")
                  ("\\subparagraph{%s}" . "\\subparagraph*{%s}")))
+  (add-to-list 'org-latex-classes
+               '("apa7"
+                 "\\documentclass{apa7}"
+                 ("\\section{%s}" . "\\section*{%s}")
+                 ("\\subsection{%s}" . "\\subsection*{%s}")
+                 ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
+                 ("\\paragraph{%s}" . "\\paragraph*{%s}")
+                 ("\\subparagraph{%s}" . "\\subparagraph*{%s}")))
   (setq org-latex-compiler "pdflatex"
         org-latex-bib-compiler "biber"
         org-latex-pdf-process (list "latexmk --synctex=1 -shell-escape -f -pdf -norc %f")
