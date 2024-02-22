@@ -444,6 +444,7 @@ Prefer newer package files
                       ;; ,(concat org-directory "/inbox.org")))
   (org-tags-exclude-from-inheritance '("todo"))
   (org-agenda-tags-column 0)
+  (org-deadline-warning-days 7)
   (org-tags-column 0)
   (org-auto-align-tags nil)
   (org-agenda-prefix-format '((agenda . " %i %-12:c%-12t%-6e% s")
@@ -534,7 +535,7 @@ methods the save hook cannot detect, like file synchronization."
      (:name "Overdue"
             :order -1
             :priority>= "C"
-            :todo t
+            :todo ("TODO")
             :scheduled "past")
      )))
 #+end_src
