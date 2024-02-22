@@ -10,7 +10,7 @@
 ;; Indicate which modules to import to access the variables
 ;; used in this configuration.
 (use-modules (gnu) (nongnu packages linux))
-(use-service-modules cups desktop networking ssh xorg pm dbus)
+(use-service-modules cups desktop networking ssh xorg pm dbus virtualization)
 (use-package-modules wm shells security-token cups)
 
 (operating-system
@@ -27,8 +27,8 @@
                   (comment "Ben")
                   (group "users")
                   (home-directory "/home/ben")
-		  (shell (file-append zsh "/bin/zsh"))
-                  (supplementary-groups '("wheel" "netdev" "audio" "video" "plugdev")))
+                  (shell (file-append zsh "/bin/zsh"))
+                  (supplementary-groups '("wheel" "netdev" "audio" "video" "plugdev" "libvirt")))
                 %base-user-accounts))
 
   ;; Packages installed system-wide.  Users can also install packages
@@ -40,6 +40,9 @@
 
   (services 
    (cons* (service openssh-service-type)
+		  (service libvirt-service-type
+				   (libvirt-configuration
+					 (unix-sock-group "libvirt")))
           (service cups-service-type
 		           (cups-configuration
 					 (web-interface? #t)
