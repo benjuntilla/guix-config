@@ -404,6 +404,7 @@ Prefer newer package files
    "C-c l y" 'my/org-yank-link
    "C-c s" 'my/org-select-bullet-body)
   :custom
+  (org-cite-global-bibliography `(,my/bib))
   (org-attach-method 'mv)
   (org-attach-use-inheritance t)
   (org-attach-store-link-p 'attached)
