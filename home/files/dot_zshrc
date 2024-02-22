@@ -85,12 +85,12 @@ PROMPT=$PROMPT'%{$(vterm_prompt_end)%}'
 # aliases
 # 
 
+alias python="python3"
 alias e="$EDITOR"
 alias f="fzf-tmux"
 alias se="doasedit"
 alias n="nvim"
 alias v="vim"
-alias nc="ncmpcpp"
 alias t="trash"
 alias ta='tail -f "$(ls -Art | tail -n 1)"'
 alias lsg="ls -lHa | grep"
