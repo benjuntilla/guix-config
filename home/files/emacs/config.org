@@ -858,6 +858,13 @@ Use ~autofill-mode~ for hard wrapping
 (add-hook 'text-mode-hook 'auto-fill-mode)
 #+end_src
 
+Languagetool
+#+begin_src emacs-lisp
+(use-package langtool
+  :init
+  (setq langtool-language-tool-jar "/home/ben/.local/opt/LanguageTool-stable/LanguageTool-6.3/languagetool-commandline.jar"))
+#+end_src
+
 Use ~org-noter~ for annotating documents
 #+begin_src emacs-lisp
 (use-package org-noter
