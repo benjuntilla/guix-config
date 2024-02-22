@@ -652,7 +652,6 @@ methods the save hook cannot detect, like file synchronization."
   (minibuffer-local-map
    "M-b" 'citar-insert-preset)
   :custom
-  (org-cite-global-bibliography `(,my/bib))
   (org-cite-insert-processor 'citar)
   (org-cite-follow-processor 'citar)
   (org-cite-activate-processor 'citar)
