@@ -23,6 +23,7 @@
 			 (gnu home services gnupg)
 			 (gnu home services desktop)
 			 (gnu home services pm)
+			 (gnu home services sound)
 			 (gnu home services guix))
 (use-package-modules gnupg emacs)
 
@@ -250,6 +251,7 @@
   ;; services, run 'guix home search KEYWORD' in a terminal.
   (services
    (list
+	(service home-pipewire-service-type)
 	(service home-dbus-service-type)
 	(service home-batsignal-service-type)
 	(service home-emacs-service-type)
