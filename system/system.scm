@@ -28,7 +28,7 @@
                   (group "users")
                   (home-directory "/home/ben")
                   (shell (file-append zsh "/bin/zsh"))
-                  (supplementary-groups '("wheel" "netdev" "audio" "video" "plugdev" "libvirt")))
+                  (supplementary-groups '("wheel" "netdev" "audio" "video" "plugdev" "libvirt" "kvm")))
                 %base-user-accounts))
 
   ;; Packages installed system-wide.  Users can also install packages
