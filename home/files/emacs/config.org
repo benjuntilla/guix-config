@@ -861,8 +861,12 @@ Use ~autofill-mode~ for hard wrapping
 Languagetool
 #+begin_src emacs-lisp
 (use-package langtool
-  :init
-  (setq langtool-language-tool-jar "/home/ben/.local/opt/LanguageTool-stable/LanguageTool-6.3/languagetool-commandline.jar"))
+  :custom
+  ;; (langtool-language-tool-jar "/home/ben/.local/opt/LanguageTool-stable/LanguageTool-6.3/languagetool-commandline.jar")
+  (langtool-language-tool-jar nil)
+  (langtool-language-tool-server-jar "/home/ben/.local/opt/LanguageTool-stable/LanguageTool-6.3/languagetool-server.jar")
+  :hook
+  (org-mode . (lambda () (add-hook 'before-save-hook 'langtool-check-buffer nil 'local))))
 #+end_src
 
 Use ~org-noter~ for annotating documents
