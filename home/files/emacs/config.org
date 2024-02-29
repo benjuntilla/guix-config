@@ -522,6 +522,32 @@ methods the save hook cannot detect, like file synchronization."
   ;; (org-agenda-files-track-cleanup-files 'full)
   (message "Initialized agenda files"))
 #+end_src
+
+Custom word count function. This function counts words in a
+straightforward way, skipping over lines that start with #+ (which are
+often Org-mode special lines like ~#+LATEX:~) and skipping over blocks
+that start with ~#+BEGIN_~ and end with ~#+END_~. Note that this function
+is a basic example and might need adjustments based on the specific
+format of your Org-mode documents and the exact requirements you have.
+#+begin_src emacs-lisp
+(defun ben/count-words-excluding-special-blocks ()
+  "Count words in an org-mode buffer, excluding export blocks (case-insensitive) and lines starting with '#+'."
+  (interactive)
+  (save-excursion
+    (let ((word-count 0)
+          (case-fold-search t)) ; Make searches case-insensitive
+      (goto-char (point-min))
+      (while (< (point) (point-max))
+        (cond
+         ((looking-at "^#\\+") ; Skip lines starting with '#+'
+          (forward-line 1))
+         ((looking-at "^[ \t]*#\\+begin_") ; Skip export blocks, case-insensitive
+          (re-search-forward "^[ \t]*#\\+end_" nil 'move))
+         (t
+          (forward-word 1)
+          (setq word-count (1+ word-count)))))
+      (message "Word count (excluding special blocks and lines): %s" word-count))))
+#+end_src
 ** ~org-super-agenda~
 #+begin_src emacs-lisp
 (use-package org-super-agenda
