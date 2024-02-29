@@ -388,6 +388,7 @@ Prefer newer package files
   :hook ((org-mode . (lambda ()
                        ;; enable certain modes when in roam dir
                        (when (string-prefix-p (expand-file-name org-root-dir) (buffer-file-name))
+                         (setq line-spacing 2)
                          (adaptive-wrap-prefix-mode)
                          (mixed-pitch-mode))))
          ;; automatically switch TODO entry to done when all its subentries are complete
