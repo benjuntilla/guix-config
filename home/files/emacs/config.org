@@ -1056,7 +1056,8 @@ Install ~ibuffer-vc~ to dynamically create filter groups by VC project
             "C-c e SPC" 'eglot-code-actions)
   :config
   (add-to-list 'eglot-server-programs
-	       '(svelte-mode . ("svelteserver" "--stdio"))))
+               '((svelte-mode . ("svelteserver" "--stdio"))
+                 (LaTeX-mode . ("ltex-ls")))))
 #+end_src
 ** ~literate-calc-mode~
 #+begin_src emacs-lisp
