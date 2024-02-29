@@ -406,6 +406,7 @@ Prefer newer package files
    "C-c s" 'my/org-select-bullet-body)
   :custom
   (org-cite-global-bibliography `(,my/bib))
+  (org-attach-auto-tag nil)
   (org-attach-method 'mv)
   (org-attach-use-inheritance t)
   (org-attach-store-link-p 'attached)
