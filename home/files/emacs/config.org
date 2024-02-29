@@ -588,7 +588,7 @@ format of your Org-mode documents and the exact requirements you have.
   (org-roam-node-display-template
    (concat "${title:*} "
            (propertize "${tags:10}" 'face 'org-tag)))
-  (org-roam-completion-everywhere t)
+  (org-roam-completion-everywhere nil)
   (org-roam-directory org-root-dir)
   (org-roam-db-location (concat org-root-dir "/db/org-roam.db"))
   (org-roam-capture-templates '(("d" "default" plain "%?"
