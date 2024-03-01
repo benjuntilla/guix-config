@@ -1792,7 +1792,7 @@ Adds SVG icons to ~corfu~
         org-latex-bib-compiler "biber"
         org-latex-image-default-width ".7\\linewidth"
         org-latex-caption-above '(table image)
-        org-latex-default-figure-position "H!"
+        org-latex-default-figure-position "H"
         org-latex-pdf-process (list "latexmk --synctex=1 -shell-escape -f -pdf -norc -bibtex %f")
         org-latex-default-class "plain"))
 #+end_src
