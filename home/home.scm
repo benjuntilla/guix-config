@@ -298,7 +298,9 @@
               (pinentry-program
                (file-append pinentry-rofi "/bin/pinentry-rofi"))
               (ssh-support? #t)
-			  (extra-content "allow-emacs-pinentry")))
+              (default-cache-ttl 34560000)
+              (max-cache-ttl 34560000)
+              (extra-content "allow-emacs-pinentry")))
     (service home-zsh-service-type
              (home-zsh-configuration
               (zshrc (list (local-file "files/dot_zshrc" "zshrc")))
