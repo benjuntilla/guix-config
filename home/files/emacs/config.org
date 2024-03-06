@@ -855,14 +855,6 @@ Add mouse support
   ;; add to safe values for use in .dir-locals
   (add-to-list 'safe-local-variable-values '(gac-automatically-add-new-files-p . t)))
 #+end_src
-** projectile
-#+begin_src emacs-lisp
-(use-package projectile
-  :delight
-  :general ('normal 'global "C-c p" 'projectile-commander)
-  :config (projectile-mode)
-  :custom (projectile-project-search-path '("~/src")))
-#+end_src
 * Editing & Programming
 #+begin_src emacs-lisp
 (remove-hook 'text-mode-hook #'turn-on-auto-fill)
