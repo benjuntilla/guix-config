@@ -1299,6 +1299,27 @@ Smooth scrolling
 (windmove-default-keybindings)
 (setq org-replace-disputed-keys t)
 #+end_src
+
+Popper
+#+begin_src emacs-lisp :tangle no
+(use-package popper
+  :general
+  ("C-`" #'popper-toggle)
+  ("M-`" #'popper-cycle)
+  ("C-M-`" #'popper-toggle-type)
+  :custom
+  (popper-reference-buffers
+    '("\\*Messages\\*"
+      "Output\\*$"
+      "\\*Async Shell Command\\*"
+      help-mode
+      compilation-mode))
+  (popper-group-function #'popper-group-by-project)
+  (popper-display-function #'display-buffer-in-child-frame)
+  :config
+  (popper-mode +1)
+  (popper-echo-mode +1))                ; For echo area hints
+#+end_src
 *** ~buffer-move~
 #+begin_src emacs-lisp
 (use-package buffer-move
