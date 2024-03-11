@@ -483,9 +483,9 @@ Prefer newer package files
 
 (add-hook 'org-roam-find-file-hook #'ben/org-roam-pull)
 #+end_src
-** ~org-dynamic-agenda~
+** ~org-agenda-files-track~
 #+begin_src emacs-lisp
-(use-package org-dynamic-agenda
+(use-package org-agenda-files-track
    :config
 
    (defun org-dynamic-agenda-predicate ()
@@ -498,12 +498,12 @@ Prefer newer package files
        (eq (org-element-property :todo-type h) 'todo))
      nil 'first-match))
 
-   (org-dynamic-agenda-mode))
+   (org-agenda-files-track-mode))
 #+end_src
 
-Define reinitialization ffunction
+Define reinitialization function
 #+begin_src emacs-lisp
-(defun my/org-dynamic-agenda-reinitialize ()
+(defun my/org-agenda-files-track-init ()
   "(Re)initialize dynamic agenda files.
 
 This can take a long time, so it is recommended to run this only
