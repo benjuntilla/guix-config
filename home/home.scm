@@ -28,7 +28,7 @@
 (use-package-modules gnupg emacs)
 
 (define (home-emacs-profile-service config)
-  (list emacs-next))
+  (list emacs-next-pgtk))
 
 (define (home-emacs-files-service config)
   (list `(".config/emacs/config.org" ,(local-file "files/emacs/config.org"))
@@ -38,7 +38,7 @@
 
 (define (home-emacs-shepherd-service config)
   (list (shepherd-service
-		  (provision '(emacs-next))
+		  (provision '(emacs-next-pgtk))
 		  (documentation "Run emacs.")
 		  (start #~(make-forkexec-constructor '("emacs" "--fg-daemon")))
 		  (stop #~(make-kill-destructor)))))
