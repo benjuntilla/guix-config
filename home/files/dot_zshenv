@@ -15,6 +15,7 @@ export XDG_DESKTOP_DIR=~/tmp/desktop
 export XDG_DATA_DIRS=/var/lib/flatpak/exports/share:/home/ben/.local/share/flatpak/exports/share:$XDG_DATA_DIRS
 export GOPATH=~/.local/share/go
 export DELTA_FEATURES=side-by-side
+export LEDGER_FILE=~/org/.hledger.journal
 
 # https://wiki.archlinux.org/title/Unreal_Engine_4#Loading_times
 export GLIBC_TUNABLES=glibc.rtld.dynamic_sort=2
