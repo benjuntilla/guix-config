@@ -1139,6 +1139,11 @@ Install ~ibuffer-vc~ to dynamically create filter groups by VC project
   :config
   (evil-mode 1))
 #+end_src
+evil escape
+#+begin_src emacs-lisp
+(use-package evil-escape
+  :config (evil-escape-mode))
+#+end_src
 *** ~evil-collection~
 #+begin_src emacs-lisp
 (use-package evil-collection
