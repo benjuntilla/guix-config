@@ -1886,3 +1886,15 @@ Set ~pass~ as ~auth-sources~ backend
     ("DEL" diff-hl-revert-hunk "revert")
     ("q" nil "quit" :color blue)))
 #+end_src
+* personal finance
+hledger
+#+begin_src emacs-lisp
+(use-package hledger-mode
+  :mode ("\\.journal\\'" "\\.hledger\\'")
+  :custom
+  (ledger-jfile (concat org-directory "/.hledger.journal"))
+  :config
+  ;; Auto-completion for account names
+  (with-eval-after-load 'company
+    (add-to-list 'company-backends 'hledger-company)))
+#+end_src
