@@ -390,7 +390,8 @@ Prefer newer package files
                        (when (string-prefix-p (expand-file-name org-root-dir) (buffer-file-name))
                          (setq line-spacing 2)
                          (adaptive-wrap-prefix-mode)
-                         (mixed-pitch-mode))))
+                         (mixed-pitch-mode)
+                         (add-hook 'before-save-hook 'langtool-check-buffer nil 'local))))
          ;; automatically switch TODO entry to done when all its subentries are complete
          (org-after-todo-statistics . my/org-summary-todo)
          ;; redisplay inline images after org-babel execution
@@ -884,9 +885,7 @@ Languagetool
   :custom
   ;; (langtool-language-tool-jar "/home/ben/.local/opt/LanguageTool-stable/LanguageTool-6.3/languagetool-commandline.jar")
   (langtool-language-tool-jar nil)
-  (langtool-language-tool-server-jar "/home/ben/.local/opt/LanguageTool-stable/LanguageTool-6.3/languagetool-server.jar")
-  :hook
-  (org-mode . (lambda () (add-hook 'before-save-hook 'langtool-check-buffer nil 'local))))
+  (langtool-language-tool-server-jar "/home/ben/.local/opt/LanguageTool-stable/LanguageTool-6.3/languagetool-server.jar"))
 #+end_src
 
 Use ~org-noter~ for annotating documents
