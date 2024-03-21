@@ -1128,10 +1128,11 @@ Install ~ibuffer-vc~ to dynamically create filter groups by VC project
 (use-package evil
   :general
   ('normal
-   "RET" 'org-return
    "g b" 'consult-buffer)
   ('motion
    "C-e" 'evil-end-of-line)
+  (org-mode-map 'normal'
+   "RET" 'org-return)
   :custom
   (evil-want-integration t)
   (evil-want-keybinding nil)
