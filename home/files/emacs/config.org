@@ -717,6 +717,22 @@ format of your Org-mode documents and the exact requirements you have.
   :mode ("\\.pdf" . pdf-view-mode))
 #+end_src
 ** ~dired~
+Add command to copy path to clipboard
+#+begin_src emacs-lisp
+(defun ben/dired-copy-path-to-clipboard ()
+  "Copy the current directory path in dired to the clipboard."
+  (interactive)
+  (let ((dir (dired-current-directory)))
+    (with-temp-buffer
+      (insert dir)
+      (clipboard-kill-region (point-min) (point-max)))
+    (message "Copied '%s' to clipboard" dir)))
+
+(general-define-key
+ :keymaps 'dired-mode-map
+ "C-c y" 'dired-copy-path-to-clipboard)
+#+end_src
+
 Add additional syntax highlighting
 #+begin_src emacs-lisp
 (use-package diredfl
