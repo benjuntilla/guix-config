@@ -858,7 +858,6 @@ Add mouse support
 #+end_src
 * Editing & Programming
 #+begin_src emacs-lisp
-(remove-hook 'text-mode-hook #'turn-on-auto-fill)
 (setq-default org-catch-invisible-edits 'smart)
 (setq-default org-ctrl-k-protect-subtree t)
 (setq org-confirm-babel-evaluate nil)
