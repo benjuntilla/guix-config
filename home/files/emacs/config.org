@@ -874,9 +874,9 @@ Set up tab stuff
 (defvaralias 'cperl-indent-level 'tab-width)
 #+end_src
 
-Use ~autofill-mode~ for hard wrapping
+Use ~auto-fill-mode~ for hard wrapping
 #+begin_src emacs-lisp
-(add-hook 'text-mode-hook 'auto-fill-mode)
+(toggle-text-mode-auto-fill)
 #+end_src
 
 Languagetool
