@@ -897,7 +897,7 @@ Use ~auto-fill-mode~ for hard wrapping
 #+end_src
 
 Languagetool
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :tangle no
 (use-package langtool
   :custom
   ;; (langtool-language-tool-jar "/home/ben/.local/opt/LanguageTool-stable/LanguageTool-6.3/languagetool-commandline.jar")
