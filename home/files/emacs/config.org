@@ -1386,7 +1386,11 @@ Popper
 ** ~ctrlf-mode~
 #+begin_src emacs-lisp
 (use-package ctrlf
-  :config (ctrlf-mode))
+  :config
+  (ctrlf-mode)
+  :general
+  ('override
+   "C-f" 'ctrlf-forward-default))
 #+end_src
 ** anzu
 #+begin_src emacs-lisp
