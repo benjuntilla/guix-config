@@ -1466,7 +1466,7 @@ VisualFillColumn is on the right side."
 
 Show whitespace information
 #+begin_src emacs-lisp
-(add-hook 'org-mode-hook 'whitespace-mode)
+;; (add-hook 'org-mode-hook 'whitespace-mode)
 (add-hook 'prog-mode-hook 'whitespace-mode)
 (setq whitespace-style '(face tabs spaces trailing lines-tail
 			      space-before-tab newline indentation
