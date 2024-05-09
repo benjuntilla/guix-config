@@ -1,0 +1,8 @@
+[user]
+	email = 84240409+fest1ve@users.noreply.github.com
+	name = fest1ve
+	signingKey = 79048CB51FD55BD33A7F1DAF677AAEED52E20566
+[core]
+	sshCommand = ssh -i ~/.ssh/id_rsa_persona
+[github]
+  user = fest1ve

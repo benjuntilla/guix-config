@@ -115,4 +115,11 @@
              (home-zsh-configuration
               (zshrc (list (local-file "files/dot_zshrc" "zshrc")))
               (zshenv (list (local-file "files/dot_zshenv" "zshenv")))
-              (zprofile (list (local-file "files/dot_zprofile" "zprofile"))))))))
+              (zprofile (list (local-file "files/dot_zprofile" "zprofile")))))
+
+    ;; standalone config files
+    (simple-service 'git-config
+                    home-xdg-configuration-files-service-type
+                    `(("git/config" ,(local-file "files/git/dot_gitconfig"))
+                      ("git/config-alter" ,(local-file "files/git/dot_gitconfig-alter"))
+                      ("git/config-personal" ,(local-file "files/git/dot_gitconfig-personal")))))))
