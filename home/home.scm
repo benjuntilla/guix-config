@@ -118,6 +118,21 @@
               (zprofile (list (local-file "files/dot_zprofile" "zprofile")))))
 
     ;; standalone config files
+    (simple-service 'latexmk-config
+                    home-xdg-configuration-files-service-type
+                    `(("latexmk/latexmkrc" ,(local-file "files/latexmk/latexmkrc"))))
+    (simple-service 'dunst-config
+                    home-xdg-configuration-files-service-type
+                    `(("dunst/dunstrc" ,(local-file "files/dunst/dunstrc"))))
+    (simple-service 'nvim-config
+                    home-xdg-configuration-files-service-type
+                    `(("nvim/init.lua" ,(local-file "files/nvim/init.lua"))
+                      ("nvim/lua/plugins.lua" ,(local-file "files/nvim/lua/plugins.lua"))))
+    (simple-service 'waybar-config
+                    home-xdg-configuration-files-service-type
+                    `(("waybar/check_git_repos.zsh" ,(local-file "files/waybar/executable_check_git_repos.zsh" #:recursive? #t))
+                      ("waybar/style.css" ,(local-file "files/waybar/style.css"))
+                      ("waybar/config" ,(local-file "files/waybar/config"))))
     (simple-service 'git-config
                     home-xdg-configuration-files-service-type
                     `(("git/config" ,(local-file "files/git/dot_gitconfig"))
