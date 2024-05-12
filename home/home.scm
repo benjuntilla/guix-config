@@ -9,10 +9,10 @@
                    ;`(("config/gtk-3.0/settings.ini"
                       ;,(local-file "../files/gtk3.ini"))
                      ;("config/gtk-3.0/gtk.css"
-                      ;,(local-file "../files/gtk3.css"))))))          
+                      ;,(local-file "../files/gtk3.css"))))))
 
 (use-modules (gnu)
-			 (gnu home)
+       (gnu home)
              (gnu packages)
              (gnu services)
              (guix gexp)
@@ -20,11 +20,11 @@
              (gnu home services)
              (gnu home services shells)
              (gnu home services shepherd)
-			 (gnu home services gnupg)
-			 (gnu home services desktop)
-			 (gnu home services pm)
-			 (gnu home services sound)
-			 (gnu home services guix))
+       (gnu home services gnupg)
+       (gnu home services desktop)
+       (gnu home services pm)
+       (gnu home services sound)
+       (gnu home services guix))
 (use-package-modules gnupg emacs)
 
 (define (home-emacs-profile-service config)
@@ -33,38 +33,38 @@
 (define (home-emacs-files-service config)
   (list `(".config/emacs/config.org" ,(local-file "files/emacs/config.org"))
         `(".config/emacs/templates" ,(local-file "files/emacs/templates"))
-		`(".config/emacs/init.el" ,(local-file "files/emacs/init.el"))
-		`(".config/emacs/early-init.el" ,(local-file "files/emacs/early-init.el"))))
+    `(".config/emacs/init.el" ,(local-file "files/emacs/init.el"))
+    `(".config/emacs/early-init.el" ,(local-file "files/emacs/early-init.el"))))
 
 (define (home-emacs-shepherd-service config)
   (list (shepherd-service
-		  (provision '(emacs-next-pgtk))
-		  (documentation "Run emacs.")
-		  (start #~(make-forkexec-constructor '("emacs" "--fg-daemon")))
-		  (stop #~(make-kill-destructor)))))
+      (provision '(emacs-next-pgtk))
+      (documentation "Run emacs.")
+      (start #~(make-forkexec-constructor '("emacs" "--fg-daemon")))
+      (stop #~(make-kill-destructor)))))
 
 (define home-emacs-service-type
   (service-type (name 'home-emacs)
-				(extensions
-				  (list (service-extension
-						  home-profile-service-type
-						  home-emacs-profile-service)
-						;(service-extension
-						  ;home-shepherd-service-type
-						  ;home-emacs-shepherd-service)
-						(service-extension
-						  home-files-service-type
-						  home-emacs-files-service)))
-				(default-value #f)
-				(description "Emacs :)")))
+        (extensions
+          (list (service-extension
+              home-profile-service-type
+              home-emacs-profile-service)
+            ;(service-extension
+              ;home-shepherd-service-type
+              ;home-emacs-shepherd-service)
+            (service-extension
+              home-files-service-type
+              home-emacs-files-service)))
+        (default-value #f)
+        (description "Emacs :)")))
 
 (home-environment
   (services
    (list
-	(service home-pipewire-service-type)
-	(service home-dbus-service-type)
-	(service home-batsignal-service-type)
-	(service home-emacs-service-type)
+  (service home-pipewire-service-type)
+  (service home-dbus-service-type)
+  (service home-batsignal-service-type)
+  (service home-emacs-service-type)
   (simple-service 'extra-channels-service
                   home-channels-service-type
                   (list (channel
@@ -118,6 +118,21 @@
               (zprofile (list (local-file "files/dot_zprofile" "zprofile")))))
 
     ;; standalone config files
+    (simple-service 'kitty-config
+                    home-xdg-configuration-files-service-type
+                    `(("kitty/kitty.conf" ,(local-file "files/kitty/kitty.conf"))))
+    (simple-service 'rofi-config
+                    home-xdg-configuration-files-service-type
+                    `(("rofi/config.rasi" ,(local-file "files/rofi/config.rasi"))))
+    (simple-service 'wezterm-config
+                    home-xdg-configuration-files-service-type
+                    `(("wezterm/wezterm.lua" ,(local-file "files/wezterm/wezterm.lua"))))
+    (simple-service 'zathura-config
+                    home-xdg-configuration-files-service-type
+                    `(("zathura/zathurarc" ,(local-file "files/zathura/zathurarc"))))
+    (simple-service 'swaylock-config
+                    home-xdg-configuration-files-service-type
+                    `(("swaylock/config" ,(local-file "files/swaylock/config"))))
     (simple-service 'latexmk-config
                     home-xdg-configuration-files-service-type
                     `(("latexmk/latexmkrc" ,(local-file "files/latexmk/latexmkrc"))))
