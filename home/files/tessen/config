@@ -1,0 +1,4 @@
+userkey="(user|login)"
+pass_backend="pass"
+dmenu_backend="rofi"
+web_browser="firefox"

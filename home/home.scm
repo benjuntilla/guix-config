@@ -118,6 +118,22 @@
               (zprofile (list (local-file "files/dot_zprofile" "zprofile")))))
 
     ;; standalone config files
+    (simple-service 'mpv-config
+                    home-xdg-configuration-files-service-type
+                    `(("mpv/input.conf" ,(local-file "files/mpv/input.conf"))
+                      ("mpv/mpv.conf" ,(local-file "files/mpv/mpv.conf"))))
+    (simple-service 'tessen-config
+                    home-xdg-configuration-files-service-type
+                    `(("tessen/config" ,(local-file "files/tessen/config"))))
+    (simple-service 'tmux-config
+                    home-xdg-configuration-files-service-type
+                    `(("tmux/tmux.conf" ,(local-file "files/tmux/tmux.conf"))))
+    (simple-service 'tridactyl-config
+                    home-xdg-configuration-files-service-type
+                    `(("tridactyl/tridactylrc" ,(local-file "files/tridactyl/tridactylrc"))))
+    (simple-service 'gammastep-config
+                    home-xdg-configuration-files-service-type
+                    `(("gammastep/config.ini" ,(local-file "files/gammastep/config.ini"))))
     (simple-service 'kitty-config
                     home-xdg-configuration-files-service-type
                     `(("kitty/kitty.conf" ,(local-file "files/kitty/kitty.conf"))))
