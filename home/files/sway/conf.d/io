@@ -1,0 +1,48 @@
+set $primary "Acer Technologies Acer VG270 0x05116386"
+set $secondary "Acer Technologies SB220Q 0x91102E64"
+
+# Output
+output eDP-1 pos 1920 1080 res 1920x1080 bg ../2.jpg fill
+output $primary pos 1920 0 res 1920x1080 bg ../2.jpg fill
+output $secondary pos 0 0 res 1920x1080 bg ../1.jpg fill transform 90
+exec swaymsg focus output $primary
+
+# Input
+input type:pointer {
+    accel_profile "flat"
+    pointer_accel -0.25
+    dwt disabled
+    natural_scroll disabled
+    tap enabled
+}
+
+input type:touchpad {
+    accel_profile "flat"
+    pointer_accel -0.25
+    dwt disabled
+    natural_scroll enabled
+    tap enabled
+}
+
+input type:keyboard {
+    xkb_options caps:swapescape
+}
+
+input type:tablet_tool {
+    accel_profile "flat"
+    pointer_accel 0
+    map_to_output $primary
+}
+
+# Set workspaces
+workspace 1 output $primary
+workspace 3 output $primary
+workspace 5 output $primary
+workspace 7 output $primary
+workspace 9 output $primary
+
+workspace 2 output $secondary
+workspace 4 output $secondary
+workspace 6 output $secondary
+workspace 8 output $secondary
+workspace 0 output $secondary

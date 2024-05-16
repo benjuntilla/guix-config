@@ -1,0 +1,26 @@
+# configure dbus as per https://github.com/swaywm/sway/wiki#gtk-applications-take-20-seconds-to-start
+exec hash dbus-update-activation-environment 2> /dev/null && \
+  dbus-update-activation-environment --systemd DBUS_SESSION_BUS_ADDRESS DISPLAY XAUTHORITY WAYLAND_DISPLAY SWAYSOCK XDG_CURRENT_DESKTOP=sway
+
+# Autostart applications for Wayland
+exec systemctl --user start wayland.target
+
+# swayest_workstyle
+exec sworkstyle &> /tmp/sworkstyle.log
+
+# xresources
+exec xrdb ~/.Xresources
+
+# shepherd
+exec shepherd
+
+# autotiling
+exec autotiling
+
+# idle behavior
+exec swayidle \
+	timeout 300 'swaylock -c 000000' \
+	timeout 600 'swaymsg "output * dpms off"' \
+		resume 'swaymsg "output * dpms on"' \
+	before-sleep 'swaylock -c 000000'
+

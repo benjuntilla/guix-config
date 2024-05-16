@@ -117,6 +117,10 @@
              (zprofile (list (local-file (string-append base-dir "/files/zprofile") "zprofile")))))
 
    ;; standalone config files
+   (make-xdg-config-service "wlogout" '("layout" "style.css"))
+   (make-xdg-config-service "sworkstyle" '("config.toml"))
+   (make-xdg-config-service "swayr" '("config.toml"))
+   (make-xdg-config-service "sway" '("config" "1.jpg" "2.jpg" "conf.d/appearance" "conf.d/bindings" "conf.d/exec" "conf.d/io" "conf.d/rules"))
    (make-xdg-config-service "doom" '("config.org" "custom.el" "init.el" "packages.el"))
    (make-xdg-config-service "mpv" '("input.conf" "mpv.conf"))
    (make-xdg-config-service "tessen" '("config"))

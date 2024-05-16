@@ -1,0 +1,26 @@
+# -*- mode: sh -*-
+
+# floating classes
+for_window [class="floating"] floating enable
+
+# origin compat
+for_window [instance="origin.exe"] floating enable, fullscreen disable
+
+# copyq
+for_window [app_id="copyq"] floating enable, sticky enable, resize set width 50 ppt height 50 ppt, move position cursor
+
+# PIP
+for_window [app_id="Picture in picture"] floating enable, sticky enable
+
+# pinentry-qt
+for_window [app_id="pinentry-qt"] floating enable, sticky enable
+
+# Godot
+assign [instance="Godot_Engine"] 9
+
+# Tag xwayland windows as such
+for_window [shell="xwayland"] title_format "[X] %title"
+
+# pavucontrol
+for_window [app_id="pavucontrol"] floating enable, sticky enable, resize set width 50 ppt height 75 ppt, move position cursor, move down 25
+
