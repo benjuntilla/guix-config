@@ -740,7 +740,7 @@ Add additional syntax highlighting
   ;; highlight parent and directory preview as well
   (dirvish-directory-view-mode . diredfl-mode)
   :config
-  (diredf1-global-mode)
+  (diredfl-global-mode)
   (set-face-attribute 'diredfl-dir-name nil :bold t))
 #+end_src
 
