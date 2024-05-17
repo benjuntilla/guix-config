@@ -44,7 +44,6 @@
    (service home-dbus-service-type)
    (service home-batsignal-service-type)
    (service home-emacs-service-type)
-   ;; (service home-zsh-service-type)
    (simple-service 'extra-channels-service
                    home-channels-service-type
                    (list (channel
