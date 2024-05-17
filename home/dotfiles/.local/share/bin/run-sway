@@ -1,0 +1,3 @@
+#!/bin/sh
+XDG_CURRENT_DESKTOP=sway XDG_SESSION_TYPE=wayland exec dbus-run-session sway
+

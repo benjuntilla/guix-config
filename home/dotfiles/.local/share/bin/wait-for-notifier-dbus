@@ -1,0 +1,4 @@
+#!/bin/sh
+
+gdbus wait --session org.kde.StatusNotifierWatcher && $1
+

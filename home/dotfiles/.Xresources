@@ -1,0 +1,7 @@
+Sxiv.background: #000000
+Sxiv.foreground: #00C0FF
+Sxiv.font: Fira-Code
+
+Nsxiv.window.background: #000000
+Nsxiv.window.foreground: #00C0FF
+Nsxiv.bar.font: Fira Code

@@ -11,51 +11,31 @@
              (gnu home services desktop)
              (gnu home services pm)
              (gnu home services sound)
+             (gnu home services dotfiles)
              (gnu home services guix))
 (use-package-modules gnupg emacs)
-
-(define base-dir (dirname (current-filename)))
 
 (define (home-emacs-profile-service config)
   (list emacs-next-pgtk))
 
-(define (home-emacs-shepherd-service config)
-  (list (shepherd-service
-         (provision '(emacs-next-pgtk))
-         (documentation "Run emacs.")
-         (start #~(make-forkexec-constructor '("emacs" "--fg-daemon")))
-         (stop #~(make-kill-destructor)))))
+;; (define (home-emacs-shepherd-service config)
+;;   (list (shepherd-service
+;;          (provision '(emacs-next-pgtk))
+;;          (documentation "Run emacs.")
+;;          (start #~(make-forkexec-constructor '("emacs" "--fg-daemon")))
+;;          (stop #~(make-kill-destruct)))))
 
 (define home-emacs-service-type
   (service-type (name 'home-emacs)
                 (extensions
                  (list (service-extension
                         home-profile-service-type
-                        home-emacs-profile-service)
+                        home-emacs-profile-service)))
                        ;(service-extension
                        ; home-shepherd-service-type
-                       ; home-emacs-shepherd-service)
-                       (service-extension
-                        home-xdg-configuration-files-service-type
-                        (lambda (config)
-                          (make-local-file-paths "emacs"
-                                                 '("config.org"
-                                                   "templates"
-                                                   "init.el"
-                                                   "early-init.el"))))))
+                       ; home-emacs-shepherd-service)))
                 (default-value #f)
                 (description "Emacs :)")))
-
-(define (make-local-file-paths config-name file-names)
-  (map (lambda (file-name)
-         `(,(string-append config-name "/" file-name)
-           ,(local-file (string-append base-dir "/files/" config-name "/" file-name))))
-       file-names))
-
-(define (make-xdg-config-service name file-names)
-  (simple-service (string-append name "-config")
-                  home-xdg-configuration-files-service-type
-                  (make-local-file-paths name file-names)))
 
 (home-environment
  (services
@@ -64,6 +44,7 @@
    (service home-dbus-service-type)
    (service home-batsignal-service-type)
    (service home-emacs-service-type)
+   ;; (service home-zsh-service-type)
    (simple-service 'extra-channels-service
                    home-channels-service-type
                    (list (channel
@@ -110,30 +91,9 @@
              (default-cache-ttl 34560000)
              (max-cache-ttl 34560000)
              (extra-content "allow-emacs-pinentry")))
-   (service home-zsh-service-type
-            (home-zsh-configuration
-             (zshrc (list (local-file (string-append base-dir "/files/zshrc") "zshrc")))
-             (zshenv (list (local-file (string-append base-dir "/files/zshenv") "zshenv")))
-             (zprofile (list (local-file (string-append base-dir "/files/zprofile") "zprofile")))))
 
-   ;; standalone config files
-   (make-xdg-config-service "wlogout" '("layout" "style.css"))
-   (make-xdg-config-service "sworkstyle" '("config.toml"))
-   (make-xdg-config-service "swayr" '("config.toml"))
-   (make-xdg-config-service "sway" '("config" "1.jpg" "2.jpg" "conf.d/appearance" "conf.d/bindings" "conf.d/exec" "conf.d/io" "conf.d/rules"))
-   (make-xdg-config-service "doom" '("config.org" "custom.el" "init.el" "packages.el"))
-   (make-xdg-config-service "mpv" '("input.conf" "mpv.conf"))
-   (make-xdg-config-service "tessen" '("config"))
-   (make-xdg-config-service "tmux" '("tmux.conf"))
-   (make-xdg-config-service "tridactyl" '("tridactylrc"))
-   (make-xdg-config-service "gammastep" '("config.ini"))
-   (make-xdg-config-service "kitty" '("kitty.conf"))
-   (make-xdg-config-service "rofi" '("config.rasi"))
-   (make-xdg-config-service "wezterm" '("wezterm.lua"))
-   (make-xdg-config-service "zathura" '("zathurarc"))
-   (make-xdg-config-service "swaylock" '("config"))
-   (make-xdg-config-service "latexmk" '("latexmkrc"))
-   (make-xdg-config-service "dunst" '("dunstrc"))
-   (make-xdg-config-service "nvim" '("init.lua" "lua/plugins.lua"))
-   (make-xdg-config-service "waybar" '("check_git_repos.zsh" "style.css" "config"))
-   (make-xdg-config-service "git" '("config" "config-alter" "config-personal")))))
+   ;; link dotfiles
+   (service home-dotfiles-service-type
+            (home-dotfiles-configuration
+             (layout 'plain)
+             (directories '("./dotfiles")))))))

@@ -1,0 +1,9 @@
+# fcitx input method
+GTK_IM_MODULE=fcitx
+QT_IM_MODULE=fcitx
+QT4_IM_MODULE=fcitx
+SDL_IM_MODULE=fcitx
+INPUT_METHOD=fcitx
+XMODIFIERS=@im=fcitx
+GLFW_IM_MODULE=ibus
+

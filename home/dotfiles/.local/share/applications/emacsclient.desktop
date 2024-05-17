@@ -1,0 +1,13 @@
+[Desktop Entry]
+Categories=Development;TextEditor;
+Comment=Edit text
+Exec=emacsclient -c -a "" -- %F
+GenericName=Text Editor
+Icon=emacs
+MimeType=text/x-tex;text/x-pascal;text/x-moc;text/x-makefile;text/x-java;text/x-csrc;text/x-csrc;text/x-chdr;text/x-c++src;text/x-c++hdr;text/tcl;text/plain;application/x-shellscript;
+Name=Emacsclient
+StartupNotify=true
+StartupWMClass=Emacs
+Terminal=false
+Type=Application
+Version=1.0

@@ -1,0 +1,15 @@
+#!/bin/bash
+
+msgTag="volume"
+
+volumes=$(pulsemixer --change-volume "$@" --get-volume)
+IFS=" "; read -ra volumes <<<"$volumes"
+volume=${volumes[0]}
+
+mute=$(pulsemixer --get-mute)
+
+if [[ $volume == 0 || $mute == 1 ]]; then
+    dunstify -a "change-volume " -i audio-volume-muted -h string:x-dunst-stack-tag:$msgTag -t 2000 "Volume muted"
+else
+    dunstify -a "change-volume " -i audio-volume-high -h string:x-dunst-stack-tag:$msgTag -h int:value:"$volume" -t 2000 "Volume:"
+fi

@@ -1,0 +1,6 @@
+[Desktop Entry]
+Type=Application
+Name=spicetify-apply
+Comment=Runs spicetify-apply script
+Icon=Spotify
+Exec=spicetify-apply
