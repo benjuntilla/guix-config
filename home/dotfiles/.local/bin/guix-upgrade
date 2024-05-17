@@ -1,0 +1,7 @@
+#!/bin/zsh
+
+guix pull
+guix system reconfigure ~/.config/guix/system.scm
+guix package -u  # aka guix upgrade
+guix package --list-installed | grep -i obsolete
+

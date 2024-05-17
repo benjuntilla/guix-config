@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+# Specify the directory to search in, or use the current directory if none is given
+DIRECTORY=${1:-.}
+
+# Set the default editor if $EDITOR is not set
+EDITOR=${EDITOR:-vim}
+
+# Use find to select a file recursively in the given directory, ignoring .git directories, and open it with $EDITOR
+# -printf '%P\n' will print the file name relative to the search directory
+find "$DIRECTORY" -type f -printf '%P\n' | grep -v '\.git' | fzf | xargs -I{} $EDITOR "$DIRECTORY/{}"
+

@@ -1,0 +1,23 @@
+#!/usr/bin/env zsh
+
+swaymsg layout splith
+emacsclient -c -e "(progn (org-agenda-list) (delete-other-windows))" &
+
+swaymsg layout splith
+firefox --new-window https://app.fastmail.com/calendar &
+
+# press ctrl+h twice
+swaymsg input type:keyboard key_press 29 && \
+swaymsg input type:keyboard key_press 43 && \
+swaymsg input type:keyboard key_release 43 && \
+swaymsg input type:keyboard key_release 29 && \
+swaymsg input type:keyboard key_press 29 && \
+swaymsg input type:keyboard key_press 43 && \
+swaymsg input type:keyboard key_release 43 && \
+swaymsg input type:keyboard key_release 29
+
+sleep 2
+
+swaymsg layout splith
+firefox --new-window https://canvas.asu.edu &
+
