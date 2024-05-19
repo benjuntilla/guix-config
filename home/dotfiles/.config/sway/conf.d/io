@@ -6,7 +6,7 @@ set $secondary "Acer Technologies SB220Q 0x91102E64"
 # Output
 output eDP-1 pos 1920 1080 res 1920x1080 bg $right_wallpaper fill
 output $primary pos 1920 0 res 1920x1080 bg $right_wallpaper fill
-output $secondary pos 0 0 res 1920x1080 bg $left_wallpaper fill transform 90
+output $secondary pos 0 0 res 1920x1080 bg $left_wallpaper fill
 exec swaymsg focus output $primary
 
 # Input
