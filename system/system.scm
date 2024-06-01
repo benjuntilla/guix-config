@@ -9,8 +9,8 @@
 
 ;; Indicate which modules to import to access the variables
 ;; used in this configuration.
-(use-modules (gnu) (nongnu packages linux) (nongnu packages firmware))
-(use-service-modules cups desktop networking ssh xorg pm dbus virtualization)
+(use-modules (gnu) (nongnu packages linux) (nongnu packages firmware) (gnu system nss))
+(use-service-modules cups desktop networking ssh xorg pm dbus virtualization security-token)
 (use-package-modules wm shells security-token cups)
 
 (operating-system
@@ -20,6 +20,8 @@
  (timezone "America/Phoenix")
  (keyboard-layout (keyboard-layout "us"))
  (host-name "benslab")
+
+ (name-service-switch %mdns-host-lookup-nss)
 
  ;; The list of user accounts ('root' is implicit).
  (users (cons* (user-account
@@ -36,6 +38,7 @@
    (simple-service 'fwupd-dbus dbus-root-service-type
                    (list fwupd-nonfree))
    (service openssh-service-type)
+   (service pcscd-service-type)
 	 (service libvirt-service-type
             (libvirt-configuration
              (unix-sock-group "libvirt")))
