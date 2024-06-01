@@ -1376,7 +1376,7 @@ Popper
   (ctrlf-mode)
   :general
   ('override
-   "C-f" 'ctrlf-forward-default))
+   "C-s" 'ctrlf-forward-default))
 #+end_src
 ** anzu
 #+begin_src emacs-lisp
