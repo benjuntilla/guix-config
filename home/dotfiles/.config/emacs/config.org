@@ -342,11 +342,6 @@ Prefer newer package files
   (which-key-max-description-length 50)
   :config (which-key-mode))
 #+end_src
-*** ~which-key-posframe~
-#+begin_src emacs-lisp
-(use-package which-key-posframe
-  :config (which-key-posframe-mode 1))
-#+end_src
 ** ~elpher~
 #+begin_src emacs-lisp
 (use-package elpher)
@@ -1178,16 +1173,11 @@ evil escape
 #+end_src
 *** ~evil-owl~
 #+begin_src emacs-lisp
-(use-package posframe)
 (use-package evil-owl
-  :after posframe
   :delight
   :custom
   (evil-owl-idle-delay 0.1)
   :config
-  (setq evil-owl-display-method 'posframe
-        evil-owl-extra-posframe-args '(:width 50 :height 20)
-        evil-owl-max-string-length 50)
   (evil-owl-mode))
 #+end_src
 *** ~evil-exchange~
