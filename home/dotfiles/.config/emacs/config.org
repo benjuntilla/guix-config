@@ -878,6 +878,11 @@ Add mouse support
 (delete-selection-mode t)
 #+end_src
 
+Enable [[https://www.gnu.org/software/emacs/manual/html_node/emacs/Repeating.html][repeat-mode]]
+#+begin_src emacs-lisp
+(repeat-mode)
+#+end_src
+
 Set up tab stuff
 #+begin_src emacs-lisp
 (setq-default tab-width 2)
