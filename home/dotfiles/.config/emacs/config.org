@@ -1646,12 +1646,12 @@ Adds SVG icons to ~corfu~
   (read-file-name-completion-ignore-case t)
   (read-buffer-completion-ignore-case t)
   (completion-ignore-case t)
-  (vertico-cycle t))
-#+end_src
-*** ~vertico-posframe~
-#+begin_src emacs-lisp
-(use-package vertico-posframe
-  :config (vertico-posframe-mode 1))
+  (vertico-cycle t)
+  :config
+  ;; jinx configuration
+  (add-to-list 'vertico-multiform-categories
+               '(jinx grid (vertico-grid-annotate . 20)))
+  (vertico-multiform-mode 1))
 #+end_src
 ** ~orderless~
 #+begin_src emacs-lisp
