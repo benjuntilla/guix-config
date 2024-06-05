@@ -1064,10 +1064,22 @@ Install ~ibuffer-vc~ to dynamically create filter groups by VC project
             "C-c e i" 'eglot-code-action-inline
             "C-c e w" 'eglot-code-action-rewrite
             "C-c e SPC" 'eglot-code-actions)
+  ;; When to run Eglot
+  :hook ((python-ts-mode
+          csharp-ts-mode
+          js-ts-mode
+          typescript-ts-mode
+          rust-ts-mode
+          css-ts-mode
+          LaTeX-mode
+          svelte-mode
+          vue-mode) . eglot-ensure)
+  ;; Custom backends when running Eglot
   :config
-  (add-to-list 'eglot-server-programs
-               '((svelte-mode . ("svelteserver" "--stdio"))
-                 (LaTeX-mode . ("ltex-ls")))))
+  (add-to-list 'eglot-server-programs '(LaTeX-mode . ("ltex-ls")))
+  (add-to-list 'eglot-server-programs '(svelte-mode . ("svelteserver" "--stdio")))
+  ;; Must have volar installed for this
+  (add-to-list 'eglot-server-programs `(vue-mode . ("vue-language-server" "--stdio" :initializationOptions ,(vue-eglot-init-options)))))
 #+end_src
 ** ~literate-calc-mode~
 #+begin_src emacs-lisp
