@@ -889,8 +889,8 @@ Set up tab stuff
 #+begin_src emacs-lisp
 (setq-default tab-width 2)
 (setq-default indent-tabs-mode nil)
-(defvaralias 'c-basic-offset 'tab-width)
-(defvaralias 'cperl-indent-level 'tab-width)
+(setq-default c-basic-offset 2)
+(setq-default cperl-indent-level 2)
 #+end_src
 
 Use ~auto-fill-mode~ for hard wrapping
