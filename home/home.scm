@@ -89,7 +89,7 @@
              (ssh-support? #t)
              (default-cache-ttl 34560000)
              (max-cache-ttl 34560000)
-             (extra-content "allow-emacs-pinentry")))
+             (extra-content "allow-emacs-pinentry\nenable-ssh-support")))
 
    ;; link dotfiles
    (service home-dotfiles-service-type
