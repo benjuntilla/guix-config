@@ -873,6 +873,11 @@ Add mouse support
 (delete-selection-mode t)
 #+end_src
 
+Undo behavior with ~undo-fu~
+#+begin_src emacs-lisp
+(use-package undo-fu)
+#+end_src
+
 Enable [[https://www.gnu.org/software/emacs/manual/html_node/emacs/Repeating.html][repeat-mode]]
 #+begin_src emacs-lisp
 (repeat-mode)
@@ -1148,6 +1153,7 @@ Install ~ibuffer-vc~ to dynamically create filter groups by VC project
   (evil-want-integration t)
   (evil-want-keybinding nil)
   (evil-jumps-cross-buffers nil)
+  (evil-undo-system 'undo-fu)
   :config
   (evil-mode 1))
 #+end_src
