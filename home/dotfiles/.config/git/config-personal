@@ -2,8 +2,6 @@
 	email = ben@benjuntilla.com
 	name = Ben Juntilla
 	signingKey = AE797F2FC9B287CA999C6019DCCF75B89AB37D1B
-[core]
-	sshCommand = ssh -i ~/.ssh/id_ed25519
 [github]
   user = benjuntilla
 
