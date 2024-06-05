@@ -474,7 +474,7 @@ Prefer newer package files
   (let ((default-directory org-root-dir))
     (shell-command "git pull --ff-only")))
 
-(add-hook 'org-roam-find-file-hook #'ben/org-roam-pull)
+;; (add-hook 'org-roam-find-file-hook #'ben/org-roam-pull)
 #+end_src
 ** ~org-agenda-files-track~
 #+begin_src emacs-lisp
