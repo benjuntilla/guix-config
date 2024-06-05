@@ -984,6 +984,18 @@ Install ~bm~ for bookmarks
                 ("C-<f2>" . bm-toggle))
          )
 #+end_src
+
+Install ~web-mode~
+#+begin_src emacs-lisp
+(use-package web-mode)
+#+end_src
+
+Create derived ~vue-mode~ for use with ~eglot~. Credit to [[https://github.com/joaotavora/eglot/discussions/1184]]
+#+begin_src emacs-lisp
+;; web-mode setup
+(define-derived-mode vue-mode web-mode "Vue")
+(add-to-list 'auto-mode-alist '("\\.vue\\'" . vue-mode))
+#+end_src
 ** latex
 *** ~auctex~ & ~reftex~
 #+begin_src emacs-lisp
