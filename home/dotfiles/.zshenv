@@ -1,6 +1,6 @@
 # -*- mode: sh -*-
 
-export PATH=~/node_modules/.bin:~/.config/emacs-doom/bin:~/.local/share/gem/ruby/2.0.0/bin:~/.config/rofi/bin:~/go/bin:~/.dotnet/tools:~/.cargo/bin:~/.local/bin:$PATH
+export PATH=~/.npm/bin:~/.config/emacs-doom/bin:~/.local/share/gem/ruby/2.0.0/bin:~/.config/rofi/bin:~/go/bin:~/.dotnet/tools:~/.cargo/bin:~/.local/bin:$PATH
 export TERMCMD="wezterm start"
 export TERMINAL="wezterm"
 export EDITOR="nvim"
