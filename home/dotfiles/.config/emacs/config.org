@@ -1360,6 +1360,9 @@ Popper
 (use-package ctrlf
   :config
   (ctrlf-mode)
+  :custom
+  ;; focus beginning of match after finishing search
+  (ctrlf-go-to-end-of-match nil)
   :general
   ('override
    "C-s" 'ctrlf-forward-default))
