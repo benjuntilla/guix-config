@@ -823,11 +823,6 @@ Add mouse support
 #+begin_src emacs-lisp
 (use-package magit)
 #+end_src
-*** ~forge~
-#+begin_src emacs-lisp
-(use-package forge
-  :after magit)
-#+end_src
 ** ~vdiff~
 #+begin_src emacs-lisp
 (use-package vdiff
