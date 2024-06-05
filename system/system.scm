@@ -10,8 +10,16 @@
 ;; Indicate which modules to import to access the variables
 ;; used in this configuration.
 (use-modules (gnu) (nongnu packages linux) (nongnu packages firmware) (gnu system nss))
-(use-service-modules cups desktop networking ssh xorg pm dbus virtualization security-token)
+(use-service-modules base cups desktop networking ssh xorg pm dbus virtualization security-token)
 (use-package-modules wm shells security-token cups)
+
+(define %disable-internal-webcam-rule
+  (udev-rule
+    "40-disable-internal-webcam.rules"
+    (string-append "ACTION==\"add\", "
+                   "ATTR{idVendor}==\"5986\", "
+                   "ATTR{idProduct}==\"2113\", "
+                   "RUN=\"/usr/bin/env sh -c 'echo 1>/sys/\\$devpath/remove'\"")))
 
 (operating-system
  (kernel linux)
@@ -35,6 +43,7 @@
 
  (services
   (cons*
+   (udev-rules-service 'disable-internal-webcam %disable-internal-webcam-rule)
    (simple-service 'fwupd-dbus dbus-root-service-type
                    (list fwupd-nonfree))
    (service openssh-service-type)
