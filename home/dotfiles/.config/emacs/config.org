@@ -1317,9 +1317,8 @@ package uses ~aspell~ by default for English.
 Use ~eglot-tempel~ to provide templating for ~eglot~
 #+begin_src emacs-lisp
 (use-package eglot-tempel
-   :after eglot
-   :config
-   (eglot-tempel-mode))
+  :after eglot
+  :hook (eglot-connect . #'eglot-tempel-mode))
 #+end_src
 * Movement & Navigation
 ** Scrolling
