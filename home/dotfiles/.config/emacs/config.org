@@ -1420,6 +1420,21 @@ Disable mouse interface
 (tooltip-mode -1)
 #+end_src
 
+Use ~indent-bars~ to style indentation
+#+begin_src emacs-lisp :tangle no
+(use-package indent-bars
+  :vc (:url "https://github.com/jdtsmith/indent-bars"
+            :branch "main")
+  :config
+  (require 'indent-bars-ts)  ; not needed with straight
+  :custom
+  (indent-bars-treesit-support t)
+  (indent-bars-treesit-ignore-blank-lines-types '("module"))
+  (indent-bars-treesit-scope '((python function_definition class_definition for_statement
+                                       if_statement with_statement while_statement)))
+  :hook prog-mode)
+#+end_src
+
 Enable mouse interaction in terminal
 #+begin_src emacs-lisp
 (xterm-mouse-mode 1)
