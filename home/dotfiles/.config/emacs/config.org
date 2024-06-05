@@ -1661,8 +1661,8 @@ Adds SVG icons to ~corfu~
   (vertico-cycle t)
   :config
   ;; jinx configuration
-  (add-to-list 'vertico-multiform-categories
-               '(jinx grid (vertico-grid-annotate . 20)))
+  (setq vertico-multiform-categories
+        '(jinx grid (vertico-grid-annotate . 20)))
   (vertico-multiform-mode 1))
 #+end_src
 ** ~orderless~
