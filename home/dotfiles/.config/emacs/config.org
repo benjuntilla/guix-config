@@ -169,11 +169,6 @@ Pinentry
   :config (pinentry-start))
 #+end_src
 
-Store undo-tree files in emacs directory
-#+begin_src emacs-lisp
-(setq undo-tree-history-directory-alist `(("." . ,(concat user-emacs-directory "undo"))))
-#+end_src
-
 Set default browser to Firefox
 #+begin_src emacs-lisp
 (setq browse-url-browser-function 'browse-url-generic
@@ -1225,15 +1220,6 @@ evil escape
 #+begin_src emacs-lisp
 (use-package evil-multiedit
   :config (evil-multiedit-default-keybinds))
-#+end_src
-** ~undo-tree~
-#+begin_src emacs-lisp
-(use-package undo-tree
-  :delight
-  :after evil
-  :config
-  (global-undo-tree-mode)
-  (evil-set-undo-system 'undo-tree))
 #+end_src
 ** ~rainbow-delimiters~
 #+begin_src emacs-lisp
