@@ -1,18 +1,3 @@
-set $left_wallpaper /home/ben/.config/sway/1.jpg
-set $right_wallpaper /home/ben/.config/sway/2.jpg
-set $primary "Acer Technologies Acer VG270 0x05116386"
-set $secondary "Acer Technologies SB220Q 0x91102E64"
-set $work_primary "DP-5"
-set $work_secondary "DP-6"
-
-# Output
-output $primary pos 0 0 res 1920x1080 bg $right_wallpaper fill
-output $work_primary pos 0 0 res 1920x1080 bg $right_wallpaper fill transform 90
-output eDP-1 pos 1920 0 res 1920x1080 bg $right_wallpaper fill
-output $secondary pos 3840 0 res 1920x1080 bg $left_wallpaper fill
-output $work_secondary pos 3840 0 res 1920x1080 bg $left_wallpaper fill
-exec swaymsg focus output $primary
-
 # Input
 input type:pointer {
     accel_profile "flat"
@@ -39,16 +24,3 @@ input type:tablet_tool {
     pointer_accel 0
     map_to_output $primary
 }
-
-# Set workspaces
-workspace 1 output $primary
-workspace 3 output $primary
-workspace 5 output $primary
-workspace 7 output $primary
-workspace 9 output $primary
-
-workspace 2 output $secondary
-workspace 4 output $secondary
-workspace 6 output $secondary
-workspace 8 output $secondary
-workspace 0 output $secondary

@@ -17,6 +17,9 @@ exec shepherd
 # autotiling
 exec autotiling
 
+# kanshi
+exec kanshi
+
 # idle behavior
 exec swayidle \
 	timeout 300 'swaylock -c 000000' \
