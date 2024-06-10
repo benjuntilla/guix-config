@@ -879,6 +879,30 @@ Use ~editorconfig~ for consistent IDE settings
   (editorconfig-mode 1))
 #+end_src
 
+Use ~copilot.el~ for LLM-powered completions. Note that this depends on
+~editorconfig~, ~jsonrpc~, ~dash~, ~f~, and ~s~
+#+begin_src emacs-lisp :tangle no
+(use-package copilot
+  :after (editorconfig s)
+  :vc (:url "https://github.com/benjuntilla/copilot.el" :branch "main" :rev :newest)
+  :init
+  (require 's)
+  :custom
+  (copilot-node-executable "~/.guix-profile/bin/node")
+  :hook prog-mode
+  :general
+  (override :prefix "C-c c"
+            "c" #'copilot-complete
+            "o" #'copilot-clear-overlay
+            "TAB" #'copilot-accept-completion
+            [tab] #'copilot-accept-completion
+            "w" #'copilot-accept-completion-by-word
+            "l" #'copilot-accept-completion-by-line
+            "n" #'copilot-next-completion
+            "p" #'copilot-previous-completion))
+#+end_src
+
+
 Enable [[https://www.gnu.org/software/emacs/manual/html_node/emacs/Repeating.html][repeat-mode]]
 #+begin_src emacs-lisp
 (repeat-mode)
@@ -986,6 +1010,13 @@ Create derived ~vue-mode~ for use with ~eglot~. Credit to [[https://github.com/j
 (define-derived-mode vue-mode web-mode "Vue")
 (add-to-list 'auto-mode-alist '("\\.vue\\'" . vue-mode))
 #+end_src
+
+Use ~rustic~ for rust stuff
+#+begin_src emacs-lisp
+(use-package rustic
+  :custom
+  (rustic-lsp-client 'eglot))
+#+end_src
 ** latex
 *** ~auctex~ & ~reftex~
 #+begin_src emacs-lisp
@@ -1046,16 +1077,18 @@ manager.
 (use-package treesit
   :custom
   (treesit-extra-load-path '("~/.guix-profile/lib/tree-sitter/"))
-  ;; Remap old language modes to Treesitter versions
+  ;; Remap old language modes primarily used for syntax highlighting to Treesitter versions
   (major-mode-remap-alist
     '((css-mode  . css-ts-mode)
-      (rust-mode . rust-ts-mode)
       (javascript-mode . js-ts-mode)
       (python-mode . python-ts-mode)
       (csharp-mode . csharp-ts-mode)))
-  ;; TypeScript doesn't have an existing mode
+  ;; Define on a filename basis for modes that don't already exist
   :mode
-  ("\\.ts" . typescript-ts-mode))
+  ("\\.rs" . rust-ts-mode)
+  ("\\.ts" . typescript-ts-mode)
+  ("\\.jsx" . tsx-ts-mode)
+  ("\\.tsx" . tsx-ts-mode))
 #+end_src
 ** ~eglot~
 Install ~eglot~ to natively use LSP
@@ -1095,17 +1128,27 @@ Install ~eglot~ to natively use LSP
           csharp-ts-mode
           js-ts-mode
           typescript-ts-mode
-          rust-ts-mode
+          tsx-ts-mode
           css-ts-mode
           LaTeX-mode
           svelte-mode
           vue-mode) . eglot-ensure)
   ;; Custom backends when running Eglot
   :config
-  (add-to-list 'eglot-server-programs '(LaTeX-mode . ("ltex-ls")))
-  (add-to-list 'eglot-server-programs '(svelte-mode . ("svelteserver" "--stdio")))
+  (add-to-list 'eglot-server-programs
+               '(LaTeX-mode . ("ltex-ls")))
+  (add-to-list 'eglot-server-programs
+               '(svelte-mode . ("svelteserver" "--stdio")))
   ;; Must have volar installed for this
-  (add-to-list 'eglot-server-programs `(vue-mode . ("vue-language-server" "--stdio" :initializationOptions ,(vue-eglot-init-options)))))
+  (add-to-list 'eglot-server-programs
+               `(vue-mode . ("vue-language-server" "--stdio" :initializationOptions ,(vue-eglot-init-options)))))
+#+end_src
+
+Use ~eglot-x~ for extensions
+#+begin_src emacs-lisp
+(with-eval-after-load 'eglot
+  (require 'eglot-x)
+  (eglot-x-setup))
 #+end_src
 ** ~literate-calc-mode~
 #+begin_src emacs-lisp
