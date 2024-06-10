@@ -86,9 +86,13 @@
             (home-gpg-agent-configuration
              (pinentry-program
               (file-append pinentry-rofi "/bin/pinentry-rofi"))
-             (ssh-support? #t)
+             ;; make cache times functionally infinite
              (default-cache-ttl 34560000)
              (max-cache-ttl 34560000)
+             (default-cache-ttl-ssh 34560000)
+             (max-cache-ttl-ssh 34560000)
+             ;; enable ssh support
+             (ssh-support? #t)
              (extra-content "allow-emacs-pinentry\nenable-ssh-support")))
 
    ;; link dotfiles
