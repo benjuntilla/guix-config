@@ -16,6 +16,10 @@ input type:touchpad {
 }
 
 input type:keyboard {
+    xkb_options caps:swapescape
+}
+
+input 9610:268:BY_Tech_Gaming_Keyboard {
     xkb_options caps:swapescape,altwin:swap_lalt_lwin
 }
 
