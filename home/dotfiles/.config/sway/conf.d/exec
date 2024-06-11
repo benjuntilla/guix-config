@@ -18,7 +18,7 @@ exec shepherd
 exec autotiling
 
 # kanshi
-exec kanshi
+exec_always "pkill kanshi; kanshi"
 
 # idle behavior
 exec swayidle \
