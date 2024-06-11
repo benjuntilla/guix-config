@@ -52,62 +52,6 @@ Clearing minibuffer
   (let ((start-marker (evil-get-marker ?\[))
         (end-marker (evil-get-marker ?\])))
         (evil-visual-select start-marker end-marker)))
-(defun my/move-splitter-left (arg)
-  "Move window splitter left."
-  (interactive "p")
-  (if (let ((windmove-wrap-around))
-        (windmove-find-other-window 'right))
-      (shrink-window-horizontally arg)
-    (enlarge-window-horizontally arg)))
-(defun my/move-splitter-right (arg)
-  "Move window splitter right."
-  (interactive "p")
-  (if (let ((windmove-wrap-around))
-        (windmove-find-other-window 'right))
-      (enlarge-window-horizontally arg)
-    (shrink-window-horizontally arg)))
-(defun my/move-splitter-up (arg)
-  "Move window splitter up."
-  (interactive "p")
-  (if (let ((windmove-wrap-around))
-        (windmove-find-other-window 'up))
-      (enlarge-window arg)
-    (shrink-window arg)))
-(defun my/move-splitter-down (arg)
-  "Move window splitter down."
-  (interactive "p")
-  (if (let ((windmove-wrap-around))
-        (windmove-find-other-window 'up))
-      (shrink-window arg)
-    (enlarge-window arg)))
-(defun my/org-select-bullet-body ()
-  (interactive)
-  (beginning-of-line)
-  (when (search-forward-regexp "^ ?+-" (line-end-position) t)
-    (forward-char)
-    (set-mark-command nil)
-    (end-of-line)
-    (backward-char)))
-(defun my/org-cliplink-without-domain-name ()
-  (interactive)
-  (org-cliplink-insert-transformed-title
-   (org-cliplink-clipboard-content)  ;; take the URL from the clipboard
-   (lambda (url title)
-     (let* ((parsed-url (url-generic-parse-url url)) ;; parse the url
-            (clean-title (replace-regexp-in-string ".*?: \\(.*\\)" "\\1" title)))
-       ;; forward the title to the default org-cliplink transformer
-       (org-cliplink-org-mode-link-transformer url clean-title)))))
-(defun my/org-summary-todo (n-done n-not-done)
-  "Switch entry to DONE when all subentries are done, to TODO otherwise."
-  (when (= n-not-done 0) (org-todo "DONE")))
-(defun my/open-config ()
-  (interactive)
-  (let* ((target-file (concat user-emacs-directory "config.org"))
-         (source-file-buffer (find-buffer-visiting (chezmoi-source-file target-file))))
-    (if source-file-buffer
-        (switch-to-buffer source-file-buffer)
-      (chezmoi-find target-file))
-    ))
 ;; stolen from https://hungyi.net/posts/copy-org-mode-url/
 (defun my/org-yank-link ()
   (interactive)
@@ -392,8 +336,7 @@ Prefer newer package files
   ("C-c A" 'org-capture
    "C-c a" 'org-agenda)
   (org-mode-map
-   "C-c l y" 'my/org-yank-link
-   "C-c s" 'my/org-select-bullet-body)
+   "C-c l y" 'my/org-yank-link)
   :custom
   (org-cite-global-bibliography `(,my/bib))
   (org-attach-auto-tag nil)
@@ -757,19 +700,6 @@ Add mouse support
 #+begin_src emacs-lisp
 (setq dired-mouse-drag-files t
       mouse-drag-and-drop-region-cross-program t)
-#+end_src
-*** filetags integration
-#+begin_src emacs-lisp
-(defun my/dired-filetags ()
-  "Run \"filetags\" on current or marked files"
-  (interactive)
-  (let* ((marked-files (f-uniquify (dired-get-marked-files)))) ;; apply to single file or marked files
-    (dired-do-shell-command "xfce4-terminal --disable-server --geometry=100x20+330+5 --hide-menubar -x /home/chelston/.local/bin/filetags --interactive *" nil marked-files)
-   
-    (revert-buffer nil t t) ;; refresh listing of files
-  ))
-
-  (general-def ranger-mode-map "M-t" 'my/dired-filetags)
 #+end_src
 *** ~dirvish~
 #+begin_src emacs-lisp
@@ -1947,49 +1877,6 @@ Use ~pass~ emacs interface
 Set ~pass~ as ~auth-sources~ backend
 #+begin_src emacs-lisp
 (setq auth-sources '(password-store))
-#+end_src
-* hydra
-#+begin_src emacs-lisp
-(use-package hydra)
-#+end_src
-** Window management
-#+begin_src emacs-lisp
-(with-eval-after-load 'hydra
-  (defhydra hydra-window-management ()
-    "window"
-    ("h" windmove-left "left")
-    ("l" windmove-right "right")
-    ("j" windmove-down "down")
-    ("k" windmove-up "up")
-    ("c" ace-window "change")
-    ("C" ace-swap-window "swap")
-    ("s" (progn (split-window-right) (windmove-right)) "split vertically")
-    ("S" (progn (split-window-below) (windmove-down)) "split horizontally")
-    ("[" my/move-splitter-left "adjust <-")
-    ("]" my/move-splitter-right "adjust ->")
-    ("=" my/move-splitter-up "adjust up")
-    ("-" my/move-splitter-down "adjust down")
-    ("b" balance-windows "balance")
-    ("x" delete-window "delete")
-    ("d" ace-delete-window "delete other")
-    ("D" delete-other-windows "delete all others")
-    ("q" nil "quit" :color blue)))
-#+end_src
-** Hunk Management
-#+begin_src emacs-lisp
-(with-eval-after-load 'hydra
-  (defhydra hydra-hunk-management ()
-    "hunk"
-    ("h" (progn (goto-char (point-min)) (diff-hl-next-hunk)) "first")
-    ("j" diff-hl-next-hunk "next")
-    ("k" diff-hl-previous-hunk "prev")
-    ("l" (progn (goto-char (point-max)) (diff-hl-previous-hunk)) "last")
-    ("J" diff-hl-show-hunk-next "show next")
-    ("L" diff-hl-show-hunk-previous "show prev")
-    ("RET" diff-hl-show-hunk "show" :color blue)
-    ("d" diff-hl-diff-goto-hunk "diff" :color blue)
-    ("DEL" diff-hl-revert-hunk "revert")
-    ("q" nil "quit" :color blue)))
 #+end_src
 * personal finance
 hledger
