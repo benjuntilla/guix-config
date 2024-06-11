@@ -104,6 +104,7 @@ alias sl="sl -e"
 alias to="tomb"
 alias ns="nsxiv"
 alias wh="which"
+alias pnpm="corepack pnpm"
 alias pn="corepack pnpm"
 
 alias -g Y="| ydiff"
@@ -313,6 +314,9 @@ alias hep="herd stop"
 
 # aliases
 alias ag="alias | grep"
+
+# rclone
+alias pcloud="rclone mount pcloud: ~/pcloud"
 
 #
 # bindings
