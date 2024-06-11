@@ -23,6 +23,10 @@ input 9610:268:BY_Tech_Gaming_Keyboard {
     xkb_options caps:swapescape,altwin:swap_lalt_lwin
 }
 
+input 13652:64009:Compx_2.4G_Wireless_Receiver {
+    xkb_options caps:swapescape,altwin:swap_lalt_lwin
+}
+
 input type:tablet_tool {
     accel_profile "flat"
     pointer_accel 0
