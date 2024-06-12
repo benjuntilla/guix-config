@@ -11,7 +11,7 @@
 ;; used in this configuration.
 (use-modules (gnu) (nongnu packages linux) (nongnu packages firmware) (gnu system nss))
 (use-service-modules base cups desktop networking ssh xorg pm dbus virtualization security-token)
-(use-package-modules wm shells security-token cups)
+(use-package-modules wm shells security-token cups gnome)
 
 (define %disable-internal-webcam-rule
   (udev-rule
@@ -44,6 +44,7 @@
  (services
   (cons*
    (udev-rules-service 'disable-internal-webcam %disable-internal-webcam-rule)
+   (simple-service 'ratbagd dbus-root-service-type (list libratbag))
    (simple-service 'fwupd-dbus dbus-root-service-type
                    (list fwupd-nonfree))
    (service openssh-service-type)
