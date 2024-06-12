@@ -1058,6 +1058,7 @@ Install ~eglot~ to natively use LSP
           csharp-ts-mode
           js-ts-mode
           typescript-ts-mode
+          rust-ts-mode
           tsx-ts-mode
           css-ts-mode
           LaTeX-mode
