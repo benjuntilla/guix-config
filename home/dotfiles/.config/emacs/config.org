@@ -1297,6 +1297,11 @@ Use ~eglot-tempel~ to provide templating for ~eglot~
   :hook (eglot-connect . #'eglot-tempel-mode))
 #+end_src
 * Movement & Navigation
+Use ripgrep for search
+#+begin_src emacs-lisp
+(use-package rg)
+#+end_src
+
 ** Scrolling
 Scrolling behavior
 #+begin_src emacs-lisp
