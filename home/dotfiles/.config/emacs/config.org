@@ -1025,7 +1025,6 @@ manager.
       (csharp-mode . csharp-ts-mode)))
   ;; Define on a filename basis for modes that don't already exist
   :mode
-  ("\\.rs" . rust-ts-mode)
   ("\\.ts" . typescript-ts-mode)
   ("\\.jsx" . tsx-ts-mode)
   ("\\.tsx" . tsx-ts-mode))
@@ -1068,14 +1067,17 @@ Install ~eglot~ to natively use LSP
           csharp-ts-mode
           js-ts-mode
           typescript-ts-mode
-          rust-ts-mode
           tsx-ts-mode
           css-ts-mode
+          rustic-mode
           LaTeX-mode
           svelte-mode
           vue-mode) . eglot-ensure)
   ;; Custom backends when running Eglot
   :config
+  (add-to-list 'eglot-server-programs
+               '(rustic-mode .
+                 ("rust-analyzer" :initializationOptions (:check (:command "clippy")))))
   (add-to-list 'eglot-server-programs
                '(LaTeX-mode . ("ltex-ls")))
   (add-to-list 'eglot-server-programs
