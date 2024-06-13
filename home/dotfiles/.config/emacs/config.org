@@ -5,6 +5,24 @@ Place customization variables outside of ~init.el~ for writability
 (load custom-file 'noerror)
 #+end_src
 
+Stuff to run when creating frame
+#+begin_src emacs-lisp
+(defun my/after-make-frame-commands ()
+  ;; Disable mouse stuff
+  (menu-bar-mode -1)
+  (tool-bar-mode -1)
+  (scroll-bar-mode -1)
+  (tooltip-mode -1)
+  ;; Focus frame on creation
+  (select-frame-set-input-focus (selected-frame)))
+
+(add-hook 'server-after-make-frame-hook #'my/after-make-frame-commands)
+#+end_src
+
+Fix fonts when using daemon, as per https://stackoverflow.com/questions/3984730/emacs-gui-with-emacs-daemon-not-loading-fonts-correctly
+#+begin_src emacs-lisp
+(setq default-frame-alist '((font . "Iosevka") (foreground-color . "#bbc2cf")))
+#+end_src
 * ~general~
 #+begin_src emacs-lisp
 (use-package general)
@@ -167,14 +185,6 @@ Enable recursive minibuffers
 Trash instead of delete
 #+begin_src emacs-lisp
 (setq delete-by-moving-to-trash t)
-#+end_src
-
-Focus frame on creation
-#+begin_src emacs-lisp
-(defun my/focus-new-client-frame ()
-  (select-frame-set-input-focus (selected-frame)))
-
-(add-hook 'server-after-make-frame-hook #'my/focus-new-client-frame)
 #+end_src
 
 Automatically revert buffers whenever files are changed
@@ -1428,14 +1438,6 @@ Popper
   :general ("C-c g" 'deadgrep))
 #+end_src
 * Appearance
-Disable mouse interface
-#+begin_src emacs-lisp
-(menu-bar-mode -1)
-(tool-bar-mode -1)
-(scroll-bar-mode -1)
-(tooltip-mode -1)
-#+end_src
-
 Use ~indent-bars~ to style indentation
 #+begin_src emacs-lisp :tangle no
 (use-package indent-bars
@@ -1467,11 +1469,6 @@ Fonts with ~mixed-pitch~
   (set-face-attribute 'org-level-2 nil :height 1.15)
   (set-face-attribute 'org-level-3 nil :height 1.075)
   (mixed-pitch-mode))
-#+end_src
-
-Fix fonts when using daemon, as per https://stackoverflow.com/questions/3984730/emacs-gui-with-emacs-daemon-not-loading-fonts-correctly
-#+begin_src emacs-lisp
-(setq default-frame-alist '((font . "Iosevka") (foreground-color . "#bbc2cf")))
 #+end_src
 
 Enable mouse interaction in terminal
