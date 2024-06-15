@@ -711,7 +711,9 @@ Add mouse support
 #+end_src
 ** ~magit~
 #+begin_src emacs-lisp
-(use-package magit)
+(use-package magit
+  :custom
+  (magit-display-buffer-function #'magit-display-buffer-fullframe-status-v1))
 #+end_src
 ** ~vdiff~
 #+begin_src emacs-lisp
