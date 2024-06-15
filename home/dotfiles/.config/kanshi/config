@@ -13,6 +13,7 @@ profile work {
   # Wallpapers
   exec swaymsg output \$primary background \$left_wallpaper fill
   exec swaymsg output \$secondary background \$right_wallpaper fill
+  exec swaymsg output eDP-1 background \$right_wallpaper fill
 
   # Focus
   exec swaymsg focus output \$primary
@@ -45,6 +46,7 @@ profile home {
   # Wallpapers
   exec swaymsg output \$primary background \$left_wallpaper fill
   exec swaymsg output \$secondary background \$right_wallpaper fill
+  exec swaymsg output eDP-1 background \$right_wallpaper fill
 
   # Focus
   exec swaymsg focus output \$primary
