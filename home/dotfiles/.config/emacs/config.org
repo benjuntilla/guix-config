@@ -1450,6 +1450,7 @@ Show whitespace information
 (use-package corfu
   :custom
   (corfu-auto t)  ;; automatically display completions
+  (corfu-auto-prefix 2)
   (corfu-cycle t)
   (corfu-preselect 'prompt)
   :bind
