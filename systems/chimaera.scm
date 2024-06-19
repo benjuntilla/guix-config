@@ -1,17 +1,18 @@
-;; This is an operating system configuration generated
-;; by the graphical installer.
-;;
-;; Once installation is complete, you can learn and modify
-;; this file to tweak the system configuration, and pass it
-;; to the 'guix system reconfigure' command to effect your
-;; changes.
-
-
-;; Indicate which modules to import to access the variables
-;; used in this configuration.
 (use-modules (gnu) (nongnu packages linux) (nongnu packages firmware) (gnu system nss))
 (use-service-modules base cups desktop networking ssh xorg pm dbus virtualization security-token)
 (use-package-modules wm shells security-token cups gnome)
+
+(define %wooting-rules
+  (udev-rule
+    "70-wooting.rules"
+    (string-append "SUBSYSTEM==\"hidraw\", ATTRS{idVendor}==\"03eb\", ATTRS{idProduct}==\"ff01\", TAG+=\"uaccess\"\n"
+                   "SUBSYSTEM==\"usb\", ATTRS{idVendor}==\"03eb\", ATTRS{idProduct}==\"ff01\", TAG+=\"uaccess\"\n"
+                   "SUBSYSTEM==\"hidraw\", ATTRS{idVendor}==\"03eb\", ATTRS{idProduct}==\"2402\", TAG+=\"uaccess\"\n"
+                   "SUBSYSTEM==\"hidraw\", ATTRS{idVendor}==\"03eb\", ATTRS{idProduct}==\"ff02\", TAG+=\"uaccess\"\n"
+                   "SUBSYSTEM==\"usb\", ATTRS{idVendor}==\"03eb\", ATTRS{idProduct}==\"ff02\", TAG+=\"uaccess\"\n"
+                   "SUBSYSTEM==\"hidraw\", ATTRS{idVendor}==\"03eb\", ATTRS{idProduct}==\"2403\", TAG+=\"uaccess\"\n"
+                   "SUBSYSTEM==\"hidraw\", ATTRS{idVendor}==\"31e3\", TAG+=\"uaccess\"\n"
+                   "SUBSYSTEM==\"usb\", ATTRS{idVendor}==\"31e3\", TAG+=\"uaccess\"")))
 
 (operating-system
  (kernel linux)
@@ -35,7 +36,7 @@
 
  (services
   (cons*
-   (udev-rules-service 'disable-internal-webcam %disable-internal-webcam-rule)
+   (udev-rules-service 'wooting %wooting-rules)
    (simple-service 'ratbagd dbus-root-service-type (list libratbag))
    (simple-service 'fwupd-dbus dbus-root-service-type
                    (list fwupd-nonfree))
