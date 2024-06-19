@@ -1113,10 +1113,7 @@ evil escape
 #+begin_src emacs-lisp
 (use-package evil-nerd-commenter
   :after evil
-  :config (evilnc-default-hotkeys)
-  :general
-  ('override
-   "C-/" 'evilnc-comment-or-uncomment-lines))
+  :config (evilnc-default-hotkeys))
 #+end_src
 *** ~evil-matchit~
 #+begin_src emacs-lisp
