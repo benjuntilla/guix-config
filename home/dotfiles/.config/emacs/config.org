@@ -865,6 +865,14 @@ Install ~web-mode~
 (use-package web-mode)
 #+end_src
 
+Configure ~sgml-mode~
+#+begin_src emacs-lisp
+(add-hook 'sgml-mode-hook
+  (lambda ()
+    (setq sgml-quick-keys t)
+    (sgml-electric-tag-pair-mode)))
+#+end_src
+
 Create derived ~vue-mode~ for use with ~eglot~. Credit to [[https://github.com/joaotavora/eglot/discussions/1184]]
 #+begin_src emacs-lisp
 ;; web-mode setup
