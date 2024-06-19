@@ -763,6 +763,19 @@ This is actually so tough
 (delete-selection-mode t)
 #+end_src
 
+Add emmet support
+#+begin_src emacs-lisp
+(use-package emmet-mode
+  :hook
+  ((web-mode sgml-mode css-mode) . #'emmet-mode)
+  :custom
+  (emmet-self-closing-tag-style " /")
+  (emmet-move-cursor-between-quotes t)
+  :general
+  ('insert 'override
+   "C-j" 'emmet-expand-line))
+#+end_src
+
 Set python interpreter path
 #+begin_src emacs-lisp
 (setq python-interpreter "~/.guix-profile/bin/python3")
