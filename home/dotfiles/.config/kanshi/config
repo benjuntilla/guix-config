@@ -33,6 +33,9 @@ profile work {
 
 profile home {
   # Triggers
+  # output "Acer Technologies SB220Q 0x91102E64" position 0,0 mode 1920x1080 transform normal
+  # output "Acer Technologies Acer VG270 0x05116386" position 1920,0 mode 1920x1080 transform normal
+  # output eDP-1 position 3840,0 mode 2560x1600@165Hz transform normal scale 1.5
   output "Acer Technologies SB220Q 0x91102E64" position 0,0 mode 1920x1080 transform 270
   output "Acer Technologies Acer VG270 0x05116386" position 1080,0 mode 1920x1080 transform normal
   output eDP-1 position 3000,0 mode 2560x1600@165Hz transform normal scale 1.5
