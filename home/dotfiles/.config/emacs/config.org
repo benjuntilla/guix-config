@@ -278,7 +278,6 @@ Bisect files to find errors
                     "R" 'crux-rename-file-and-buffer
                     "D" 'crux-delete-file-and-buffer
                     "n" 'crux-cleanup-buffer-or-region
-                    "f" 'crux-recentf-find-file
                     "F" 'crux-recentf-find-directory))
 #+end_src
 ** ~which-key~
@@ -1567,9 +1566,10 @@ Adds SVG icons to ~corfu~
          ("M-s e" . consult-isearch)               ;; orig. isearch-edit-string
          ("M-s l" . consult-line))                 ;; required by consult-line to detect isearch
   :general
+  ('normal
+   "C-c f" #'consult-recent-file)
   ('normal 'override :prefix "g"
-           "C-SPC" 'consult-line
-           "h" 'consult-recent-file)
+           "L" 'consult-line)
   :init
   ;; Optionally configure the register formatting. This improves the register
   ;; preview for `consult-register', `consult-register-load',
