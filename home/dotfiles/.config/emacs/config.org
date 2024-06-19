@@ -1062,8 +1062,10 @@ Install ~eglot~ to natively use LSP
    "g b" 'consult-buffer)
   ('motion
    "C-e" 'evil-end-of-line)
-  (org-mode-map 'normal'
+  (org-mode-map 'normal
    "RET" 'org-return)
+  ('insert
+   "C-<return>" 'electric-newline-and-maybe-indent)
   :custom
   (evil-want-integration t)
   (evil-want-keybinding nil)
