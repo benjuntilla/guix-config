@@ -1,19 +1,8 @@
-;; This is an operating system configuration generated
-;; by the graphical installer.
-;;
-;; Once installation is complete, you can learn and modify
-;; this file to tweak the system configuration, and pass it
-;; to the 'guix system reconfigure' command to effect your
-;; changes.
-
-
-;; Indicate which modules to import to access the variables
-;; used in this configuration.
 (use-modules (gnu) (nongnu packages linux) (nongnu packages firmware) (gnu system nss))
 (use-service-modules base cups desktop networking ssh xorg pm dbus virtualization security-token)
 (use-package-modules wm shells security-token cups gnome)
 
-(define %disable-internal-webcam-rule
+(define %disable-internal-webcam-rules
   (udev-rule
     "40-disable-internal-webcam.rules"
     (string-append "ACTION==\"add\", "
@@ -43,7 +32,7 @@
 
  (services
   (cons*
-   (udev-rules-service 'disable-internal-webcam %disable-internal-webcam-rule)
+   (udev-rules-service 'disable-internal-webcam %disable-internal-webcam-rules)
    (simple-service 'ratbagd dbus-root-service-type (list libratbag))
    (simple-service 'fwupd-dbus dbus-root-service-type
                    (list fwupd-nonfree))
