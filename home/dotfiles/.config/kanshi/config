@@ -36,35 +36,24 @@ profile home {
   # output "Acer Technologies SB220Q 0x91102E64" position 0,0 mode 1920x1080 transform normal
   # output "Acer Technologies Acer VG270 0x05116386" position 1920,0 mode 1920x1080 transform normal
   # output eDP-1 position 3840,0 mode 2560x1600@165Hz transform normal scale 1.5
-  output "Acer Technologies SB220Q 0x91102E64" position 0,0 mode 1920x1080 transform 270
-  output "Acer Technologies Acer VG270 0x05116386" position 1080,0 mode 1920x1080 transform normal
-  output eDP-1 position 3000,0 mode 2560x1600@165Hz transform normal scale 1.5
+  output "Acer Technologies SB220Q 0x91102E64" {
+    position 0,0
+    mode 1920x1080
+    transform 270
+  }
+  output "Acer Technologies Acer VG270 0x05116386" {
+    position 1080,0
+    mode 1920x1080
+    transform normal
+  }
+  output eDP-1 {
+    position 1080,1080
+    mode 2560x1600@165Hz
+    transform normal
+    scale 1.5
+  }
 
-  # Variables
-  exec swaymsg set \$left_wallpaper /home/ben/.config/sway/1.jpg
-  exec swaymsg set \$right_wallpaper /home/ben/.config/sway/2.jpg
-  exec swaymsg set \$primary "Acer Technologies SB220Q 0x91102E64"
-  exec swaymsg set \$secondary "Acer Technologies Acer VG270 0x05116386"
-
-  # Wallpapers
-  exec swaymsg output \$primary background \$left_wallpaper fill
-  exec swaymsg output \$secondary background \$right_wallpaper fill
-  exec swaymsg output eDP-1 background \$right_wallpaper fill
-
-  # Focus
-  exec swaymsg focus output \$primary
-
-  # Set workspaces
-  exec swaymsg workspace 1 output \$primary
-  exec swaymsg workspace 3 output \$primary
-  exec swaymsg workspace 5 output \$primary
-  exec swaymsg workspace 7 output \$primary
-  exec swaymsg workspace 9 output \$primary
-  exec swaymsg workspace 2 output \$secondary
-  exec swaymsg workspace 4 output \$secondary
-  exec swaymsg workspace 6 output \$secondary
-  exec swaymsg workspace 8 output \$secondary
-  exec swaymsg workspace 0 output \$secondary
+  exec /home/ben/.config/kanshi/configure.sh "Acer Technologies SB220Q 0x91102E64" "Acer Technologies Acer VG270 0x05116386"
 }
 
 profile single {
