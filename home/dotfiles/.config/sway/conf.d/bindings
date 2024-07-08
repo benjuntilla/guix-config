@@ -3,9 +3,12 @@
 # bindsym End output * dpms on
 
 ## Basics
+# emacseverywhere
+bindsym $mod+slash exec ~/.emacs_everywhere/bin/run
+
 # Terminal
-bindsym $mod+t exec $termrun
-bindsym $mod+shift+t exec floating $termrun
+bindsym $mod+t exec emacsclient -c -e '(multi-vterm)'
+bindsym $mod+shift+t exec $termrun
 
 # File explorer
 bindsym $mod+d exec emacsclient -c -e '(dired "")'
@@ -13,8 +16,7 @@ bindsym $mod+shift+d exec nautilus
 
 # Editor
 bindsym $mod+e exec dex ~/.local/share/applications/emacsclient.desktop
-# bindsym $mod+e exec $termrun emacsclient -nw
-# bindsym $mod+e exec wezterm start --always-new-process -- emacsclient -tty
+bindsym $mod+shift+e exec emacsclient -c -e '(org-roam-node-find)'
 
 # Browser
 bindsym $mod+b exec firefox
@@ -30,9 +32,6 @@ bindsym $mod+Shift+q kill
 # Launcher
 bindsym $mod+space exec rofi -show drun -theme tiled
 bindsym $mod+shift+space exec rofi -show run
-
-# docs
-bindsym $mod+Slash exec rofi-zeal
 
 # Window switcher
 bindsym $mod+o exec rofi-window
@@ -63,11 +62,9 @@ floating_modifier $mod normal
 # Reloading config
 bindsym $mod+F5 reload
 
-# Exit sway (logs you out of your Wayland session)
-bindsym $mod+Shift+e exec swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' -b 'Yes, exit sway' 'swaymsg exit'
-
 # Process manager
-bindsym $mod+Return exec $termrun btop
+bindsym $mod+return exec emacsclient -c -e '(proced)'
+bindsym $mod+shift+return exec $termrun btop
 
 # Clipboard manager
 bindsym $mod+v exec clipman pick -t rofi
