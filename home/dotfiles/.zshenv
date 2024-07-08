@@ -1,6 +1,7 @@
 # -*- mode: sh -*-
 
-export PATH=~/.npm/bin:~/.config/emacs-doom/bin:~/.local/share/gem/ruby/2.0.0/bin:~/.config/rofi/bin:~/go/bin:~/.dotnet/tools:~/.cargo/bin:~/.local/bin:$PATH
+export PNPM_HOME=~/.pnpm
+export PATH=$PNPM_HOME:~/.bun/bin:~/.sst/bin:~/.config/emacs-doom/bin:~/.local/share/gem/ruby/2.0.0/bin:~/.config/rofi/bin:~/go/bin:~/.dotnet/tools:~/.cargo/bin:~/.local/bin:$PATH
 export TERMCMD="wezterm start"
 export TERMINAL="wezterm"
 export EDITOR="nvim"
@@ -19,3 +20,6 @@ export LEDGER_FILE=~/org/.hledger.journal
 
 # https://wiki.archlinux.org/title/Unreal_Engine_4#Loading_times
 export GLIBC_TUNABLES=glibc.rtld.dynamic_sort=2
+
+# this is where the juicy secrets are...
+source ~/.env.local
