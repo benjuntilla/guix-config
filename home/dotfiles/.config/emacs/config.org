@@ -254,6 +254,24 @@ Prefer newer package files
 (setq load-prefer-newer t)
 #+end_src
 * Meta Emacs Stuff
+Use ~proced~ for listing processes
+#+begin_src emacs-lisp
+(use-package proced
+  :commands proced
+  :custom
+  (proced-auto-update-flag t)
+  (proced-goal-attribute nil)
+  (proced-show-remote-processes t)
+  (proced-enable-color-flag t)
+  (proced-format 'custom)
+  :config
+  (add-to-list
+   'proced-format-alist
+   '(custom user pid ppid sess tree pcpu pmem rss start time state (args comm)))
+  ;; handy advice that makes it so that calling C-d on multi-vterm buffer closes the window
+  (advice-add 'proced :after #'toggle-window-dedicated))
+#+end_src
+
 ** user info
 #+begin_src emacs-lisp
 (setq user-full-name "Ben Juntilla"
@@ -289,20 +307,26 @@ Bisect files to find errors
   :config (which-key-mode))
 #+end_src
 ** Terminal
-*** ~vterm~
+Use ~vterm~ for fast terminal emulation
 #+begin_src emacs-lisp
-(use-package vterm)
+(use-package vterm
+  :custom
+  (vterm-keymap-exceptions '("C-c" "C-w ""C-x" "C-u" "C-g" "C-h" "C-l" "M-x" "M-o" "C-y" "M-y")))
 #+end_src
-*** ~vterm-toggle~
+
+Use ~multi-vterm~ to manage multiple ~vterm~ buffers
 #+begin_src emacs-lisp
-(use-package vterm-toggle
+(use-package multi-vterm
   :general
-  ("C-c t" 'vterm-toggle)
-  ("C-c T" 'vterm-toggle-cd)
-  (:keymaps 'vterm-mode-map
-   "C-c t" 'vterm-toggle
-   [(control return)] 'vterm-toggle-insert-cd
-   "C-w" nil))
+  (:prefix "C-c t"
+           "c" #'multi-vterm
+           "n" #'multi-vterm-next
+           "p" #'multi-vterm-prev
+           "t" #'multi-vterm-dedicated-toggle
+           "p" #'multi-vterm-project)
+  :config
+  ;; handy advice that makes it so that calling C-d on multi-vterm buffer closes the window
+  (advice-add 'multi-vterm :after #'toggle-window-dedicated))
 #+end_src
 ** ~helpful~
 #+begin_src emacs-lisp
@@ -337,7 +361,6 @@ Bisect files to find errors
   (org-mode-map
    "C-c l y" 'my/org-yank-link)
   :custom
-  (org-cite-global-bibliography `(,my/bib))
   (org-attach-auto-tag nil)
   (org-attach-method 'mv)
   (org-attach-use-inheritance t)
@@ -582,6 +605,37 @@ methods the save hook cannot detect, like file synchronization."
       my/papers (concat org-ref-dir "/papers/")
       my/notes (concat org-ref-dir "/notes"))
 #+end_src
+
+Use ~citar~ for completing-read bibliography interface
+#+begin_src emacs-lisp
+(use-package citar
+  :bind
+  (:map org-mode-map ("C-c b" . #'org-cite-insert))
+  :custom
+  (org-cite-global-bibliography `(,my/bib))
+  (citar-bibliography org-cite-global-bibliography)
+  (citar-notes-paths `(,org-directory))
+  (org-cite-insert-processor 'citar)
+  (org-cite-follow-processor 'citar)
+  (org-cite-activate-processor 'citar)
+  (citar-at-point-function 'embark-act)
+  :hook
+  ((LaTeX-mode org-mode) . citar-capf-setup))
+#+end_src
+Also add ~embark~ support
+#+begin_src emacs-lisp
+(use-package citar-embark
+  :delight
+  :after (citar embark)
+  :config (citar-embark-mode))
+#+end_src
+Also add ~org-roam~ integration
+#+begin_src emacs-lisp
+(use-package citar-org-roam
+  :delight
+  :after (citar org-roam)
+  :config (citar-org-roam-mode))
+#+end_src
 ** ~ebib~
 #+begin_src emacs-lisp
 (use-package ebib
@@ -760,6 +814,27 @@ This is actually so tough
 (setq org-confirm-babel-evaluate nil)
 (setq sentence-end-double-space nil)
 (delete-selection-mode t)
+#+end_src
+
+Escape the escape backslash madness in ~re-builder~
+#+begin_src emacs-lisp
+(setq reb-re-syntax 'string)
+#+end_src
+
+Use ~embark~ for quick contextual actions
+#+begin_src emacs-lisp
+(use-package embark
+  :bind
+  (("C-c SPC" . #'embark-act)
+   ("C-c C-SPC" . #'embark-dwim)))
+#+end_src
+
+Configure ~proselint~ for text modes via ~flymake~
+#+begin_src emacs-lisp
+(use-package flymake-proselint
+  :hook ((org-mode text-mode) . (lambda ()
+                                  (flymake-mode)
+                                  (flymake-proselint-setup))))
 #+end_src
 
 Add emmet support
@@ -961,9 +1036,7 @@ manager.
 Install ~eglot~ to natively use LSP
 #+begin_src emacs-lisp
 (defun vue-eglot-init-options ()
-             (let ((tsdk-path (expand-file-name
-                               "lib"
-                               (string-trim-right (shell-command-to-string "npm list --global --parseable typescript | head -n1 | tr -d \"\n\"")))))
+             (let ((tsdk-path "/home/ben/.pnpm/global/5/node_modules/typescript/lib"))
                `(:typescript (:tsdk ,tsdk-path
                               :languageFeatures (:completion
                                                  (:defaultTagNameCase "both"
@@ -1012,7 +1085,24 @@ Install ~eglot~ to natively use LSP
                '(svelte-mode . ("svelteserver" "--stdio")))
   ;; Must have volar installed for this
   (add-to-list 'eglot-server-programs
-               `(vue-mode . ("vue-language-server" "--stdio" :initializationOptions ,(vue-eglot-init-options)))))
+               `(vue-mode . ("vue-language-server" "--stdio" :initializationOptions ,(vue-eglot-init-options))))
+  ;; configure language servers
+  (setq-default eglot-workspace-configuration
+                '((:pylsp .
+                          (:configurationSources ["flake8"]
+                             :plugins (:pycodestyle (:enabled :json-false)
+                                       :mccabe (:enabled :json-false)
+                                       :pyflakes (:enabled :json-false)
+                                       :pydocstyle (:enabled :json-false)
+                                       :yapf (:enabled :json-false)
+                                       :autopep8 (:enabled :json-false)
+                                       :ruff (:enabled :json-false
+                                              :lineLength 88)
+                                       :flake8 (:enabled t
+                                                :maxLineLength 88)
+                                       :black (:enabled t
+                                               :line_length 88
+                                               :cache_config t)))))))
 #+end_src
 ** ~literate-calc-mode~
 #+begin_src emacs-lisp
@@ -1219,11 +1309,20 @@ Use ~ctrl-f~ for better incremental search
    "C-s" 'ctrlf-forward-default))
 #+end_src
 ** Window Management
-Use ~shackle~ to set rules for popup windows
+Use ~shackle~ to make window management nice with sway
 #+begin_src emacs-lisp
 (use-package shackle
   :custom
-  (shackle-default-rule '(:same t)))
+  (shackle-rules
+   `(("*evil-owl*" :frame nil :select nil)
+     (" *Agenda Commands*" :same t)
+     ("*Org Agenda*" :same t)
+     ("*Proced*" :same t :select t)
+     ("*Messages*" :frame t :select t)
+     ("*Help*" :frame t :select t)
+     ("*vterm*" :frame t :select t)))
+  :config
+  (shackle-mode))
 #+end_src
 
 Use ~ace-window~ for quick window selection
@@ -1286,6 +1385,11 @@ Use ~indent-bars~ to style indentation
   :hook prog-mode)
 #+end_src
 
+Suppress annoying stuff in minibuffer when using emacscclient
+#+begin_src emacs-lisp
+(setq server-client-instructions nil)
+#+end_src
+
 Fonts with ~mixed-pitch~
 #+begin_src emacs-lisp
 (use-package mixed-pitch
@@ -1320,7 +1424,6 @@ Miscellaneous
 (setq uniquify-buffer-name-style 'forward)
 (column-number-mode t)
 (setq-default indicate-empty-lines t)
-(setq org-ellipsis "▼")
 (custom-set-faces
  '(org-ellipsis ((t (:foreground "deep sky blue" :underline nil)))))
 #+end_src
@@ -1477,12 +1580,12 @@ Display candidate documentation or source in a popup next to the candidate menu.
 ** ~kind-icon~
 Adds SVG icons to ~corfu~
 #+begin_src emacs-lisp
-  (use-package kind-icon
-    :after corfu
-    :custom
-    (kind-icon-default-face 'corfu-default)
-    :config
-    (add-to-list 'corfu-margin-formatters #'kind-icon-margin-formatter))
+(use-package kind-icon
+  :after corfu
+  :custom
+  (kind-icon-use-icons nil)
+  :config
+  (add-to-list 'corfu-margin-formatters #'kind-icon-margin-formatter))
 #+end_src
 ** ~cape~
 #+begin_src emacs-lisp
