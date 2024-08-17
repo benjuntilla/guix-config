@@ -11,7 +11,7 @@ bindsym $mod+t exec emacsclient -c -e '(multi-vterm)'
 bindsym $mod+shift+t exec $termrun
 
 # File explorer
-bindsym $mod+d exec emacsclient -c -e '(dired "")'
+bindsym $mod+d exec emacsclient -c -e '(dirvish "")'
 bindsym $mod+shift+d exec nautilus
 
 # Editor
