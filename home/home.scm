@@ -56,6 +56,14 @@
                             (openpgp-fingerprint
                              "BBB0 2DDF 2CEA F6A8 0D1D  E643 A2A0 6DF2 A33A 54FA"))))
                          (channel
+                          (name 'guixrus)
+                          (url "https://git.sr.ht/~whereiseveryone/guixrus")
+                          (introduction
+                           (make-channel-introduction
+                            "7c67c3a9f299517bfc4ce8235628657898dd26b2"
+                            (openpgp-fingerprint
+                             "CD2D 5EAA A98C CB37 DA91  D6B0 5F58 1664 7F8B E551"))))
+                         (channel
                           (name 'guix-gaming-games)
                           (url "https://gitlab.com/guix-gaming-channels/games.git")
                           ;; Enable signature verification:
