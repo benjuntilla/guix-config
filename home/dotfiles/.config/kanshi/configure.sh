@@ -8,7 +8,7 @@ swaymsg set \$right_monitor $2
 # Wallpapers
 swaymsg output \$left_monitor background \$left_wallpaper fill
 swaymsg output \$right_monitor background \$right_wallpaper fill
-swaymsg output eDP-1 background \$right_wallpaper fill
+swaymsg output eDP-2 background \$right_wallpaper fill
 
 # Focus
 swaymsg focus output \$left_monitor
