@@ -66,8 +66,6 @@
    (service bluetooth-service-type
             (bluetooth-configuration
              (auto-enable? #t)))
-   ;;          (set-xorg-configuration
-   ;;           (xorg-configuration (keyboard-layout keyboard-layout)))
    (modify-services %desktop-services
                     (delete gdm-service-type)
                     (guix-service-type config => (guix-configuration
