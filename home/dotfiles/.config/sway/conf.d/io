@@ -1,7 +1,7 @@
 # Input
 input type:pointer {
     accel_profile "flat"
-    pointer_accel -0.25
+    pointer_accel 0
     dwt disabled
     natural_scroll disabled
     tap enabled
@@ -9,7 +9,7 @@ input type:pointer {
 
 input type:touchpad {
     accel_profile "flat"
-    pointer_accel -0.25
+    pointer_accel 0
     dwt disabled
     natural_scroll enabled
     tap enabled
