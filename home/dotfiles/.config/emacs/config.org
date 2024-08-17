@@ -1033,6 +1033,7 @@ manager.
     '((css-mode  . css-ts-mode)
       (javascript-mode . js-ts-mode)
       (python-mode . python-ts-mode)
+      (js-json-mode . json-ts-mode)
       (csharp-mode . csharp-ts-mode)))
   ;; Define on a filename basis for modes that don't already exist
   :mode
