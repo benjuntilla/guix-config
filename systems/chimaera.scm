@@ -17,7 +17,7 @@
 (operating-system
  (kernel linux)
  (kernel-loadable-modules (list v4l2loopback-linux-module))
- (firmware (list linux-firmware))
+ (firmware (cons* linux-firmware amdgpu-firmware radeon-firmware amd-microcode %base-firmware))
  (locale "en_US.utf8")
  (timezone "America/Phoenix")
  (keyboard-layout (keyboard-layout "us"))
