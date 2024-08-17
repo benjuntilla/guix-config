@@ -14,6 +14,10 @@
                    "SUBSYSTEM==\"hidraw\", ATTRS{idVendor}==\"31e3\", TAG+=\"uaccess\"\n"
                    "SUBSYSTEM==\"usb\", ATTRS{idVendor}==\"31e3\", TAG+=\"uaccess\"")))
 
+(define %sudoers-file
+  (plain-file "sudoers-file" "root ALL=(ALL) ALL
+%wheel ALL=(ALL) NOPASSWD: ALL"))
+
 (operating-system
  (kernel linux)
  (kernel-loadable-modules (list v4l2loopback-linux-module))
@@ -22,6 +26,7 @@
  (timezone "America/Phoenix")
  (keyboard-layout (keyboard-layout "us"))
  (host-name "chimaera")
+ (sudoers-file %sudoers-file)
 
  (name-service-switch %mdns-host-lookup-nss)
 
