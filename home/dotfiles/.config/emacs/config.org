@@ -816,6 +816,14 @@ This is actually so tough
 (delete-selection-mode t)
 #+end_src
 
+~csv-mode~ configuration
+#+begin_src emacs-lisp
+(add-hook 'csv-mode-hook
+          (lambda ()
+            (csv-align-mode)
+            (csv-header-line)))
+#+end_src
+
 Escape the escape backslash madness in ~re-builder~
 #+begin_src emacs-lisp
 (setq reb-re-syntax 'string)
