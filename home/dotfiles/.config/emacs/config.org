@@ -1328,7 +1328,7 @@ Use ~shackle~ to make window management nice with sway
      ("*Proced*" :same t :select t)
      ("*Messages*" :frame t :select t)
      ("*Help*" :frame t :select t)
-     ("*vterm*" :frame t :select t)))
+     ('vterm-mode :frame t :select t)))
   :config
   (shackle-mode))
 #+end_src
