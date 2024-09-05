@@ -56,6 +56,15 @@
                             (openpgp-fingerprint
                              "BBB0 2DDF 2CEA F6A8 0D1D  E643 A2A0 6DF2 A33A 54FA"))))
                          (channel
+                          (name 'efraim-dfsg)
+                          (url "https://git.sr.ht/~efraim/my-guix")
+                          (branch "master")
+                          (introduction
+                           (make-channel-introduction
+                            "61c9f87404fcb97e20477ec379b643099e45f1db"
+                            (openpgp-fingerprint
+                             "A28B F40C 3E55 1372 662D  14F7 41AA E7DC CA3D 8351"))))
+                         (channel
                           (name 'guixrus)
                           (url "https://git.sr.ht/~whereiseveryone/guixrus")
                           (introduction
