@@ -106,6 +106,7 @@ alias ns="nsxiv"
 alias wh="which"
 alias pnpm="corepack pnpm"
 alias pn="corepack pnpm"
+alias yarn="corepack yarn"
 
 alias -g Y="| ydiff"
 alias -g Ys="| ydiff -s"
