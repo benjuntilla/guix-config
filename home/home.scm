@@ -56,6 +56,10 @@
                             (openpgp-fingerprint
                              "BBB0 2DDF 2CEA F6A8 0D1D  E643 A2A0 6DF2 A33A 54FA"))))
                          (channel
+                          (name 'ben-guix)
+                          (url (string-append "file://" (getenv "HOME") "/src/ben-guix"))
+                          (branch "main"))
+                         (channel
                           (name 'efraim-dfsg)
                           (url "https://git.sr.ht/~efraim/my-guix")
                           (branch "master")
@@ -81,15 +85,6 @@
                             "c23d64f1b8cc086659f8781b27ab6c7314c5cca5"
                             (openpgp-fingerprint
                              "50F3 3E2E 5B0C 3D90 0424  ABE8 9BDC F497 A4BB CC7F"))))
-                         (channel
-                          (name 'small-guix)
-                          (url "https://gitlab.com/orang3/small-guix")
-                          ;; Enable signature verification:
-                          (introduction
-                           (make-channel-introduction
-                            "f260da13666cd41ae3202270784e61e062a3999c"
-                            (openpgp-fingerprint
-                             "8D10 60B9 6BB8 292E 829B  7249 AED4 1CC1 93B7 01E2"))))
                          (channel
                           (name 'nonguix)
                           (url "https://gitlab.com/nonguix/nonguix")
