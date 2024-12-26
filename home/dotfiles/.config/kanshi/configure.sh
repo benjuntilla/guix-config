@@ -9,6 +9,9 @@ swaymsg set \$right_monitor $2
 swaymsg output \$left_monitor background \$left_wallpaper fill
 swaymsg output \$right_monitor background \$right_wallpaper fill
 swaymsg output eDP-2 background \$right_wallpaper fill
+# Bit depth (this fucks with screensharing)
+# swaymsg output \$left_monitor render_bit_depth 10
+# swaymsg output \$right_monitor render_bit_depth 10
 
 # Focus
 swaymsg focus output \$left_monitor
