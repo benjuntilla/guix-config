@@ -25,13 +25,6 @@ vim.api.nvim_create_autocmd({ 'BufWritePost' }, {
 	command = 'source \'~/.config/nvim/lua/plugins.lua\' | PackerCompile',
 })
 
--- mappings
-vim.g.mapleader = ','
-vim.keymap.set('n', '<Leader>u', '<cmd>MundoToggle<cr>')
-vim.keymap.set('n', '<Leader>ff', '<cmd>Telescope find_files<cr>')
-vim.keymap.set('n', '<Leader>fg', '<cmd>Telescope live_grep<cr>')
-vim.keymap.set('n', '<Leader>fb', '<cmd>Telescope buffers<cr>')
-vim.keymap.set('n', '<Leader>fh', '<cmd>Telescope help_tags<cr>')
 --
 -- lspconfig
 -- Global mappings.
@@ -71,11 +64,3 @@ vim.api.nvim_create_autocmd('LspAttach', {
     end, opts)
   end,
 })
---
--- telescope
-local builtin = require('telescope.builtin')
-vim.keymap.set('n', '<leader>ff', builtin.find_files, {})
-vim.keymap.set('n', '<leader>fg', builtin.live_grep, {})
-vim.keymap.set('n', '<leader>fb', builtin.buffers, {})
-vim.keymap.set('n', '<leader>fh', builtin.help_tags, {})
-
