@@ -13,6 +13,7 @@ _comp_options+=(globdots)		# Include hidden files.
 # plugins and themes
 zplug "Aloxaf/fzf-tab"
 zplug "unixorn/fzf-zsh-plugin"
+zplug "joshskidmore/zsh-fzf-history-search"
 zplug "djui/alias-tips"
 zplug "zsh-users/zsh-syntax-highlighting"
 zplug "zsh-users/zsh-autosuggestions"
@@ -51,6 +52,11 @@ ZSH_DISABLE_COMPFIX="true"
 HISTSIZE=10000
 SAVEHIST=10000
 HISTFILE=~/.cache/zsh/history
+
+# alarm
+alarm() {
+    countdown "$1" && play ~/src/guix-config/home/alarm.mp3
+}
 
 # emacs vterm integration
 vterm_printf(){
@@ -104,9 +110,7 @@ alias sl="sl -e"
 alias to="tomb"
 alias ns="nsxiv"
 alias wh="which"
-alias pnpm="corepack pnpm"
-alias pn="corepack pnpm"
-alias yarn="corepack yarn"
+alias pn="pnpm"
 
 alias -g Y="| ydiff"
 alias -g Ys="| ydiff -s"
@@ -128,6 +132,14 @@ alias bi="beet imp"
 alias big="beet imp --group-albums"
 alias bil="beet imp -Lt"
 alias brm="beet rm -ad"
+
+# resume stuff
+alias copy-resume="cat $HOME/src/resume/src/base.yaml | wl-copy"
+resume() {
+    cd $HOME/src/resume/src
+    rendercv render -use pdflatex "$1".tex
+    zathura $(ls -t rendercv_output/*.pdf | head -n 1)
+}
 
 # chezmoi
 alias c="chezmoi"
@@ -164,7 +176,7 @@ alias pe="pass edit"
 alias pa="pass"
 
 # lsd
-alias l='ls'
+alias l='eza -la'
 
 # bat & bat-integrated cmds
 alias b="bat"
@@ -237,6 +249,7 @@ lfcd () {
 
 # LaTeX
 alias lm="latexmk -pvc -pdf -synctex=1"
+alias c="cluttex --watch=fswatch -e pdflatex"
 
 # instaloader
 alias il="instaloader --fast-update --stories --highlights --igtv --dirname-pattern=instaloader profile"
@@ -289,6 +302,10 @@ alias gui="guix install"
 alias gur="guix remove"
 alias gus="guix search"
 alias guss="guix package -I"
+alias dev-container="guix shell -C -F -N openssl node poetry coreutils gcc-toolchain git -D ungoogled-chromium --share=/home/ben --preserve='^DISPLAY$' --preserve='^XAUTHORITY$' --preserve='^PATH$' --share=/etc/machine-id"
+real () {
+    realpath $(wh $1)
+}
 
 # flatpak
 alias fp="flatpak"
@@ -329,14 +346,6 @@ bindkey -M menuselect 'h' vi-backward-char
 bindkey -M menuselect 'k' vi-up-line-or-history
 bindkey -M menuselect 'l' vi-forward-char
 bindkey -M menuselect 'j' vi-down-line-or-history
-
-# file explorer
-bindkey -s '^o' 'lfcd\n'
-
-# editing
-# autoload edit-command-line
-# zle -N edit-command-line
-# bindkey -e '^x^e' edit-command-line
 
 # autosuggestions
 bindkey '^ ' autosuggest-accept
