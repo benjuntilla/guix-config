@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+# doesn't work
+# echo "$(pass show weblogin.asu.edu/cjuntill | head -n1)\npush" | sudo openconnect sslvpn.asu.edu -u cjuntill --passwd-on-stdin
+
+# hacky solution to --passwd-on-stdin not working
+sudo openconnect sslvpn.asu.edu -u cjuntill -F main:password="$(pass show weblogin.asu.edu/cjuntill | head -n1)" -F main:secondary_password="push"

@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+
+sshpass -p "$(pass show weblogin.asu.edu/cjuntill | head -n1)" ssh cjuntill@sol.asu.edu
