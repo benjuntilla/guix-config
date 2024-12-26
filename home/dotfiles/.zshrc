@@ -341,3 +341,10 @@ bindkey -s '^o' 'lfcd\n'
 # autosuggestions
 bindkey '^ ' autosuggest-accept
 
+# zoxide
+eval "$(zoxide init zsh)"
+
+# art
+FORTUNE=$(DAIKICHI_FORTUNE_PATH=$HOME/.local/share/fortunes fortune)
+cbonsai -p -m "$FORTUNE"
+# cbonsai -p -m "hello."
