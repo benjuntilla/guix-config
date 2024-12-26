@@ -10,7 +10,7 @@ for_window [instance="origin.exe"] floating enable, fullscreen disable
 for_window [app_id="copyq"] floating enable, sticky enable, resize set width 50 ppt height 50 ppt, move position cursor
 
 # PIP
-for_window [app_id="Picture in picture"] floating enable, sticky enable
+for_window [app_id="Firefox" title="Picture-in-Picture"] floating enable
 
 # pinentry-qt
 for_window [app_id="pinentry-qt"] floating enable, sticky enable
