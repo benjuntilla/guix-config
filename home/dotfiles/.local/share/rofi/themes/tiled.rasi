@@ -1,15 +1,15 @@
 /* from https://github.com/DaveDavenport/rofi-themes */
 
 configuration {
-    font: "IBM Plex Mono 11";
+    font: "IBM Plex Mono 12";
     show-icons: true;
     drun-display-format: "{name}";
 }
 
 * {
-    bg: #151515;
+    bg: #000;
     fg: #e8e8d3;
-    accent: #1c1c1c;
+    accent: #002e09;
 
     background-color: @bg;
     text-color: @fg;
@@ -21,10 +21,12 @@ configuration {
 window {
     width: 50%;
     padding: 32px;
+    border-color: @accent;
+    border: 1px;
 }
 
 prompt {
-    background-color: @accent;
+    background-color: transparent;
     enabled: true;
     padding: 10px 15px;
 }
@@ -37,13 +39,16 @@ element-text {
 }
 
 entry {
-    background-color: @accent;
+    background-color: transparent;
     placeholder-color: @fg;
 }
 
 inputbar {
     /* children: [ prompt, entry]; */
-    background-color: @accent;
+    border-color: @accent;
+    border: 2px;
+    spacing: 8px;
+    background-color: transparent;
 }
 
 listview {
