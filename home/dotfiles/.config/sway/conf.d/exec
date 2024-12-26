@@ -2,6 +2,12 @@
 exec hash dbus-update-activation-environment 2> /dev/null && \
   dbus-update-activation-environment --systemd DBUS_SESSION_BUS_ADDRESS DISPLAY XAUTHORITY WAYLAND_DISPLAY SWAYSOCK XDG_CURRENT_DESKTOP=sway
 
+# notification daemon
+exec_always swaync
+
+# clipboard
+exec wl-paste --watch cliphist store
+
 # sworkstyle
 exec sworkstyle &> /tmp/sworkstyle.log
 
