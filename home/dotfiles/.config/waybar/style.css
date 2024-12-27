@@ -33,7 +33,8 @@
 }
 
 #waybar {
-    background: #323232;
+    /* background: #323232; */
+    background: black;
     color: white;
     font-family: Cantarell, Noto Sans, FiraCode, FontAwesome, sans-serif;
     font-size: 13px;
@@ -47,9 +48,11 @@
 #network,
 #pulseaudio,
 #temperature,
+#backlight,
 #idle_inhibitor,
 #custom-scratchpad-indicator,
 #custom-git-repos,
+#custom-notification,
 #workspaces button,
 #tray {
     border-top: 2px solid transparent;
