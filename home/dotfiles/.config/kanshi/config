@@ -1,68 +1,57 @@
-profile work {
-  # Triggers
-  output "Dell Inc. DELL P2419H FX2SX63" position 0,0 mode 1920x1080 transform 270
-  output eDP-2 position 1080,0 mode 2560x1600@165Hz transform normal scale 1.5
-  output "Dell Inc. DELL P2422H D8M1504" position 3640,0 mode 1920x1080 transform normal
+output eDP-2 alias $built-in
 
-  # Variables
-  exec swaymsg set \$left_wallpaper /home/ben/.config/sway/1.jpg
-  exec swaymsg set \$right_wallpaper /home/ben/.config/sway/2.jpg
-  exec swaymsg set \$primary "Dell Inc. DELL P2419H FX2SX63"
-  exec swaymsg set \$secondary "Dell Inc. DELL P2422H D8M1504"
+profile acer {
+  # output "Acer Technologies KG241Y S 124403BD73W01" {
+  #   position 0,0
+  #   mode 1920x1080@164.997Hz
+  #   transform normal
+  #   adaptive_sync on
+  # }
+  output $built-in {
+    position 0,1080
+    mode 2560x1600@165Hz
+    transform normal
+    scale 2
+    adaptive_sync off
+  }
+  output "Acer Technologies Acer VG270 0x05116386" {
+    position 0,0
+    mode 1920x1080@74.973Hz
+    transform normal
+    adaptive_sync off
+  }
 
-  # Wallpapers
-  exec swaymsg output \$primary background \$left_wallpaper fill
-  exec swaymsg output \$secondary background \$right_wallpaper fill
-  exec swaymsg output eDP-2 background \$right_wallpaper fill
-
-  # Focus
-  exec swaymsg focus output \$primary
-
-  # Set workspaces
-  exec swaymsg workspace 1 output \$primary
-  exec swaymsg workspace 3 output \$primary
-  exec swaymsg workspace 5 output \$primary
-  exec swaymsg workspace 7 output \$primary
-  exec swaymsg workspace 9 output \$primary
-  exec swaymsg workspace 2 output \$secondary
-  exec swaymsg workspace 4 output \$secondary
-  exec swaymsg workspace 6 output \$secondary
-  exec swaymsg workspace 8 output \$secondary
-  exec swaymsg workspace 0 output \$secondary
+  exec /home/ben/.config/kanshi/configure.sh "eDP-2" "Acer Technologies Acer VG270 0x05116386"
 }
 
-profile home {
-  # Triggers
-  output "Acer Technologies KG241Y S 124403BD73W01" {
+profile single {
+  output $built-in {
     position 0,0
-    mode 1920x1080@164.997Hz
+    mode 2560x1600@165Hz
+    position 0,0
     transform normal
-    adaptive_sync on
+    scale 1.5
   }
-  output eDP-2 {
-    position 960,1080
+
+  exec swaymsg output eDP-2 background "/home/ben/.config/sway/pipes.png" fill
+}
+
+profile odyssey {
+  output "Samsung Electric Company LS49AG95 HCSTA00413" {
+    position 0,0
+    # mode 5120x1440@119.999Hz
+    mode 5120x1440@59.997
+    adaptive_sync on
+    scale 1
+  }
+
+  output $built-in {
+    position 1920,1080
     mode 2560x1600@165Hz
     transform normal
     scale 1.5
     adaptive_sync on
   }
-  output "Acer Technologies Acer VG270 0x05116386" {
-    position 1920,0
-    mode 1920x1080@74.973Hz
-    transform normal
-    adaptive_sync on
-  }
 
-  exec /home/ben/.config/kanshi/configure.sh "Acer Technologies Acer VG270 0x05116386" "Acer Technologies KG241Y S 124403BD73W01"
-}
-
-profile single {
-  # Triggers
-  output eDP-2 position 0,0 mode 2560x1600@165Hz position 0,0 transform normal scale 1.5
-
-  # Variables
-  exec swaymsg set \$left_wallpaper /home/ben/.config/sway/1.jpg
-
-  # Wallpapers
-  exec swaymsg output \* background \$left_wallpaper fill
+  exec /home/ben/.config/kanshi/configure.sh "Samsung Electric Company LS49AG95 HCSTA00413" "eDP-2" "blade-runner.jpg"
 }
