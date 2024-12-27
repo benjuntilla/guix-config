@@ -10,6 +10,9 @@ bindsym $mod+slash exec ~/.emacs_everywhere/bin/run
 bindsym $mod+t exec emacsclient -c -e '(multi-vterm)'
 bindsym $mod+shift+t exec $termrun
 
+# Toggle control center
+bindsym $mod+n exec swaync-client -t -sw
+
 # File explorer
 bindsym $mod+d exec emacsclient -c -e '(dirvish "")'
 bindsym $mod+shift+d exec nautilus
@@ -22,11 +25,7 @@ bindsym $mod+shift+e exec emacsclient -c -e '(org-roam-node-find)'
 bindsym $mod+b exec firefox
 bindsym $mod+shift+b exec firefox --private-window
 
-# Music
-bindsym $mod+m exec $termrun ncmpcpp -S media_library
-bindsym $mod+shift+m exec gtk-launch sonixd
-
-# Killing 
+# Killing
 bindsym $mod+Shift+q kill
 
 # Launcher
@@ -67,7 +66,7 @@ bindsym $mod+return exec emacsclient -c -e '(proced)'
 bindsym $mod+shift+return exec $termrun btop
 
 # Clipboard manager
-bindsym $mod+v exec clipman pick -t rofi
+bindsym $mod+v exec cliphist list | rofi -dmenu | cliphist decode | wl-copy
 
 # Emoji menu
 bindsym $mod+period exec rofimoji
@@ -162,12 +161,9 @@ bindsym $mod+apostrophe scratchpad show
 ### Media keys:
 ### 
 set $audio_inc 5
-set $notify_audio progress-notify audio
-set $notify_muted progress-notify muted
-set $notify_brightness progress-notify brightness
-bindsym --locked XF86AudioRaiseVolume exec ponymix increase $audio_inc | $notify_audio
-bindsym --locked XF86AudioLowerVolume exec ponymix decrease $audio_inc | $notify_audio
-bindsym --locked XF86AudioMute exec pulsemixer --toggle-mute --get-mute | $notify_muted
+bindsym --locked XF86AudioRaiseVolume exec ponymix increase $audio_inc
+bindsym --locked XF86AudioLowerVolume exec ponymix decrease $audio_inc
+bindsym --locked XF86AudioMute exec pulsemixer --toggle-mute --get-mute
 bindsym --locked XF86AudioPlay exec playerctl play-pause
 bindsym --locked XF86AudioNext exec playerctl next
 bindsym --locked XF86AudioPrev exec playerctl previous
@@ -177,8 +173,8 @@ bindsym XF86Search exec bemenu-run
 # Backlight keys
 ###
 set $backlight_inc 5
-bindsym XF86MonBrightnessUp exec brightnessctl s $backlight_inc%+ && brightnessctl g | $notify_brightness
-bindsym XF86MonBrightnessDown exec brightnessctl s $backlight_inc%- && brightnessctl g | $notify_brightness
+bindsym XF86MonBrightnessUp exec brightnessctl s $backlight_inc%+ && brightnessctl g
+bindsym XF86MonBrightnessDown exec brightnessctl s $backlight_inc%- && brightnessctl g
 
 ###
 ### Resizing containers:
@@ -188,10 +184,18 @@ mode "resize" {
     # right will grow the containers width
     # up will shrink the containers height
     # down will grow the containers height
+
+    # small adjustments
     bindsym $left resize shrink width 10px
     bindsym $down resize grow height 10px
     bindsym $up resize shrink height 10px
     bindsym $right resize grow width 10px
+
+    # large adjustments
+    bindsym shift+$left resize shrink width 50px
+    bindsym shift+$down resize grow height 50px
+    bindsym shift+$up resize shrink height 50px
+    bindsym shift+$right resize grow width 50px
 
     # Ditto, with arrow keys
     bindsym Left resize shrink width 10px
