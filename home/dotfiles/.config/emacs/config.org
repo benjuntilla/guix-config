@@ -5,6 +5,17 @@ Place customization variables outside of ~init.el~ for writability
 (load custom-file 'noerror)
 #+end_src
 
+Save places
+#+begin_src emacs-lisp
+(require 'saveplace-pdf-view)
+(save-place-mode 1)
+#+end_src
+
+Revert pdf files without querying
+#+begin_src emacs-lisp
+(setq revert-without-query '(".pdf"))
+#+end_src
+
 Stuff to run when creating frame
 #+begin_src emacs-lisp
 (defun my/after-make-frame-commands ()
@@ -19,9 +30,26 @@ Stuff to run when creating frame
 (add-hook 'server-after-make-frame-hook #'my/after-make-frame-commands)
 #+end_src
 
+yank without newlines
+#+begin_src emacs-lisp
+(defun copy-paragraph-no-newlines ()
+  "Copy the current paragraph as a single line without newlines."
+  (interactive)
+  (save-excursion
+    (mark-paragraph)
+    (let ((text (buffer-substring-no-properties (region-beginning) (region-end))))
+      (kill-new (replace-regexp-in-string "\n" " " text))
+      (message "Paragraph copied without newlines"))))
+#+end_src
+
 Fix fonts when using daemon, as per https://stackoverflow.com/questions/3984730/emacs-gui-with-emacs-daemon-not-loading-fonts-correctly
 #+begin_src emacs-lisp
 (setq default-frame-alist '((font . "Iosevka") (foreground-color . "#bbc2cf")))
+#+end_src
+
+Set initial scratch message to nil
+#+begin_src emacs-lisp
+(setq initial-scratch-message nil)
 #+end_src
 * ~general~
 #+begin_src emacs-lisp
@@ -290,9 +318,7 @@ Bisect files to find errors
 #+begin_src emacs-lisp
 (use-package crux
   :config (crux-reopen-as-root-mode)
-  :general ('normal :prefix "C-c"
-                    "o o" 'crux-open-with
-                    "o u" 'crux-view-url
+  :general (:prefix "C-c"
                     "R" 'crux-rename-file-and-buffer
                     "D" 'crux-delete-file-and-buffer
                     "n" 'crux-cleanup-buffer-or-region
@@ -310,8 +336,32 @@ Bisect files to find errors
 Use ~vterm~ for fast terminal emulation
 #+begin_src emacs-lisp
 (use-package vterm
+  :general (vterm-mode-map
+            "C-q" #'vterm-send-next-key)
   :custom
   (vterm-keymap-exceptions '("C-c" "C-w ""C-x" "C-u" "C-g" "C-h" "C-l" "M-x" "M-o" "C-y" "M-y")))
+#+end_src
+
+Use ~vterm~ for ~project.el~
+#+begin_src emacs-lisp
+(defun my-project-shell ()
+  "Start an inferior shell in the current project's root directory.
+If a buffer already exists for running a shell in the project's root,
+switch to it.  Otherwise, create a new shell buffer.
+With \\[universal-argument] prefix arg, create a new inferior shell buffer even
+if one already exists."
+  (interactive)
+  (require 'comint)
+  (let* ((default-directory (project-root (project-current t)))
+         (default-project-shell-name (project-prefixed-buffer-name "shell"))
+         (shell-buffer (get-buffer default-project-shell-name)))
+    (if (and shell-buffer (not current-prefix-arg))
+        (if (comint-check-proc shell-buffer)
+            (pop-to-buffer shell-buffer (bound-and-true-p display-comint-buffer-action))
+          (vterm shell-buffer))
+      (vterm (generate-new-buffer-name default-project-shell-name)))))
+
+(advice-add 'project-shell :override #'my-project-shell)
 #+end_src
 
 Use ~multi-vterm~ to manage multiple ~vterm~ buffers
@@ -360,7 +410,10 @@ Use ~multi-vterm~ to manage multiple ~vterm~ buffers
    "C-c a" 'org-agenda)
   (org-mode-map
    "C-c l y" 'my/org-yank-link)
+  (:keymaps 'org-mode-map :states 'insert
+                "$" #'cdlatex-dollar)
   :custom
+  (org-highlight-latex-and-related '(latex script entities))
   (org-attach-auto-tag nil)
   (org-attach-method 'mv)
   (org-attach-use-inheritance t)
@@ -432,6 +485,22 @@ Use ~multi-vterm~ to manage multiple ~vterm~ buffers
   (org-babel-do-load-languages 'org-babel-load-languages '((shell . t))))
 #+end_src
 
+Custom export function adapted from [[https://emacs.stackexchange.com/questions/79249/org-mode-export-closest-flagged-subtree][StackExchange]] snippet
+#+begin_src emacs-lisp
+(defun my/org-up-to-export ()
+  (interactive)
+  (save-buffer)
+  (let ((exported-file))
+    (save-excursion
+      (let ((found (member "export" (org-get-tags nil t)))
+            top-level)
+        (while (and (not found) (not top-level))
+          (setq top-level (not (org-up-heading-safe)))
+          (setq found (member "export" (org-get-tags nil t))))
+        (setq exported-file (org-latex-export-to-pdf nil t))))  ; Capture the return value
+    (find-file exported-file)))  ; Use the captured file path outside save-excursion
+#+end_src
+
 Custom word count function. This function counts words in a
 straightforward way, skipping over lines that start with #+ (which are
 often Org-mode special lines like ~#+LATEX:~) and skipping over blocks
@@ -469,19 +538,19 @@ format of your Org-mode documents and the exact requirements you have.
 ** ~org-agenda-files-track~
 #+begin_src emacs-lisp
 (use-package org-agenda-files-track
-   :config
-
-   (defun org-dynamic-agenda-predicate ()
-  "Check if the file should be added to the variable `org-agenda-files'."
-   (org-element-map
-       (org-element-parse-buffer 'headline)
-       'headline
-     ;; This is the predicate matching if a headline makes an org-agenda-file.
-     (lambda (h)
-       (eq (org-element-property :todo-type h) 'todo))
-     nil 'first-match))
-
-   (org-agenda-files-track-mode))
+  :config
+  (setq org-agenda-files
+        (expand-file-name "org-agenda-files.txt" (xdg-cache-home)))
+  (defun org-agenda-files-track-predicate ()
+    "Check if the file should be added to the variable `org-agenda-files'."
+    (org-element-map
+        (org-element-parse-buffer 'headline)
+        'headline
+      ;; This is the predicate matching if a headline makes an org-agenda-file.
+      (lambda (h)
+        (eq (org-element-property :todo-type h) 'todo))
+      nil 'first-match))
+  (org-agenda-files-track-mode))
 #+end_src
 
 Define reinitialization function
@@ -493,8 +562,8 @@ This can take a long time, so it is recommended to run this only
 on installation and when first tasks are added to many files via
 methods the save hook cannot detect, like file synchronization."
   (interactive)
-  ;; ;; uncomment if storing org-agenda-files in file
-  ;; (make-empty-file org-agenda-files 'force)
+  ;; uncomment if storing org-agenda-files in file
+  (make-empty-file org-agenda-files 'force)
   (org-store-new-agenda-file-list
    (directory-files-recursively
     org-directory (rx ".org" eos) nil
@@ -502,7 +571,7 @@ methods the save hook cannot detect, like file synchronization."
     (lambda (subdir)
       (not (eq ?. (string-to-char (file-name-nondirectory subdir)))))))
   ;; use ql here if desired
-  ;; (org-agenda-files-track-cleanup-files 'full)
+  (org-agenda-files-track-cleanup-files 'full)
   (message "Initialized agenda files"))
 #+end_src
 ** ~org-super-agenda~
@@ -517,6 +586,9 @@ methods the save hook cannot detect, like file synchronization."
      (:name "Today"
             :scheduled "today"
             :time-grid t)
+     (:name "Deadlines"
+            :order -2
+            :deadline t)
      (:name "Overdue"
             :order -1
             :priority>= "C"
@@ -560,19 +632,6 @@ methods the save hook cannot detect, like file synchronization."
 (setq org-agenda-start-day nil)
 (setq org-agenda-span 5)
 (setq org-agenda-start-on-weekday nil)
-#+end_src
-*** Refresh org-agenda whenever a task is rescheduled
-#+begin_src emacs-lisp
-(defun org-agenda-refresh ()
-  "Refresh all `org-agenda' buffers."
-  (dolist (buffer (buffer-list))
-    (with-current-buffer buffer
-      (when (derived-mode-p 'org-agenda-mode)
-        (org-agenda-maybe-redo)))))
-
-(defadvice org-schedule (after refresh-agenda activate)
-  "Refresh org-agenda."
-  (org-agenda-refresh))
 #+end_src
 *** Keep task metadata clean
 #+begin_src emacs-lisp
@@ -660,7 +719,7 @@ arXiv, Dissemin, and doi.org from Emacs
 (use-package pdf-tools
   :custom (pdf-view-display-size 'fit-page)
   :config (pdf-tools-install)
-  :mode ("\\.pdf" . pdf-view-mode))
+  :mode ("\\.pdf\\'" . pdf-view-mode))
 #+end_src
 ** ~dired~
 Add command to copy path to clipboard
@@ -720,9 +779,11 @@ Add mouse support
 (use-package dirvish
   :init (dirvish-override-dired-mode)
   :general (dirvish-mode-map
-            "g z" 'dirvish-quick-access)
+            "g z" #'dirvish-quick-access
+            "<tab>" #'dirvish-subtree-toggle
+            "<backtab>" #'dirvish-subtree-clear)
   :custom (dirvish-attributes
-           '(vc-state subtree-state all-the-icons git-msg file-size))
+           '(vc-state subtree-state all-the-icons collapse git-msg file-size))
   (dired-listing-switches
         "-l --almost-all --human-readable --group-directories-first --no-group")
   (dirvish-use-header-line 'global)
@@ -730,6 +791,7 @@ Add mouse support
   (dirvish-mode-line-format '(:left (sort file-time " " file-size symlink) :right (omit yank index)))
   (dirvish-quick-access-entries ; It's a custom option, `setq' won't work
    '(("h" "~/"                          "Home")
+     ("s" "~/src"                       "Src")
      ("d" "~/Downloads/"                "Downloads")
      ("m" "/mnt/"                       "Drives")
      ("t" "~/.local/share/Trash/files/" "TrashCan"))))
@@ -764,9 +826,7 @@ Add mouse support
 #+end_src
 ** ~magit~
 #+begin_src emacs-lisp
-(use-package magit
-  :custom
-  (magit-display-buffer-function #'magit-display-buffer-fullframe-status-v1))
+(use-package magit)
 (with-eval-after-load 'project
   (add-to-list 'project-switch-commands '(magit-project-status "Magit" "m")))
 #+end_src
@@ -808,6 +868,71 @@ This is actually so tough
   (add-to-list 'safe-local-variable-values '(gac-automatically-add-new-files-p . t)))
 #+end_src
 * Editing & Programming
+update project list when switching project
+#+begin_src emacs-lisp
+(defun my/before-project-switch-project (&optional dir)
+  ;; (interactive)
+  (project-forget-zombie-projects)
+  (project-remember-projects-under "~/src"))
+(advice-add 'project-switch-project :before #'my/before-project-switch-project)
+#+end_src
+
+unified formatting interface
+#+begin_src emacs-lisp
+(use-package format-all
+  :hook (prog-mode))
+#+end_src
+
+talk to ai with ~gptel~
+#+begin_src emacs-lisp
+(use-package gptel
+  :custom
+  (gptel-default-mode 'org-mode)
+  (gptel-track-media t)
+  (gptel-prompt-prefix-alist '((markdown-mode . "### ") (org-mode . "* ") (text-mode . "### ")))
+  :config
+  (setq
+   gptel-model 'claude-3-5-sonnet-20241022
+   gptel-backend
+        (gptel-make-anthropic "Claude"          ;Any name you want
+                        :stream t                             ;Streaming responses
+                        :key (lambda () (auth-source-pass-get "api-key-gptel" "claude.ai/ben@benjuntilla.com")))))
+#+end_src
+
+major mode for ~.env~ files
+#+begin_src emacs-lisp
+(add-to-list 'auto-mode-alist
+             '("\\.env\\'" . guix-env-var-mode))
+#+end_src
+
+~origami~ for code folding
+#+begin_src emacs-lisp :tangle no
+(use-package origami
+  :hook (prog-mode . origami-mode)
+  :general
+  (:map 'normal 'override
+        "<tab>" 'origami-recursively-toggle-node
+        "<backtab>" 'origami-toggle-all-nodes)
+  (:prefix "C-c o"
+           "<tab>" 'origami-recursively-toggle-node
+           "<backtab>" 'origami-toggle-all-nodes
+           "o" 'origami-open-node
+           "O" 'origami-open-node-recursively
+           "c" 'origami-close-node
+           "C" 'origami-close-node-recursively
+           "a" 'origami-open-all-nodes
+           "A" 'origami-close-all-nodes
+           "u" 'origami-undo
+           "r" 'origami-redo
+           "R" 'origami-reset
+           "s" 'origami-show-only-node
+           "f" 'origami-forward-toggle-node
+           "b" 'origami-backward-toggle-node
+           "[" 'origami-previous-fold
+           "]" 'origami-next-fold))
+#+end_src
+
+
 #+begin_src emacs-lisp
 (setq-default org-catch-invisible-edits 'smart)
 (setq-default org-ctrl-k-protect-subtree t)
@@ -876,14 +1001,9 @@ Use ~editorconfig~ for consistent IDE settings
   (editorconfig-mode 1))
 #+end_src
 
-Use ~copilot.el~ for LLM-powered completions. Note that this depends on
-~editorconfig~, ~jsonrpc~, ~dash~, ~f~, and ~s~
-#+begin_src emacs-lisp :tangle no
+Use ~copilot.el~ for LLM-powered completions.
+#+begin_src emacs-lisp
 (use-package copilot
-  :after (editorconfig s)
-  :vc (:url "https://github.com/benjuntilla/copilot.el" :branch "main" :rev :newest)
-  :init
-  (require 's)
   :custom
   (copilot-node-executable "~/.guix-profile/bin/node")
   :hook prog-mode
@@ -944,7 +1064,23 @@ Install ~git-modes~ for editing git-related files
 
 Install ~web-mode~
 #+begin_src emacs-lisp
-(use-package web-mode)
+(use-package web-mode
+  :init
+  (setq web-mode-enable-current-element-highlight t)
+  (setq web-mode-enable-current-column-highlight t)
+  :custom
+  (web-mode-markup-indent-offset 2)
+  (web-mode-css-indent-offset 2)
+  (web-mode-enable-auto-pairing t)
+  (web-mode-enable-css-colorization t)
+  (web-mode-enable-auto-closing t)
+  (web-mode-auto-close-style 2)
+  (web-mode-engines-alist
+   '(("php" . "\\.phtml\\'")
+     ("svelte" . "\\.svelte\\'")
+     ("blade" . "\\.blade\\.")))
+  :mode (("\\.html\\'" . web-mode)
+         ("\\.php\\'" . web-mode)))
 #+end_src
 
 Configure ~sgml-mode~
@@ -960,6 +1096,13 @@ Create derived ~vue-mode~ for use with ~eglot~. Credit to [[https://github.com/j
 ;; web-mode setup
 (define-derived-mode vue-mode web-mode "Vue")
 (add-to-list 'auto-mode-alist '("\\.vue\\'" . vue-mode))
+#+end_src
+
+Create derived ~svelte-mode~ for use with ~eglot~.
+#+begin_src emacs-lisp
+;; web-mode setup
+(define-derived-mode svelte-mode web-mode "Svelte")
+(add-to-list 'auto-mode-alist '("\\.svelte\\'" . svelte-mode))
 #+end_src
 
 Use ~rustic~ for rust stuff
@@ -984,12 +1127,14 @@ Use ~rustic~ for rust stuff
   :general (LaTeX-mode-map
             "TAB" 'cdlatex-tab)
   :hook
-  (LaTeX-mode . (lambda () (reftex-mode) (display-line-numbers-mode) (TeX-source-correlate-mode) (outline-minor-mode))))
+  (LaTeX-mode . (lambda () (cdlatex-mode) (reftex-mode) (display-line-numbers-mode) (TeX-source-correlate-mode) (outline-minor-mode))))
 #+end_src
 *** ~cdlatex~
 #+begin_src emacs-lisp
 (use-package cdlatex
-  :hook LaTeX-mode)
+  :hook LaTeX-mode
+  :config
+  (add-to-list 'cdlatex-math-modify-alist '(?B "\\mathbb" nil t nil)))
 #+end_src
 *** ~evil-tex~
 #+begin_src emacs-lisp
@@ -1037,9 +1182,9 @@ manager.
       (csharp-mode . csharp-ts-mode)))
   ;; Define on a filename basis for modes that don't already exist
   :mode
-  ("\\.ts" . typescript-ts-mode)
-  ("\\.jsx" . tsx-ts-mode)
-  ("\\.tsx" . tsx-ts-mode))
+  ("\\.ts\\'" . typescript-ts-mode)
+  ("\\.jsx\\'" . tsx-ts-mode)
+  ("\\.tsx\\'" . tsx-ts-mode))
 #+end_src
 ** ~eglot~
 Install ~eglot~ to natively use LSP
@@ -1113,6 +1258,13 @@ Install ~eglot~ to natively use LSP
                                                :line_length 88
                                                :cache_config t)))))))
 #+end_src
+
+improve performance
+#+begin_src emacs-lisp
+(use-package eglot-booster
+  :after eglot
+  :config (eglot-booster-mode))
+#+end_src
 ** ~literate-calc-mode~
 #+begin_src emacs-lisp
 (use-package literate-calc-mode)
@@ -1155,6 +1307,7 @@ Install ~eglot~ to natively use LSP
 ** ~evil~
 #+begin_src emacs-lisp
 (use-package evil
+  :hook (vterm-mode . turn-off-evil-mode)
   :general
   ('normal
    "g b" 'consult-buffer)
@@ -1170,7 +1323,8 @@ Install ~eglot~ to natively use LSP
   (evil-jumps-cross-buffers nil)
   (evil-undo-system 'undo-fu)
   :config
-  (evil-mode 1))
+  (evil-mode 1)
+  (evil-set-initial-state 'vterm-mode 'emacs))
 #+end_src
 evil escape
 #+begin_src emacs-lisp
@@ -1243,12 +1397,6 @@ evil escape
 #+begin_src emacs-lisp
 (use-package rainbow-delimiters
   :hook prog-mode)
-#+end_src
-** ~rainbow-mode~
-Highlight color hexes
-#+begin_src emacs-lisp
-(use-package rainbow-mode
-  :hook (prog-mode . rainbow-mode))
 #+end_src
 ** ~iedit~
 #+begin_src emacs-lisp
@@ -1324,12 +1472,9 @@ Use ~shackle~ to make window management nice with sway
   :custom
   (shackle-rules
    `(("*evil-owl*" :frame nil :select nil)
-     (" *Agenda Commands*" :same t)
-     ("*Org Agenda*" :same t)
-     ("*Proced*" :same t :select t)
-     ("*Messages*" :frame t :select t)
-     ("*Help*" :frame t :select t)
-     ('vterm-mode :frame t :select t)))
+     ((list " *Agenda Commands*" "*Org Agenda*") :same t)
+     ((list "*Proced*" "*Messages*" "*Help*" "*vterminal - dedicated*") :same t :select t)))
+     ;; ("^CAPTURE-.*\.org$" :regexp t :frame t :select t)))
   :config
   (shackle-mode))
 #+end_src
@@ -1379,6 +1524,16 @@ Use ~winner~ to quickly undo/redo window configurations
   (avy-setup-default))
 #+end_src
 * Appearance
+Set theme
+#+begin_src emacs-lisp :tangle no
+(load-theme 'doom-dark+)
+#+end_src
+
+minimize ugly highlighting by making it pulse (most visible with gptel responses)
+#+begin_src emacs-lisp
+(setq pulse-flag t)
+#+end_src
+
 Use ~indent-bars~ to style indentation
 #+begin_src emacs-lisp :tangle no
 (use-package indent-bars
@@ -1509,6 +1664,7 @@ Show whitespace information
 ** Line Numbers
 #+begin_src emacs-lisp
 (add-hook 'prog-mode-hook 'display-line-numbers-mode)
+(setq display-line-numbers 't)
 #+end_src
 ** Doom themes
 #+begin_src emacs-lisp
@@ -1517,13 +1673,14 @@ Show whitespace information
   (setq doom-themes-enable-bold t
         doom-themes-enable-italic t
         doom-molokai-brighter-comments t)
-  (load-theme 'doom-one t)
+  (load-theme 'ef-dark)
 
   ;; Enable flashing mode-line on errors
   (doom-themes-visual-bell-config)
   ;; Corrects (and improves) org-mode's native fontification.
   (doom-themes-org-config)
   (custom-set-faces
+   `(org-scheduled-today ((t (:foreground ,(doom-color 'fg)))))
    `(org-level-1 ((t (:weight bold :height 1.3 :foreground ,(doom-color 'fg)))))))
 #+end_src
 ** diff-hl
@@ -1558,7 +1715,8 @@ Show whitespace information
 (use-package corfu
   :custom
   (corfu-auto t)  ;; automatically display completions
-  (corfu-auto-prefix 2)
+  (corfu-auto-prefix 1)
+  (corfu-auto-delay 0.5)
   (corfu-cycle t)
   (corfu-preselect 'prompt)
   :bind
