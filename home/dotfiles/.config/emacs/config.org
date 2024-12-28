@@ -5,6 +5,11 @@ Place customization variables outside of ~init.el~ for writability
 (load custom-file 'noerror)
 #+end_src
 
+Suppress warnings
+#+begin_src emacs-lisp
+(add-to-list 'warning-suppress-types '(emacs))
+#+end_src
+
 Save places
 #+begin_src emacs-lisp
 (require 'saveplace-pdf-view)
