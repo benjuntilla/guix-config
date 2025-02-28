@@ -1,5 +1,5 @@
 (use-modules (gnu) (nongnu packages linux) (ben-guix services firmware) (gnu system nss))
-(use-service-modules base cups desktop networking ssh xorg pm dbus security-token)
+(use-service-modules base cups desktop networking ssh xorg pm dbus security-token docker)
 (use-package-modules wm shells security-token cups gnome linux)
 
 (define %wooting-rules
@@ -37,14 +37,16 @@
                 (group "users")
                 (home-directory "/home/ben")
                 (shell (file-append zsh "/bin/zsh"))
-                (supplementary-groups '("wheel" "netdev" "audio" "video" "plugdev" "kvm")))
+                (supplementary-groups '("docker" "wheel" "netdev" "audio" "video" "plugdev" "kvm")))
                %base-user-accounts))
 
  (services
   (cons*
+   (service containerd-service-type)
+   (service docker-service-type)
    (udev-rules-service 'wooting %wooting-rules)
    (simple-service 'ratbagd dbus-root-service-type (list libratbag))
-   (service fwupd-service-type)
+   ;; (service fwupd-service-type)
    (service openssh-service-type)
    (service pcscd-service-type)
 	 ;; (service libvirt-service-type
