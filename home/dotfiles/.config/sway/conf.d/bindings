@@ -14,11 +14,11 @@ bindsym $mod+shift+t exec $termrun
 bindsym $mod+n exec swaync-client -t -sw
 
 # File explorer
-bindsym $mod+d exec emacsclient -c -e '(dirvish "")'
+bindsym $mod+d exec emacsclient -c -e '(dired "")'
 bindsym $mod+shift+d exec nautilus
 
 # Editor
-bindsym $mod+e exec dex ~/.local/share/applications/emacsclient.desktop
+bindsym $mod+e exec emacsclient -c -a "" -e '(ben/open-fire-vterm)'
 bindsym $mod+shift+e exec emacsclient -c -e '(org-roam-node-find)'
 
 # Browser
@@ -175,6 +175,36 @@ bindsym XF86Search exec bemenu-run
 set $backlight_inc 5
 bindsym XF86MonBrightnessUp exec brightnessctl s $backlight_inc%+ && brightnessctl g
 bindsym XF86MonBrightnessDown exec brightnessctl s $backlight_inc%- && brightnessctl g
+
+###
+# Mouse
+###
+
+mode Mouse {
+    bindsym a mode default, exec 'wl-kbptr; swaymsg mode Mouse'
+
+    # Mouse move
+    bindsym h seat seat0 cursor move -15 0
+    bindsym j seat seat0 cursor move 0 15
+    bindsym k seat seat0 cursor move 0 -15
+    bindsym l seat seat0 cursor move 15 0
+
+    # Left button
+    bindsym g seat seat0 cursor press button1
+    bindsym --release g seat seat0 cursor release button1
+
+    # Middle button
+    bindsym b seat seat0 cursor press button2
+    bindsym --release b seat seat0 cursor release button2
+
+    # Right button
+    bindsym shift+h seat seat0 cursor press button3
+    bindsym --release shift+h seat seat0 cursor release button3
+
+    bindsym Escape mode default
+}
+
+bindsym $mod+g mode Mouse
 
 ###
 ### Resizing containers:
