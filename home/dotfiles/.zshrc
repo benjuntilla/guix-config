@@ -137,8 +137,8 @@ alias brm="beet rm -ad"
 alias copy-resume="cat $HOME/src/resume/src/base.yaml | wl-copy"
 resume() {
     cd $HOME/src/resume/src
-    rendercv render -use pdflatex "$1".tex
-    zathura $(ls -t rendercv_output/*.pdf | head -n 1)
+    rendercv render "$1".yaml
+    zathura $(ls -t rendercv_output/*.pdf | head -n 1) & rendercv render --watch "$1".yaml
 }
 
 # chezmoi
@@ -302,7 +302,7 @@ alias gui="guix install"
 alias gur="guix remove"
 alias gus="guix search"
 alias guss="guix package -I"
-alias dev-container="guix shell -C -F -N openssl node poetry coreutils gcc-toolchain git -D ungoogled-chromium --share=/home/ben --preserve='^DISPLAY$' --preserve='^XAUTHORITY$' --preserve='^PATH$' --share=/etc/machine-id"
+alias dev-container="guix shell -C -F -N python-wrapper texlive openssl node poetry coreutils gcc-toolchain git -D ungoogled-chromium --share=/home/ben --preserve='^DISPLAY$' --preserve='^XAUTHORITY$' --preserve='^PATH$' --share=/etc/machine-id"
 real () {
     realpath $(wh $1)
 }
@@ -320,6 +320,9 @@ alias nrd="npm run dev"
 alias nmc="nmcli"
 alias nmccu="nmcli conn up"
 alias nmccd="nmcli conn down"
+
+# bluetooth
+alias bl="bluetoothctl"
 
 # git
 alias gsync="git pull --rebase && git push"
@@ -339,13 +342,13 @@ alias pcloud="rclone mount pcloud: ~/pcloud"
 #
 # bindings
 #
-bindkey -v
+# bindkey -v
 
 # Use vim keys in tab complete menu:
-bindkey -M menuselect 'h' vi-backward-char
-bindkey -M menuselect 'k' vi-up-line-or-history
-bindkey -M menuselect 'l' vi-forward-char
-bindkey -M menuselect 'j' vi-down-line-or-history
+# bindkey -M menuselect 'h' vi-backward-char
+# bindkey -M menuselect 'k' vi-up-line-or-history
+# bindkey -M menuselect 'l' vi-forward-char
+# bindkey -M menuselect 'j' vi-down-line-or-history
 
 # autosuggestions
 bindkey '^ ' autosuggest-accept
@@ -354,6 +357,7 @@ bindkey '^ ' autosuggest-accept
 eval "$(zoxide init zsh)"
 
 # art
+alias fire="npx firew0rks fireplace -1"
 FORTUNE=$(DAIKICHI_FORTUNE_PATH=$HOME/.local/share/fortunes fortune)
-cbonsai -p -m "$FORTUNE"
+# cbonsai -p -m "$FORTUNE"
 # cbonsai -p -m "hello."
