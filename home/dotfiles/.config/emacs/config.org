@@ -347,9 +347,27 @@ Use ~vterm~ for fast terminal emulation
   (vterm-keymap-exceptions '("C-c" "C-w ""C-x" "C-u" "C-g" "C-h" "C-l" "M-x" "M-o" "C-y" "M-y")))
 #+end_src
 
+custom command for running fireplace ascii art
+#+begin_src emacs-lisp
+(defun ben/open-fire-vterm ()
+  "Open a vterm terminal named *fire* and run the command 'fire'."
+  (interactive)
+  (let ((buffer-name "*fire*"))
+    ;; Open vterm with the specified buffer name if it doesn't already exist
+    (unless (get-buffer buffer-name)
+      (vterm buffer-name))
+    ;; Switch to the vterm buffer
+    (switch-to-buffer buffer-name)
+    ;; Send the command 'fire' to the vterm
+    (run-with-timer 1 nil
+                    (lambda ()
+                      (vterm-send-string "fire")
+                      (vterm-send-return)))))
+#+end_src
+
 Use ~vterm~ for ~project.el~
 #+begin_src emacs-lisp
-(defun my-project-shell ()
+(defun ben/project-shell ()
   "Start an inferior shell in the current project's root directory.
 If a buffer already exists for running a shell in the project's root,
 switch to it.  Otherwise, create a new shell buffer.
@@ -651,6 +669,20 @@ methods the save hook cannot detect, like file synchronization."
 #+begin_src emacs-lisp
 (setq org-read-date-prefer-future 'time)
 #+end_src
+*** motd
+#+begin_src emacs-lisp :tangle no
+(defun my-org-agenda-add-motd ()
+  "Add a MOTD to the top-right of the org-agenda buffer."
+  (let ((motd "ℹ️ MOTD: eat less, move more   ")
+        (width (window-width)))
+    (save-excursion
+      (goto-char (point-min))
+      (let ((motd-line (concat (make-string (- width (length motd)) ? ) motd)))
+        (insert (propertize motd-line 'face 'font-lock-comment-face) "\n")))))
+
+;; Hook the function to the org-agenda finalize process
+(add-hook 'org-agenda-finalize-hook 'my-org-agenda-add-motd)
+#+end_src
 ** ~org-tempo~
 #+begin_src emacs-lisp
 (require 'org-tempo)
@@ -784,13 +816,17 @@ Add mouse support
 (use-package dirvish
   :init (dirvish-override-dired-mode)
   :general (dirvish-mode-map
+            "C-c d l" #'dirvish-layout-switch
+            "C-c d L" #'dirvish-layout-toggle
             "g z" #'dirvish-quick-access
             "<tab>" #'dirvish-subtree-toggle
             "<backtab>" #'dirvish-subtree-clear)
-  :custom (dirvish-attributes
+  :custom
+  (dirvish-attributes
            '(vc-state subtree-state all-the-icons collapse git-msg file-size))
   (dired-listing-switches
         "-l --almost-all --human-readable --group-directories-first --no-group")
+  (dirvish-default-layout '(0 0 0.4))
   (dirvish-use-header-line 'global)
   (dirvish-header-line-format '(:left (path) :right (free-space)))
   (dirvish-mode-line-format '(:left (sort file-time " " file-size symlink) :right (omit yank index)))
@@ -799,6 +835,7 @@ Add mouse support
      ("s" "~/src"                       "Src")
      ("d" "~/Downloads/"                "Downloads")
      ("m" "/mnt/"                       "Drives")
+     ("p" "~/Pictures/"                 "Pictures")
      ("t" "~/.local/share/Trash/files/" "TrashCan"))))
 #+end_src
 ** ~mpv.el~
@@ -895,13 +932,26 @@ talk to ai with ~gptel~
   (gptel-default-mode 'org-mode)
   (gptel-track-media t)
   (gptel-prompt-prefix-alist '((markdown-mode . "### ") (org-mode . "* ") (text-mode . "### ")))
+  :general
+  (:prefix "C-c g"
+           "g" #'gptel)
+  (gptel-mode-map :prefix "C-c g"
+            "m" #'gptel-menu)
   :config
   (setq
-   gptel-model 'claude-3-5-sonnet-20241022
+   gptel-model 'claude-3-5-sonnet-20240620
    gptel-backend
-        (gptel-make-anthropic "Claude"          ;Any name you want
-                        :stream t                             ;Streaming responses
-                        :key (lambda () (auth-source-pass-get "api-key-gptel" "claude.ai/ben@benjuntilla.com")))))
+   (gptel-make-anthropic "Claude"
+     :stream t
+     :key (lambda () (auth-source-pass-get "api-key-gptel" "claude.ai/ben@benjuntilla.com")))
+   gptel-directives '((default
+                       . "You are a large language model living in Emacs and a helpful assistant. Respond concisely.")
+                      (coach
+                       . "You are a large language model and a life coach. Provide guidance and feedback based on the provided information about myself.")
+                      (programming
+                       . "You are a large language model and a careful programmer. Provide code and only code as output without any additional text, prompt or note.")
+                      (writing
+                       . "You are a large language model and a writing assistant. Respond concisely."))))
 #+end_src
 
 major mode for ~.env~ files
