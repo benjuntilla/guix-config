@@ -10,7 +10,7 @@ check_git_status() {
     local is_up_to_date=true
 
     if ! git diff-index --quiet HEAD --; then
-        status_text+="Repository at $git_repo_path is not clean. "
+        status_text+="$git_repo_path is not clean. "
         is_clean=false
     fi
 
@@ -21,12 +21,13 @@ check_git_status() {
     local BASE=$(git merge-base @ @{u})
 
     if [ $LOCAL = $REMOTE ]; then
-        status_text+="Repository at $git_repo_path is up to date. "
+        :
+        # status_text+="$git_repo_path is up to date. "
     elif [ $LOCAL = $BASE ]; then
-        status_text+="Repository at $git_repo_path needs to pull. "
+        status_text+="$git_repo_path needs to pull. "
         is_up_to_date=false
     else
-        status_text+="Repository at $git_repo_path has diverged. "
+        status_text+="$git_repo_path has diverged. "
         is_up_to_date=false
     fi
 
