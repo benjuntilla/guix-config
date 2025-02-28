@@ -39,8 +39,8 @@ profile single {
 profile odyssey {
   output "Samsung Electric Company LS49AG95 HCSTA00413" {
     position 0,0
-    # mode 5120x1440@119.999Hz
-    mode 5120x1440@59.997
+    mode 5120x1440@119.999Hz
+    # mode 5120x1440@59.997
     adaptive_sync on
     scale 1
   }
