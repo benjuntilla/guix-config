@@ -64,10 +64,7 @@
              (program (file-append swaylock "/bin/swaylock"))
              (using-pam? #t)
              (using-setuid? #f)))
-   (service tlp-service-type
-            (tlp-configuration
-             (cpu-scaling-governor-on-ac (list "performance"))
-             (sched-powersave-on-bat? #t)))
+   (service tlp-service-type)
    (service bluetooth-service-type
             (bluetooth-configuration
              (auto-enable? #t)))
