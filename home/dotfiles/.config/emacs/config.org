@@ -505,7 +505,19 @@ Use ~multi-vterm~ to manage multiple ~vterm~ buffers
   :config
   (add-to-list 'org-agenda-custom-commands
     '("u" "TODOs with no set schedule or deadline" tags "-DEADLINE={.+}-SCHEDULED={.+}/!+TODO"))
-  (org-babel-do-load-languages 'org-babel-load-languages '((shell . t))))
+  (org-babel-do-load-languages 'org-babel-load-languages '((mermaid . t) (shell . t))))
+#+end_src
+
+ob-mermaid
+#+begin_src emacs-lisp
+(use-package ob-mermaid
+  :custom
+  (org-babel-default-header-args:mermaid
+   '((:results . "file")
+     (:exports . "results")
+     (:puppeteer-config-file . "/home/ben/.config/puppeteer.json")
+     (:mermaid-config-file . "/home/ben/.config/mermaid.json")))
+  (ob-mermaid-cli-path "/home/ben/.pnpm/mmdc"))
 #+end_src
 
 Custom export function adapted from [[https://emacs.stackexchange.com/questions/79249/org-mode-export-closest-flagged-subtree][StackExchange]] snippet
@@ -1057,7 +1069,7 @@ Use ~editorconfig~ for consistent IDE settings
 #+end_src
 
 Use ~copilot.el~ for LLM-powered completions.
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :tangle no
 (use-package copilot
   :custom
   (copilot-node-executable "~/.guix-profile/bin/node")
