@@ -41,7 +41,7 @@ profile odyssey {
     position 0,0
     mode 5120x1440@119.999Hz
     # mode 5120x1440@59.997
-    adaptive_sync on
+    adaptive_sync off
     scale 1
   }
 
@@ -50,7 +50,7 @@ profile odyssey {
     mode 2560x1600@165Hz
     transform normal
     scale 1.5
-    adaptive_sync on
+    adaptive_sync off
   }
 
   exec /home/ben/.config/kanshi/configure.sh "Samsung Electric Company LS49AG95 HCSTA00413" "eDP-2" "blade-runner.jpg"
