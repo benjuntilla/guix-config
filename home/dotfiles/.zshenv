@@ -1,7 +1,7 @@
 # -*- mode: sh -*-
 
 export PNPM_HOME=~/.pnpm
-export PATH=$PNPM_HOME:~/.bun/bin:~/.sst/bin:~/.config/emacs-doom/bin:~/.local/share/gem/ruby/2.0.0/bin:~/.config/rofi/bin:~/go/bin:~/.dotnet/tools:~/.cargo/bin:~/.local/bin:$PATH
+export PATH=$PNPM_HOME:~/.bun/bin:~/.sst/bin:~/.config/emacs-doom/bin:~/.local/share/gem/ruby/2.0.0/bin:~/.config/rofi/bin:/usr/bin:$GOPATH/bin:~/.dotnet/tools:~/.cargo/bin:~/.local/bin:$PATH
 export TERMCMD="wezterm start"
 export TERMINAL="wezterm"
 export EDITOR="nvim"
