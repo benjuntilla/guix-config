@@ -1,6 +1,6 @@
 (use-modules (gnu) (nongnu packages linux) (ben-guix services firmware) (gnu system nss))
-(use-service-modules base cups desktop networking ssh xorg pm dbus security-token docker)
-(use-package-modules wm shells security-token cups gnome linux)
+(use-service-modules base cups desktop networking ssh xorg pm dbus security-token docker shepherd)
+(use-package-modules wm shells security-token cups gnome linux python)
 
 (define %wooting-rules
   (udev-rule
@@ -17,6 +17,27 @@
 (define %sudoers-file
   (plain-file "sudoers-file" "root ALL=(ALL) ALL
 %wheel ALL=(ALL) NOPASSWD: ALL"))
+
+(define fan-control-service-type
+  (service-type
+    (name 'fan-control)
+    (description "Run the Framework laptop fan control utility")
+    (extensions
+     (list (service-extension shepherd-root-service-type
+                             (lambda _
+                               (list (shepherd-service
+                                      (provision '(fan-control))
+                                      (documentation "Run Framework laptop fan control daemon")
+                                      (requirement '(user-processes))
+                                      (start #~(make-forkexec-constructor
+                                                (list #$(file-append python "/bin/python3")
+                                                     "/usr/bin/fw-fanctrl" "run")
+                                                #:log-file "/var/log/fw-fanctrl.log"
+                                                #:environment-variables
+                                                '("PATH=/usr/bin:/run/current-system/profile/bin:/bin")))
+                                      (stop #~(make-kill-destructor))
+                                      (respawn? #t)))))))
+    (default-value '())))
 
 (operating-system
  (kernel linux)
@@ -42,6 +63,9 @@
 
  (services
   (cons*
+   (simple-service 'fw-fanctrl-config etc-service-type
+                  `(("fw-fanctrl/config.json" ,(local-file "fw-fanctrl-config.json"))))
+   (service fan-control-service-type)
    (service containerd-service-type)
    (service docker-service-type)
    (udev-rules-service 'wooting %wooting-rules)
