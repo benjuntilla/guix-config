@@ -45,6 +45,10 @@ bindsym $mod+o exec rofi-window
 # bindsym $mod+x exec swayr execute-swaymsg-command
 # bindsym $mod+Shift+x exec swayr execute-swayr-command
 
+# obs
+bindsym $mod+minus obs-cmd recording toggle
+bindsym $mod+plus obs-cmd recording toggle-pause
+
 # Lockscreen
 bindsym $mod+BackSpace exec swaylock -c 000000
 
