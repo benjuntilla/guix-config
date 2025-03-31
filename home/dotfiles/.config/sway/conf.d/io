@@ -27,6 +27,10 @@ input 5824:10203:Glove80_Keyboard {
   xkb_options ""
 }
 
+input 5824:10203:MoErgo_Glove80_Left_Keyboard {
+  xkb_options ""
+}
+
 input 9610:268:BY_Tech_Gaming_Keyboard {
     xkb_options caps:swapescape,altwin:swap_lalt_lwin
 }
