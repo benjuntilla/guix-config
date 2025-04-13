@@ -3,7 +3,7 @@ exec hash dbus-update-activation-environment 2> /dev/null && \
   dbus-update-activation-environment --systemd DBUS_SESSION_BUS_ADDRESS DISPLAY XAUTHORITY WAYLAND_DISPLAY SWAYSOCK XDG_CURRENT_DESKTOP=sway
 
 # notification daemon
-exec_always swaync
+exec_always dunst
 
 # clipboard
 exec wl-paste --watch cliphist store
@@ -28,3 +28,6 @@ bindswitch --reload --locked lid:on output $laptop disable
 bindswitch --reload --locked lid:off output $laptop enable
 
 exec_always sway-clamshell
+
+# rsi mitigation
+exec_always ianny

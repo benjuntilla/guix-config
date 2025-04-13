@@ -5,6 +5,10 @@
     font = Noto Sans 10
     
     markup = yes
+
+    mouse_left_click = do_action
+    mouse_middle_click = context
+    mouse_right_click = close_current
     
     # The format of the message.  Possible variables are:
     #   %a  appname
@@ -120,7 +124,7 @@
     startup_notification = false
     
     # dmenu path.
-    dmenu = /usr/bin/dmenu -p dunst:
+    dmenu = rofi -dmenu
     
     # Browser for opening urls in context menu.
     browser = firefox
@@ -129,7 +133,7 @@
     icon_position = left
 
     # Paths to default icons.
-    icon_path = /usr/share/icons/Papirus-Dark/16x16/apps:/usr/share/icons/Papirus-Dark/16x16/categories:/usr/share/icons/Papirus-Dark/16x16/devices:/usr/share/icons/Papirus-Dark/16x16/emblems:/usr/share/icons/Papirus-Dark/16x16/mimetypes:/usr/share/icons/Papirus-Dark/16x16/places:/usr/share/icons/Papirus-Dark/16x16/status:/usr/share/icons/Papirus-Dark/16x16/panel
+    # icon_path = /usr/share/icons/Papirus-Dark/16x16/apps:/usr/share/icons/Papirus-Dark/16x16/categories:/usr/share/icons/Papirus-Dark/16x16/devices:/usr/share/icons/Papirus-Dark/16x16/emblems:/usr/share/icons/Papirus-Dark/16x16/mimetypes:/usr/share/icons/Papirus-Dark/16x16/places:/usr/share/icons/Papirus-Dark/16x16/status:/usr/share/icons/Papirus-Dark/16x16/panel
 
 # Limit icons size.
 max_icon_size=128

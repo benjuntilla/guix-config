@@ -26,6 +26,7 @@ zplug "plugins/virtualenvwrapper", from:oh-my-zsh
 zplug "plugins/systemd", from:oh-my-zsh
 zplug "plugins/docker", from:oh-my-zsh
 zplug "plugins/docker-compose", from:oh-my-zsh
+zplug "loiccoyle/zsh-github-copilot"
 zplug "mfaerevaag/wd", as:command, use:"wd.sh", hook-load:"wd() { . $ZPLUG_REPOS/mfaerevaag/wd/wd.sh }"
 zplug "spaceship-prompt/spaceship-prompt", use:spaceship.zsh, from:github, as:theme
 
@@ -349,6 +350,10 @@ alias pcloud="rclone mount pcloud: ~/pcloud"
 # bindkey -M menuselect 'k' vi-up-line-or-history
 # bindkey -M menuselect 'l' vi-forward-char
 # bindkey -M menuselect 'j' vi-down-line-or-history
+
+# copilot
+bindkey '^[|' zsh_gh_copilot_explain  # bind Alt+shift+\ to explain
+bindkey '^[\' zsh_gh_copilot_suggest  # bind Alt+\ to suggest
 
 # autosuggestions
 bindkey '^ ' autosuggest-accept

@@ -931,6 +931,20 @@ update project list when switching project
 (advice-add 'project-switch-project :before #'my/before-project-switch-project)
 #+end_src
 
+aidermacs
+#+begin_src emacs-lisp
+(use-package aidermacs
+  :bind (("C-c d" . aidermacs-transient-menu))
+  :config
+  (setenv "OPENROUTER_API_KEY" (auth-source-pass-get "api-key-aidermacs" "openrouter.ai/ben@benjuntilla.com"))
+  (setenv "GEMINI_API_KEY" (auth-source-pass-get "api-key-aidermacs" "gemini"))
+  :custom
+  (aidermacs-default-model "gemini/gemini-2.5-pro-exp-03-25")
+  (aidermacs-architect-model "openrouter/anthropic/claude-3.5-sonnet")
+  (aidermacs-use-architect-mode t)
+  (aidermacs-backend 'vterm))
+#+end_src
+
 unified formatting interface
 #+begin_src emacs-lisp
 (use-package format-all

@@ -11,8 +11,8 @@
           { "temp": 60, "speed": 20 },
           { "temp": 70, "speed": 30 },
           { "temp": 85, "speed": 40 },
-          { "temp": 100, "speed": 70 },
-          { "temp": 120, "speed": 100 }
+          { "temp": 100, "speed": 40 },
+          { "temp": 120, "speed": 80 }
         ]
       },
       "laziest": {
