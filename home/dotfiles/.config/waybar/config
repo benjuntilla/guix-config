@@ -1,6 +1,6 @@
 {
   "height": 30,
-  "modules-left": ["sway/workspaces", "custom/scratchpad-indicator", "sway/mode"],
+  "modules-left": ["niri/workspaces", "sway/workspaces", "custom/scratchpad-indicator", "sway/mode"],
   "modules-center": ["clock"],
   "modules-right": ["idle_inhibitor", "custom/git-repos", "backlight", "pulseaudio", "network", "cpu", "memory", "battery", "tray"],
 

@@ -1,6 +1,6 @@
 (use-modules (gnu) (nongnu packages linux) (ben-guix services firmware) (gnu system nss))
-(use-service-modules base cups desktop networking ssh xorg pm dbus security-token docker shepherd)
-(use-package-modules wm shells security-token cups gnome linux python)
+(use-service-modules base cups desktop networking ssh xorg pm dbus security-token docker shepherd nix)
+(use-package-modules wm shells security-token cups gnome linux python package-management)
 
 (define %wooting-rules
   (udev-rule
@@ -13,6 +13,11 @@
                    "SUBSYSTEM==\"hidraw\", ATTRS{idVendor}==\"03eb\", ATTRS{idProduct}==\"2403\", TAG+=\"uaccess\"\n"
                    "SUBSYSTEM==\"hidraw\", ATTRS{idVendor}==\"31e3\", TAG+=\"uaccess\"\n"
                    "SUBSYSTEM==\"usb\", ATTRS{idVendor}==\"31e3\", TAG+=\"uaccess\"")))
+
+(define %uinput-rules
+  (udev-rule
+    "90-uinput.rules"
+    "KERNEL==\"uinput\", GROUP=\"input\", MODE=\"0660\", TAG+=\"uaccess\""))
 
 (define %sudoers-file
   (plain-file "sudoers-file" "root ALL=(ALL) ALL
@@ -58,19 +63,25 @@
                 (group "users")
                 (home-directory "/home/ben")
                 (shell (file-append zsh "/bin/zsh"))
-                (supplementary-groups '("docker" "wheel" "netdev" "audio" "video" "plugdev" "kvm")))
+                (supplementary-groups '("docker" "wheel" "netdev" "audio" "video" "plugdev" "kvm" "input")))
                %base-user-accounts))
+
+ (packages (append (list nix)
+                   %base-packages))
 
  (services
   (cons*
+   (service nix-service-type
+            (nix-configuration
+             (sandbox #t)))
    (simple-service 'fw-fanctrl-config etc-service-type
                   `(("fw-fanctrl/config.json" ,(local-file "fw-fanctrl-config.json"))))
    (service fan-control-service-type)
    (service containerd-service-type)
    (service docker-service-type)
    (udev-rules-service 'wooting %wooting-rules)
+   (udev-rules-service 'uinput %uinput-rules)
    (simple-service 'ratbagd dbus-root-service-type (list libratbag))
-   ;; (service fwupd-service-type)
    (service openssh-service-type)
    (service pcscd-service-type)
 	 ;; (service libvirt-service-type

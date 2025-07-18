@@ -2,6 +2,7 @@
              (gnu home)
              (gnu packages)
              (gnu services)
+             (home services maestral)
              (guix gexp)
              (guix channels)
              (gnu home services)
@@ -40,6 +41,7 @@
 (home-environment
  (services
   (list
+   (service home-maestral-service-type)
    (service home-pipewire-service-type)
    (service home-dbus-service-type)
    (service home-batsignal-service-type)

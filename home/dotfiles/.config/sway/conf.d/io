@@ -16,7 +16,7 @@ input type:touchpad {
 }
 
 input type:keyboard {
-    xkb_options caps:swapescape
+    xkb_options caps:swapescape,altwin:ctrl_win
 }
 
 input 12771:4898:Wooting_Wooting_60HE+ {

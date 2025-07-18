@@ -31,3 +31,16 @@ exec_always sway-clamshell
 
 # rsi mitigation
 exec_always ianny
+
+# automatic color temp adjuster
+exec gammastep-indicator
+
+# dropbox & cryptomator my beloved
+exec ~/.nix-profile/bin/dropbox
+exec ~/.nix-profile/bin/cryptomator
+
+# ydotoold
+exec ydotoold
+
+# voxbolt
+exec voxbolt

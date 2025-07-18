@@ -1,27 +1,21 @@
 output eDP-2 alias $built-in
 
-profile acer {
-  # output "Acer Technologies KG241Y S 124403BD73W01" {
-  #   position 0,0
-  #   mode 1920x1080@164.997Hz
-  #   transform normal
-  #   adaptive_sync on
-  # }
+profile office {
   output $built-in {
-    position 0,1080
+    position 0,0
     mode 2560x1600@165Hz
     transform normal
-    scale 2
+    scale 1.5
     adaptive_sync off
   }
-  output "Acer Technologies Acer VG270 0x05116386" {
-    position 0,0
-    mode 1920x1080@74.973Hz
+  output "Dell Inc. DELL U2722DE 6V52FH3" {
+    position 1707,0
+    mode 2560x1440@59.951Hz
     transform normal
     adaptive_sync off
   }
 
-  exec /home/ben/.config/kanshi/configure.sh "eDP-2" "Acer Technologies Acer VG270 0x05116386"
+  exec /home/ben/.config/kanshi/configure.sh "eDP-2" "Dell Inc. DELL U2722DE 6V52FH3" "blade-runner.jpg"
 }
 
 profile single {

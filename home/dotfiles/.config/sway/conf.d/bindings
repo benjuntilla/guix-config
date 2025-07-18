@@ -7,15 +7,10 @@
 bindsym $mod+slash exec ~/.emacs_everywhere/bin/run
 
 # Terminal
-bindsym $mod+t exec emacsclient -c -e '(multi-vterm)'
-bindsym $mod+shift+t exec $termrun
-
-# Toggle control center
-bindsym $mod+n exec swaync-client -t -sw
+bindsym $mod+return exec $termrun
 
 # File explorer
 bindsym $mod+d exec emacsclient -c -e '(dired "")'
-bindsym $mod+shift+d exec nautilus
 
 # Editor
 bindsym $mod+e exec emacsclient -c -a "" -e '(ben/open-fire-vterm)'
@@ -35,16 +30,6 @@ bindsym $mod+shift+space exec rofi -show run
 # Window switcher
 bindsym $mod+o exec rofi-window
 
-# swayr
-# bindsym $mod+f exec swayr switch-window
-# bindsym $mod+Shift+f exec swayr switch-workspace-or-window
-# bindsym $mod+Alt+f exec swayr switch-to-urgent-or-lru-window
-# bindsym $mod+Tab exec swayr next-window all-workspaces
-# bindsym $mod+Shift+Tab exec swayr prev-window all-workspaces
-# bindsym $mod+Shift+Delete exec swayr quit-window
-# bindsym $mod+x exec swayr execute-swaymsg-command
-# bindsym $mod+Shift+x exec swayr execute-swayr-command
-
 # obs
 bindsym $mod+minus obs-cmd recording toggle
 bindsym $mod+plus obs-cmd recording toggle-pause
@@ -52,12 +37,10 @@ bindsym $mod+plus obs-cmd recording toggle-pause
 # Lockscreen
 bindsym $mod+BackSpace exec swaylock -c 000000
 
-# power menu 
-bindsym $mod+Delete exec wlogout -p layer-shell
-
 # passwords
 bindsym $mod+p exec tessen -a autotype
-bindsym $mod+shift+p exec tessen -a copy
+bindsym $mod+ctrl+p exec tessen -a copy
+bindsym $mod+shift+p exec emacsclient -c -e "(pass)"
 
 # Dragging & resizing w/ $mod
 floating_modifier $mod normal
@@ -65,15 +48,11 @@ floating_modifier $mod normal
 # Reloading config
 bindsym $mod+F5 reload
 
-# Process manager
-bindsym $mod+return exec emacsclient -c -e '(proced)'
-bindsym $mod+shift+return exec $termrun btop
-
 # Clipboard manager
 bindsym $mod+v exec cliphist list | rofi -dmenu | cliphist decode | wl-copy
 
 # Emoji menu
-bindsym $mod+period exec rofimoji
+bindsym $mod+control+space exec rofimoji
 
 ###
 ### Navigation
@@ -83,10 +62,10 @@ bindsym $mod+$left focus left
 bindsym $mod+$down focus down
 bindsym $mod+$up focus up
 bindsym $mod+$right focus right
-bindsym $mod+alt+$left focus prev
-bindsym $mod+alt+$right focus next
-bindsym $mod+alt+$up focus parent
-bindsym $mod+alt+$down focus child
+bindsym $mod+ctrl+$left focus prev
+bindsym $mod+ctrl+$right focus next
+bindsym $mod+ctrl+$up focus parent
+bindsym $mod+ctrl+$down focus child
 
 # Move the focused window with the same, but add Shift
 bindsym $mod+Shift+$left move left
@@ -126,9 +105,9 @@ bindsym $mod+Shift+0 move container to workspace number 10; workspace number 10
 ### Layout stuff
 ###
 # Switch the current container between diffeent layout styles
-bindsym $mod+z layout toggle split
-bindsym $mod+x layout tabbed
-bindsym $mod+c layout stacking
+bindsym $mod+period layout toggle split
+bindsym $mod+comma layout tabbed
+# bindsym $mod+c layout stacking
 
 # Make the current focus fullscreen
 bindsym $mod+f fullscreen
@@ -141,6 +120,10 @@ bindsym $mod+semicolon focus mode_toggle
 
 # Move focus to the parent container
 bindsym $mod+a focus parent
+
+# speech to text
+bindsym --no-repeat Shift_R exec voxbolt ipc down
+bindsym --no-repeat --release Shift_R exec voxbolt ipc up
 
 ###
 ### Scratchpad:

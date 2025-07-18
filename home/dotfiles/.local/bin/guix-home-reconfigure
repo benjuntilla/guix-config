@@ -1,5 +1,4 @@
 #!/usr/bin/env zsh
 
 rm ~/.config/emacs/config.el
-guix home reconfigure ~/src/guix-config/home/home.scm
-
+guix home -L "$HOME/src/guix-config" reconfigure ~/src/guix-config/home/home.scm

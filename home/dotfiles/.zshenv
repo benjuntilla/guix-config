@@ -6,7 +6,7 @@ export TERMCMD="wezterm start"
 export TERMINAL="wezterm"
 export EDITOR="nvim"
 export PAGER="less -R"
-export BROWSER="firefox"
+export BROWSER=~/.guix-profile/bin/firefox
 export GDK_BACKEND="wayland"
 export ALTERNATE_EDITOR=nvim
 export SDL_VIDEO_MINIMIZE_ON_FOCUS_LOSS=0
@@ -42,3 +42,6 @@ export GLFW_IM_MODULE=ibus
 
 # GPG on TTY stuff
 export GPG_TTY=$(tty)
+
+# nix
+export NIXPKGS_ALLOW_UNFREE=1

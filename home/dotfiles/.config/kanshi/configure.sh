@@ -21,12 +21,6 @@ swaymsg focus output \$left_monitor
 
 # Set workspaces
 swaymsg workspace 1 output \$left_monitor
-swaymsg workspace 3 output \$left_monitor
-swaymsg workspace 5 output \$left_monitor
-swaymsg workspace 7 output \$left_monitor
-swaymsg workspace 9 output \$left_monitor
 swaymsg workspace 2 output \$right_monitor
+swaymsg workspace 3 output \$right_monitor
 swaymsg workspace 4 output \$right_monitor
-swaymsg workspace 6 output \$right_monitor
-swaymsg workspace 8 output \$right_monitor
-swaymsg workspace 0 output \$right_monitor

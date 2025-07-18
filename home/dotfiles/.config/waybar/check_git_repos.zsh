@@ -37,7 +37,6 @@ check_git_status() {
 # List of Git repository paths
 git_repos=(
     "/home/ben/src/guix-config"
-    "/home/ben/org"
     "/home/ben/.password-store"
 )
 

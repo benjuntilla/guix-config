@@ -92,7 +92,7 @@ Clearing minibuffer
 #+end_src
 * Helper vars & funcs
 #+begin_src emacs-lisp
-(setq org-root-dir "~/org"
+(setq org-root-dir "~/Dropbox/org"
       org-ref-dir (concat org-root-dir "/ref"))
 
 (defun my/evil-select-pasted ()
@@ -420,6 +420,7 @@ Use ~multi-vterm~ to manage multiple ~vterm~ buffers
                        (when (string-prefix-p (expand-file-name org-root-dir) (buffer-file-name))
                          (setq line-spacing 2)
                          (adaptive-wrap-prefix-mode)
+                         (olivetti-mode)
                          (mixed-pitch-mode))))
          ;; automatically switch TODO entry to done when all its subentries are complete
          (org-after-todo-statistics . my/org-summary-todo)
@@ -434,7 +435,7 @@ Use ~multi-vterm~ to manage multiple ~vterm~ buffers
   (org-mode-map
    "C-c l y" 'my/org-yank-link)
   (:keymaps 'org-mode-map :states 'insert
-                "$" #'cdlatex-dollar)
+            "$" #'cdlatex-dollar)
   :custom
   (org-highlight-latex-and-related '(latex script entities))
   (org-attach-auto-tag nil)
@@ -451,16 +452,8 @@ Use ~multi-vterm~ to manage multiple ~vterm~ buffers
   (org-image-actual-width 600)
   (org-startup-with-inline-images t)
   (org-startup-indented t)
-  (org-todo-keywords '((sequence "TODO(t)" "NEXT(n)" "WAIT(w@/!)" "|" "DONE(d)" "CANC(c@)")))
-  (org-todo-keyword-faces '(("[-]" . +org-todo-active)
-                           ("NEXT" . +org-todo-active)
-                           ("STRT" . +org-todo-active)
-                           ("[?]" . +org-todo-onhold)
-                           ("WAIT" . +org-todo-onhold)
-                           ("HOLD" . +org-todo-onhold)
-                           ("PROJ" . +org-todo-project)
-                           ("NO" . +org-todo-cancel)
-                           ("CANC" . +org-todo-cancel)))
+  (org-todo-keywords '((sequence "TODO(t)" "NEXT(n)" "IDEA(i)" "WAIT(w@)" "|" "DONE(d)" "CANC(c@)")))
+  (org-todo-keyword-faces nil)
   (org-hide-emphasis-markers t)
   (org-enforce-todo-dependencies t)
   (org-enforce-todo-checkbox-dependencies t)
@@ -473,24 +466,27 @@ Use ~multi-vterm~ to manage multiple ~vterm~ buffers
                           (wl . wl-other-frame)))
   (org-special-ctrl-a/e t)
   (org-modules (quote (org-habit org-protocol)))
-  ;; (org-agenda-files `(,(concat org-directory "/routine.org")
-                      ;; ,(concat org-directory "/inbox.org")))
+  (org-agenda-files `(,(concat org-directory "/gtd.org")))
   (org-tags-exclude-from-inheritance '("todo"))
   (org-agenda-tags-column 0)
   (org-deadline-warning-days 7)
   (org-tags-column 0)
   (org-auto-align-tags nil)
-  (org-agenda-prefix-format '((agenda . " %i %-12:c%-12t%-6e% s")
-                                (todo . " %i %-12:c %-6e")
-                                (tags . " %i %-12:c")
-                                (search . " %i %-12:c")))
+  (org-agenda-prefix-format '((agenda . " %i %?-12t% s")
+                              (timeline . " % s")
+                              (todo . " %i %?-12t% s")
+                              (tags . " %i %?-12t% s")
+                              (search . " %i %?-12t% s")))
   (org-habit-show-habits-only-for-today t)
   (org-refile-use-outline-path 'file)
-  (org-default-notes-file (concat org-directory "/inbox.org"))
-  (org-capture-templates '(("t" "Inbox TODO" entry (file "inbox.org")
+  (org-default-notes-file (concat org-directory "/gtd.org"))
+  (org-capture-templates '(("t" "TODO" entry (file "gtd.org")
                             "* TODO %i%?")
                            ("j" "Daily Journal" entry (file "daily_journal.org")
-                            "* %u")))
+                            "* %u")
+                           ("w" "Weekly Review" entry
+                            (file "~/Dropbox/org/weekly_review.org")
+                            (file "~/Dropbox/org/templates/weekly_review.org"))))
   (org-outline-path-complete-in-steps nil)
   (org-edit-src-content-indentation 0)
   (org-pretty-entities t)
@@ -504,7 +500,7 @@ Use ~multi-vterm~ to manage multiple ~vterm~ buffers
   (org-src-tab-acts-natively t)
   :config
   (add-to-list 'org-agenda-custom-commands
-    '("u" "TODOs with no set schedule or deadline" tags "-DEADLINE={.+}-SCHEDULED={.+}/!+TODO"))
+               '("u" "TODOs with no set schedule or deadline" tags "-DEADLINE={.+}-SCHEDULED={.+}/!+TODO"))
   (org-babel-do-load-languages 'org-babel-load-languages '((mermaid . t) (shell . t))))
 #+end_src
 
@@ -570,45 +566,6 @@ format of your Org-mode documents and the exact requirements you have.
 
 ;; (add-hook 'org-roam-find-file-hook #'ben/org-roam-pull)
 #+end_src
-** ~org-agenda-files-track~
-#+begin_src emacs-lisp
-(use-package org-agenda-files-track
-  :config
-  (setq org-agenda-files
-        (expand-file-name "org-agenda-files.txt" (xdg-cache-home)))
-  (defun org-agenda-files-track-predicate ()
-    "Check if the file should be added to the variable `org-agenda-files'."
-    (org-element-map
-        (org-element-parse-buffer 'headline)
-        'headline
-      ;; This is the predicate matching if a headline makes an org-agenda-file.
-      (lambda (h)
-        (eq (org-element-property :todo-type h) 'todo))
-      nil 'first-match))
-  (org-agenda-files-track-mode))
-#+end_src
-
-Define reinitialization function
-#+begin_src emacs-lisp
-(defun my/org-agenda-files-track-init ()
-  "(Re)initialize dynamic agenda files.
-
-This can take a long time, so it is recommended to run this only
-on installation and when first tasks are added to many files via
-methods the save hook cannot detect, like file synchronization."
-  (interactive)
-  ;; uncomment if storing org-agenda-files in file
-  (make-empty-file org-agenda-files 'force)
-  (org-store-new-agenda-file-list
-   (directory-files-recursively
-    org-directory (rx ".org" eos) nil
-    ;; ignore hidden directories like .git and .attach
-    (lambda (subdir)
-      (not (eq ?. (string-to-char (file-name-nondirectory subdir)))))))
-  ;; use ql here if desired
-  (org-agenda-files-track-cleanup-files 'full)
-  (message "Initialized agenda files"))
-#+end_src
 ** ~org-super-agenda~
 #+begin_src emacs-lisp
 (use-package org-super-agenda
@@ -661,6 +618,41 @@ methods the save hook cannot detect, like file synchronization."
                                 ("r" "ravenfield" plain "%?"
                                  :if-new (file+head "${slug}.org" "#+title: ${title}\n#+filetags: ravenfield\n\n* Tasks\n\n* Current Changelog")
                                  :unnarrowed t))))
+#+end_src
+
+cool command to open attachment associated with org-roam file
+#+begin_src emacs-lisp
+(defun ben/org-roam-open-attachment ()
+  "Open the attachment associated with an org-roam node, supporting file-level and headline-level drawers."
+  (interactive)
+  (require 'org-roam)
+  (require 'org-attach)
+  (let* ((node (org-roam-node-read))
+         (file (org-roam-node-file node))
+         (id (org-roam-node-id node)))
+    (find-file file)
+    (goto-char (point-min))
+    (let ((found-id
+           (re-search-forward (concat "^:ID:\\s-*" (regexp-quote id)) nil t)))
+      (if found-id
+          (let ((heading-pos (save-excursion
+                               (outline-previous-heading))))
+            (if (and heading-pos (> heading-pos (point-min)))
+                ;; If inside a headline, go to it.
+                (progn
+                  (goto-char heading-pos)
+                  (org-back-to-heading t)
+                  (org-attach-open))
+              ;; Otherwise, stay at file-level and call org-attach-open
+              (goto-char (point-min))
+              (org-attach-open)))
+        (message "ID property not found.")))))
+#+end_src
+
+bind it
+#+begin_src emacs-lisp
+(general-define-key
+ "C-c r a" 'ben/org-roam-open-attachment)
 #+end_src
 ** ~org-agenda~
 #+begin_src emacs-lisp
@@ -913,22 +905,13 @@ This is actually so tough
   :custom
   (git-link-open-in-browser t))
 #+end_src
-** ~git-auto-commit-mode~
-#+begin_src emacs-lisp
-(use-package git-auto-commit-mode
-  :custom (gac-automatically-push-p t)
-  :config
-  ;; add to safe values for use in .dir-locals
-  (add-to-list 'safe-local-variable-values '(gac-automatically-add-new-files-p . t)))
-#+end_src
 * Editing & Programming
-update project list when switching project
+automatically add bullets when pressing enter in lists
 #+begin_src emacs-lisp
-(defun my/before-project-switch-project (&optional dir)
-  ;; (interactive)
-  (project-forget-zombie-projects)
-  (project-remember-projects-under "~/src"))
-(advice-add 'project-switch-project :before #'my/before-project-switch-project)
+(use-package org-autolist
+  :vc (:url https://github.com/calvinwyoung/org-autolist
+            :branch "master")
+  :hook (org-mode . org-autolist-mode))
 #+end_src
 
 aidermacs
@@ -939,8 +922,8 @@ aidermacs
   (setenv "OPENROUTER_API_KEY" (auth-source-pass-get "api-key-aidermacs" "openrouter.ai/ben@benjuntilla.com"))
   (setenv "GEMINI_API_KEY" (auth-source-pass-get "api-key-aidermacs" "gemini"))
   :custom
-  (aidermacs-default-model "gemini/gemini-2.5-pro-exp-03-25")
-  (aidermacs-architect-model "openrouter/anthropic/claude-3.5-sonnet")
+  (aidermacs-default-model "openrouter/anthropic/claude-3.7-sonnet")
+  (aidermacs-architect-model "openrouter/anthropic/claude-3.7-sonnet")
   (aidermacs-use-architect-mode t)
   (aidermacs-backend 'vterm))
 #+end_src
@@ -965,7 +948,7 @@ talk to ai with ~gptel~
             "m" #'gptel-menu)
   :config
   (setq
-   gptel-model 'claude-3-5-sonnet-20240620
+   gptel-model 'claude-3-7-sonnet-20250219
    gptel-backend
    (gptel-make-anthropic "Claude"
      :stream t
@@ -1124,7 +1107,7 @@ Use ~org-noter~ for annotating documents
 (use-package org-noter
   :custom
   (org-noter-default-notes-file-names '("notes.org"))
-  (org-noter-notes-search-path '("~/org")))
+  (org-noter-notes-search-path '("~/Dropbox/org")))
 #+end_src
 
 Bind key to go to scratch source-file-buffer
@@ -1221,6 +1204,27 @@ Use ~rustic~ for rust stuff
 #+begin_src emacs-lisp
 (use-package evil-tex
     :hook (TeX-mode . evil-tex-mode))
+#+end_src
+** typst
+treesitter mode
+#+begin_src emacs-lisp
+(use-package typst-ts-mode
+  :load-path "~/src/typst-ts-mode/"
+  :custom
+  (typst-ts-watch-options "--open")
+  (typst-ts-compile-options "--open"))
+  ;; :vc (:url "https://codeberg.org/meow_king/typst-ts-mode.git"))
+#+end_src
+
+eglot integration with tinymist
+#+begin_src emacs-lisp
+(with-eval-after-load 'eglot
+  (with-eval-after-load 'typst-ts-mode
+    (add-to-list 'eglot-server-programs
+                 `((typst-ts-mode) .
+                   ,(eglot-alternatives `(,typst-ts-lsp-download-path
+                                          "tinymist"
+                                          "typst-lsp"))))))
 #+end_src
 ** ~ibuffer~
 Bind [[https://www.emacswiki.org/emacs/IbufferMode][Ibuffer]] for advanced replacement of BufferMenu
@@ -1689,17 +1693,6 @@ Show whitespace information
                               missing-newline-at-eof))
 #+end_src
 
-** doom-modeline
-#+begin_src emacs-lisp
-(use-package doom-modeline
-  :custom
-  (doom-modeline-icon '(display-graphic-p))
-  (doom-modeline-minor-modes t)
-  (doom-modeline-enable-word-count t)
-  (doom-modeline-continuous-word-count-modes '(markdown-mode gfm-mode org-mode))
-  (doom-modeline-indent-info t)
-  :init (doom-modeline-mode 1))
-#+end_src
 ** ~org-superstar~
 #+begin_src emacs-lisp
 (use-package org-superstar
@@ -2036,7 +2029,7 @@ Adds SVG icons to ~corfu~
 #+begin_src emacs-lisp
 (use-package elfeed-org
   :custom
-  (rmh-elfeed-org-files (list "~/org/elfeed.org"))
+  (rmh-elfeed-org-files (list "~/Dropbox/org/elfeed.org"))
   :config (elfeed-org))
 #+end_src
 ** ~elfeed-goodies~
