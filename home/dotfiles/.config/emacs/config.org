@@ -95,11 +95,6 @@ Clearing minibuffer
 (setq org-root-dir "~/Dropbox/org"
       org-ref-dir (concat org-root-dir "/ref"))
 
-(defun my/evil-select-pasted ()
-  (interactive)
-  (let ((start-marker (evil-get-marker ?\[))
-        (end-marker (evil-get-marker ?\])))
-        (evil-visual-select start-marker end-marker)))
 ;; stolen from https://hungyi.net/posts/copy-org-mode-url/
 (defun my/org-yank-link ()
   (interactive)
@@ -504,18 +499,6 @@ Use ~multi-vterm~ to manage multiple ~vterm~ buffers
   (org-babel-do-load-languages 'org-babel-load-languages '((mermaid . t) (shell . t))))
 #+end_src
 
-ob-mermaid
-#+begin_src emacs-lisp
-(use-package ob-mermaid
-  :custom
-  (org-babel-default-header-args:mermaid
-   '((:results . "file")
-     (:exports . "results")
-     (:puppeteer-config-file . "/home/ben/.config/puppeteer.json")
-     (:mermaid-config-file . "/home/ben/.config/mermaid.json")))
-  (ob-mermaid-cli-path "/home/ben/.pnpm/mmdc"))
-#+end_src
-
 Custom export function adapted from [[https://emacs.stackexchange.com/questions/79249/org-mode-export-closest-flagged-subtree][StackExchange]] snippet
 #+begin_src emacs-lisp
 (defun my/org-up-to-export ()
@@ -876,28 +859,6 @@ Add mouse support
 (with-eval-after-load 'project
   (add-to-list 'project-switch-commands '(magit-project-status "Magit" "m")))
 #+end_src
-** ~vdiff~
-#+begin_src emacs-lisp
-(use-package vdiff
-  :after evil
-  :general ('(vdiff-mode-map vdiff-3way-mode-map)
-            "z" vdiff-mode-prefix-map)
-  :config
-  (evil-make-intercept-map vdiff-mode-prefix-map))
-#+end_src
-*** ~vdiff-magit~
-#+begin_src emacs-lisp
-(use-package vdiff-magit
-  :after (vdiff magit)
-  :general (magit-mode-map
-            "e" 'vdiff-magit-dwim
-            "E" 'vdiff-magit)
-  :config
-  (transient-suffix-put 'magit-dispatch "e" :description "vdiff (dwim)")
-  (transient-suffix-put 'magit-dispatch "e" :command 'vdiff-magit-dwim)
-  (transient-suffix-put 'magit-dispatch "E" :description "vdiff")
-  (transient-suffix-put 'magit-dispatch "E" :command 'vdiff-magit))
-#+end_src
 ** ~git-link~
 This is actually so tough
 #+begin_src emacs-lisp
@@ -1200,11 +1161,6 @@ Use ~rustic~ for rust stuff
   :config
   (add-to-list 'cdlatex-math-modify-alist '(?B "\\mathbb" nil t nil)))
 #+end_src
-*** ~evil-tex~
-#+begin_src emacs-lisp
-(use-package evil-tex
-    :hook (TeX-mode . evil-tex-mode))
-#+end_src
 ** typst
 treesitter mode
 #+begin_src emacs-lisp
@@ -1389,95 +1345,6 @@ improve performance
 #+begin_src emacs-lisp
 (use-package dockerfile-mode)
 #+end_src
-** ~evil~
-#+begin_src emacs-lisp
-(use-package evil
-  :hook (vterm-mode . turn-off-evil-mode)
-  :general
-  ('normal
-   "g b" 'consult-buffer)
-  ('motion
-   "C-e" 'evil-end-of-line)
-  (org-mode-map 'normal
-   "RET" 'org-return)
-  ('insert
-   "C-<return>" 'electric-newline-and-maybe-indent)
-  :custom
-  (evil-want-integration t)
-  (evil-want-keybinding nil)
-  (evil-jumps-cross-buffers nil)
-  (evil-undo-system 'undo-fu)
-  :config
-  (evil-mode 1)
-  (evil-set-initial-state 'vterm-mode 'emacs))
-#+end_src
-evil escape
-#+begin_src emacs-lisp
-(use-package evil-escape
-  :delight
-  :config (evil-escape-mode))
-#+end_src
-*** ~evil-collection~
-#+begin_src emacs-lisp
-(use-package evil-collection
-  :delight evil-collection-unimpaired-mode
-  :after (evil)
-  :custom
-  (forge-add-default-bindings nil)  ;; disables annoying start-up warning
-  :config (evil-collection-init))
-#+end_src
-*** ~evil-goggles~
-#+begin_src emacs-lisp
-(use-package evil-goggles
-  :delight
-  :config (evil-goggles-mode))
-#+end_src
-*** ~evil-owl~
-#+begin_src emacs-lisp
-(use-package evil-owl
-  :delight
-  :custom
-  (evil-owl-idle-delay 0.1)
-  :config
-  (evil-owl-mode))
-#+end_src
-*** ~evil-exchange~
-#+begin_src emacs-lisp
-(use-package evil-exchange
-  :config (evil-exchange-install))
-#+end_src
-*** ~evil-nerd-commenter~
-#+begin_src emacs-lisp
-(use-package evil-nerd-commenter
-  :after evil
-  :config (evilnc-default-hotkeys))
-#+end_src
-*** ~evil-matchit~
-#+begin_src emacs-lisp
-(use-package evil-matchit
-  :after evil)
-#+end_src
-*** ~evil-surround~
-#+begin_src emacs-lisp
-(use-package evil-surround
-  :config
-  (global-evil-surround-mode 1))
-#+end_src
-*** ~evil-org~
-#+begin_src emacs-lisp
-(use-package evil-org
-  :after org
-  :delight
-  :hook (org-mode . evil-org-mode)
-  :config
-  (require 'evil-org-agenda)
-  (evil-org-agenda-set-keys))
-#+end_src
-*** ~evil-multiedit~
-#+begin_src emacs-lisp
-(use-package evil-multiedit
-  :config (evil-multiedit-default-keybinds))
-#+end_src
 ** ~rainbow-delimiters~
 #+begin_src emacs-lisp
 (use-package rainbow-delimiters
@@ -1556,8 +1423,7 @@ Use ~shackle~ to make window management nice with sway
 (use-package shackle
   :custom
   (shackle-rules
-   `(("*evil-owl*" :frame nil :select nil)
-     ((list " *Agenda Commands*" "*Org Agenda*") :same t)
+   `(((list " *Agenda Commands*" "*Org Agenda*") :same t)
      ((list "*Proced*" "*Messages*" "*Help*" "*vterminal - dedicated*") :same t :select t)))
      ;; ("^CAPTURE-.*\.org$" :regexp t :frame t :select t)))
   :config
@@ -1590,23 +1456,13 @@ Use ~winner~ to quickly undo/redo window configurations
    [remap isearch-query-replace] 'anzu-isearch-query-replace
    [remap isearch-query-replace-regexp] 'anzu-isearch-query-replace-regexp))
 #+end_src
-*** evil-anzu
-#+begin_src emacs-lisp
-(use-package evil-anzu
-  :after (evil anzu))
-#+end_src
 ** ~avy~
 #+begin_src emacs-lisp
 (use-package avy
-  :general
-  ('normal 'override :prefix "g"
-           "c" 'avy-goto-char-2
-           "C" 'avy-goto-char-timer
-           "w" 'avy-goto-word-0
-           "W" 'avy-goto-word-1
-           "SPC" 'avy-goto-line)
   :config
   (avy-setup-default))
+
+(global-set-key (kbd "C-:") 'avy-goto-char)
 #+end_src
 * Appearance
 Set theme

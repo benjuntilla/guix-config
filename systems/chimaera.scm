@@ -1,4 +1,4 @@
-(use-modules (gnu) (nongnu packages linux) (ben-guix services firmware) (gnu system nss))
+(use-modules (gnu) (nongnu packages linux) (gnu system nss))
 (use-service-modules base cups desktop networking ssh xorg pm dbus security-token docker shepherd nix)
 (use-package-modules wm shells security-token cups gnome linux python package-management)
 
@@ -62,7 +62,7 @@
                 (comment "Ben")
                 (group "users")
                 (home-directory "/home/ben")
-                (shell (file-append zsh "/bin/zsh"))
+                (shell (file-append fish "/bin/fish"))
                 (supplementary-groups '("docker" "wheel" "netdev" "audio" "video" "plugdev" "kvm" "input")))
                %base-user-accounts))
 

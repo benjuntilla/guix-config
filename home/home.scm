@@ -41,6 +41,44 @@
 (home-environment
  (services
   (list
+   (simple-service 'environment-variables
+                   home-environment-variables-service-type
+                   '(("PNPM_HOME" . "~/.pnpm")
+                     ("PATH" . "$PNPM_HOME:~/.bun/bin:~/.sst/bin:~/.config/emacs-doom/bin:~/.local/share/gem/ruby/2.0.0/bin:~/.config/rofi/bin:/usr/bin:$GOPATH/bin:~/.dotnet/tools:~/.cargo/bin:~/.local/bin:$PATH")
+                     ("TERMCMD" . "wezterm start")
+                     ("TERMINAL" . "wezterm")
+                     ("EDITOR" . "nvim")
+                     ("PAGER" . "less -R")
+                     ("BROWSER" . "~/.guix-profile/bin/firefox")
+                     ("GDK_BACKEND" . "wayland")
+                     ("ALTERNATE_EDITOR" . "nvim")
+                     ("SDL_VIDEO_MINIMIZE_ON_FOCUS_LOSS" . "0")
+                     ("DOTNET_CLI_TELEMETRY_OPTOUT" . "1")
+                     ("XDG_SCREENSHOTS_DIR" . "~/Downloads")
+                     ("XDG_DESKTOP_DIR" . "~/Downloads/Desktop")
+                     ("XDG_DATA_DIRS" . "/var/lib/flatpak/exports/share:/home/ben/.local/share/flatpak/exports/share:$XDG_DATA_DIRS")
+                     ("GOPATH" . "~/.local/share/go")
+                     ("DELTA_FEATURES" . "side-by-side")
+                     ("LEDGER_FILE" . "~/org/.hledger.journal")
+                     ("GLIBC_TUNABLES" . "glibc.rtld.dynamic_sort=2")
+                     ("AWS_VAULT_BACKEND" . "pass")
+                     ("AWS_VAULT_PASS_PREFIX" . "aws-vault/")
+                     ("PYTHON_KEYRING_BACKEND" . "keyring.backends.null.Keyring")
+                     ("GTK_IM_MODULE" . "fcitx")
+                     ("QT_IM_MODULE" . "fcitx")
+                     ("QT4_IM_MODULE" . "fcitx")
+                     ("SDL_IM_MODULE" . "fcitx")
+                     ("INPUT_METHOD" . "fcitx")
+                     ("XMODIFIERS" . "@im=fcitx")
+                     ("GLFW_IM_MODULE" . "ibus")
+                     ("GPG_TTY" . "$(tty)")
+                     ("NIXPKGS_ALLOW_UNFREE" . "1")))
+   (service home-fish-service-type (home-fish-configuration
+                                    (config
+                                     (list (plain-file "config.fish"
+                                                       "set -U fish_greeting 🐟\nbass source /run/current-system/profile/etc/profile.d/nix.sh\n")))
+                                    (aliases
+                                     '(("g" . "git")))))
    (service home-maestral-service-type)
    (service home-pipewire-service-type)
    (service home-dbus-service-type)
