@@ -1,8 +1,8 @@
 {
   "height": 30,
-  "modules-left": ["niri/workspaces", "sway/workspaces", "custom/scratchpad-indicator", "sway/mode"],
+  "modules-left": ["niri/workspaces", "sway/workspaces", "sway/mode"],
   "modules-center": ["clock"],
-  "modules-right": ["idle_inhibitor", "custom/git-repos", "backlight", "pulseaudio", "network", "cpu", "memory", "battery", "tray"],
+  "modules-right": ["custom/git-repos", "backlight", "pulseaudio", "battery", "tray"],
 
   // Module configuration
 	"battery": {
@@ -110,7 +110,7 @@
     "escape": true
   },
   "custom/git-repos": {
-    "format": "git repos {}",
+    "format": "{}",
     "interval": 10,
     "return-type": "json",
     "max-length": 40,

@@ -61,10 +61,12 @@ for repo_path in "${git_repos[@]}"; do
 done
 
 # Set the class based on the overall cleanliness and update status
-class="clean"
-if [ "$all_clean" = "false" ]; then
+if [ "$all_clean" = "true" ]; then
+    class="clean"
+    emoji="🟢"
+else
     class="not-clean"
+    emoji="🟡"
 fi
-
 # Output final JSON result
-echo "{\"text\": \"$class\", \"class\": \"$class\", \"tooltip\": \"$final_status_text\"}" | jq --unbuffered --compact-output
+echo "{\"text\": \"$emoji\", \"class\": \"$class\", \"tooltip\": \"$final_status_text\"}" | jq --unbuffered --compact-output

@@ -1,3 +1,4 @@
+(define-module (systems chimaera))
 (use-modules (gnu) (nongnu packages linux) (gnu system nss))
 (use-service-modules base cups desktop networking ssh xorg pm dbus security-token docker shepherd nix)
 (use-package-modules wm shells security-token cups gnome linux python package-management)

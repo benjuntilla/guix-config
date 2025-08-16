@@ -1,3 +1,4 @@
+(define-module (home home))
 (use-modules (gnu)
              (gnu home)
              (gnu packages)
@@ -13,7 +14,8 @@
              (gnu home services pm)
              (gnu home services sound)
              (gnu home services dotfiles)
-             (gnu home services guix))
+             (gnu home services guix)
+             (home packages))
 (use-package-modules gnupg emacs)
 
 (define (home-emacs-profile-service config)
@@ -43,23 +45,23 @@
   (list
    (simple-service 'environment-variables
                    home-environment-variables-service-type
-                   '(("PNPM_HOME" . "~/.pnpm")
-                     ("PATH" . "$PNPM_HOME:~/.bun/bin:~/.sst/bin:~/.config/emacs-doom/bin:~/.local/share/gem/ruby/2.0.0/bin:~/.config/rofi/bin:/usr/bin:$GOPATH/bin:~/.dotnet/tools:~/.cargo/bin:~/.local/bin:$PATH")
+                   '(("PNPM_HOME" . "$HOME/.pnpm")
+                     ("PATH" . "$PNPM_HOME:$HOME/.bun/bin:$HOME/.sst/bin:$HOME/.config/emacs-doom/bin:$HOME/.local/share/gem/ruby/2.0.0/bin:$HOME/.config/rofi/bin:/usr/bin:$GOPATH/bin:$HOME/.dotnet/tools:$HOME/.cargo/bin:$HOME/.local/bin:$PATH")
                      ("TERMCMD" . "wezterm start")
                      ("TERMINAL" . "wezterm")
                      ("EDITOR" . "nvim")
                      ("PAGER" . "less -R")
-                     ("BROWSER" . "~/.guix-profile/bin/firefox")
+                     ("BROWSER" . "$HOME/.guix-profile/bin/firefox")
                      ("GDK_BACKEND" . "wayland")
                      ("ALTERNATE_EDITOR" . "nvim")
                      ("SDL_VIDEO_MINIMIZE_ON_FOCUS_LOSS" . "0")
                      ("DOTNET_CLI_TELEMETRY_OPTOUT" . "1")
-                     ("XDG_SCREENSHOTS_DIR" . "~/Downloads")
-                     ("XDG_DESKTOP_DIR" . "~/Downloads/Desktop")
+                     ("XDG_SCREENSHOTS_DIR" . "$HOME/Downloads")
+                     ("XDG_DESKTOP_DIR" . "$HOME/Downloads/Desktop")
                      ("XDG_DATA_DIRS" . "/var/lib/flatpak/exports/share:/home/ben/.local/share/flatpak/exports/share:$XDG_DATA_DIRS")
-                     ("GOPATH" . "~/.local/share/go")
+                     ("GOPATH" . "$HOME/.local/share/go")
                      ("DELTA_FEATURES" . "side-by-side")
-                     ("LEDGER_FILE" . "~/org/.hledger.journal")
+                     ("LEDGER_FILE" . "$HOME/org/.hledger.journal")
                      ("GLIBC_TUNABLES" . "glibc.rtld.dynamic_sort=2")
                      ("AWS_VAULT_BACKEND" . "pass")
                      ("AWS_VAULT_PASS_PREFIX" . "aws-vault/")
@@ -76,9 +78,14 @@
    (service home-fish-service-type (home-fish-configuration
                                     (config
                                      (list (plain-file "config.fish"
-                                                       "set -U fish_greeting 🐟\nbass source /run/current-system/profile/etc/profile.d/nix.sh\n")))
+                                                       "set -U fish_greeting 🐟
+source /run/current-system/profile/etc/profile.d/nix.fish
+")))
                                     (aliases
                                      '(("g" . "git")))))
+   (simple-service 'my-packages
+                   home-profile-service-type
+                   my-packages)
    (service home-maestral-service-type)
    (service home-pipewire-service-type)
    (service home-dbus-service-type)
@@ -95,6 +102,24 @@
                             "9edb3f66fd807b096b48283debdcddccfea34bad"
                             (openpgp-fingerprint
                              "BBB0 2DDF 2CEA F6A8 0D1D  E643 A2A0 6DF2 A33A 54FA"))))
+                               (channel
+        (name 'abbe)
+        (url "https://codeberg.org/group/guix-modules.git")
+        (branch "mainline")
+        (introduction
+          (make-channel-introduction
+            "8c754e3a4b49af7459a8c99de130fa880e5ca86a"
+            (openpgp-fingerprint
+              "F682 CDCC 39DC 0FEA E116  20B6 C746 CFA9 E74F A4B0"))))
+                         (channel
+                          (name 'rosenthal)
+                          (url "https://codeberg.org/hako/rosenthal.git")
+                          (branch "trunk")
+                          (introduction
+                           (make-channel-introduction
+                            "7677db76330121a901604dfbad19077893865f35"
+                            (openpgp-fingerprint
+                             "13E7 6CD6 E649 C28C 3385  4DF5 5E5A A665 6149 17F7"))))
                          (channel
                           (name 'ben-guix)
                           (url (string-append "file://" (getenv "HOME") "/src/ben-guix"))
@@ -144,8 +169,7 @@
              (default-cache-ttl-ssh 34560000)
              (max-cache-ttl-ssh 34560000)
              ;; enable ssh support
-             (ssh-support? #t)
-             (extra-content "allow-emacs-pinentry\nenable-ssh-support")))
+             (ssh-support? #t)))
 
    ;; link dotfiles
    (service home-dotfiles-service-type

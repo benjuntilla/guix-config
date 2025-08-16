@@ -1,3 +1,4 @@
+(define-module (systems benslab))
 (use-modules (gnu) (nongnu packages linux) (nongnu packages firmware) (gnu system nss))
 (use-service-modules base cups desktop networking ssh xorg pm dbus virtualization security-token)
 (use-package-modules wm shells security-token cups gnome)
