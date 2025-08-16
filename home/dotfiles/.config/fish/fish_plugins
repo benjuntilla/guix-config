@@ -1,5 +1,7 @@
 jorgebucaran/fisher
 lilyball/nix-env.fish
-edc/bass
 kidonng/zoxide.fish
 jhillyerd/plugin-git
+nickeb96/puffer-fish
+PatrickF1/fzf.fish
+gazorby/fish-abbreviation-tips

@@ -64,8 +64,12 @@
                 (group "users")
                 (home-directory "/home/ben")
                 (shell (file-append fish "/bin/fish"))
-                (supplementary-groups '("docker" "wheel" "netdev" "audio" "video" "plugdev" "kvm" "input")))
+                (supplementary-groups '("render" "docker" "wheel" "netdev" "audio" "video" "plugdev" "kvm" "input")))
                %base-user-accounts))
+
+ ;; Define the render group for ROCm/GPU compute access
+ (groups (cons (user-group (system? #t) (name "render"))
+               %base-groups))
 
  (packages (append (list nix)
                    %base-packages))

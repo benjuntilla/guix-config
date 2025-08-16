@@ -18,28 +18,6 @@
              (home packages))
 (use-package-modules gnupg emacs)
 
-(define (home-emacs-profile-service config)
-  (list emacs-next-pgtk))
-
-;; (define (home-emacs-shepherd-service config)
-;;   (list (shepherd-service
-;;          (provision '(emacs-next-pgtk))
-;;          (documentation "Run emacs.")
-;;          (start #~(make-forkexec-constructor '("emacs" "--fg-daemon")))
-;;          (stop #~(make-kill-destruct)))))
-
-(define home-emacs-service-type
-  (service-type (name 'home-emacs)
-                (extensions
-                 (list (service-extension
-                        home-profile-service-type
-                        home-emacs-profile-service)))
-                       ;(service-extension
-                       ; home-shepherd-service-type
-                       ; home-emacs-shepherd-service)))
-                (default-value #f)
-                (description "Emacs :)")))
-
 (home-environment
  (services
   (list
@@ -83,6 +61,16 @@ source /run/current-system/profile/etc/profile.d/nix.fish
 ")))
                                     (aliases
                                      '(("g" . "git")))))
+   (simple-service 'emacs-daemon
+                   home-shepherd-service-type
+                   (list (shepherd-service
+                          (provision '(emacs))
+                          (start #~(make-forkexec-constructor
+                                    (list #$(file-append emacs-next-pgtk "/bin/emacs")
+                                          "--fg-daemon")
+                                    #:log-file (string-append (getenv "HOME") "/.local/state/log/emacs-daemon.log")))
+                          (stop #~(make-kill-destructor))
+                          (respawn? #t))))
    (simple-service 'my-packages
                    home-profile-service-type
                    my-packages)
@@ -90,7 +78,6 @@ source /run/current-system/profile/etc/profile.d/nix.fish
    (service home-pipewire-service-type)
    (service home-dbus-service-type)
    (service home-batsignal-service-type)
-   (service home-emacs-service-type)
    (simple-service 'extra-channels-service
                    home-channels-service-type
                    (list (channel

@@ -530,15 +530,6 @@ format of your Org-mode documents and the exact requirements you have.
           (setq word-count (1+ word-count)))))
       (message "Word count (excluding special blocks and lines): %s" word-count))))
 #+end_src
-** automatically pull when opening roam file
-#+begin_src emacs-lisp
-(defun ben/org-roam-pull ()
-  "Pull from the git repository's upstream."
-  (let ((default-directory org-root-dir))
-    (shell-command "git pull --ff-only")))
-
-;; (add-hook 'org-roam-find-file-hook #'ben/org-roam-pull)
-#+end_src
 ** Templates
 #+begin_src emacs-lisp
 (add-to-list 'org-structure-template-alist '("t" . "src emacs-lisp"))
