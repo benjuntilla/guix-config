@@ -1,5 +1,5 @@
 #!/usr/bin/env fish
 
-rm ~/.config/emacs/config.el
+rm -f ~/.config/emacs/config.el
 guix home -L "$HOME/src/guix-config" reconfigure ~/src/guix-config/home/home.scm
-fisher update
+and fisher update

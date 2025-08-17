@@ -1,6 +1,6 @@
 (define-module (systems chimaera))
-(use-modules (gnu) (nongnu packages linux) (gnu system nss))
-(use-service-modules base cups desktop networking ssh xorg pm dbus security-token docker shepherd nix)
+(use-modules (gnu) (nongnu packages linux) (gnu system nss) (gnu system accounts))
+(use-service-modules base cups desktop networking ssh xorg pm dbus security-token shepherd nix containers)
 (use-package-modules wm shells security-token cups gnome linux python package-management)
 
 (define %wooting-rules
@@ -64,7 +64,7 @@
                 (group "users")
                 (home-directory "/home/ben")
                 (shell (file-append fish "/bin/fish"))
-                (supplementary-groups '("render" "docker" "wheel" "netdev" "audio" "video" "plugdev" "kvm" "input")))
+                (supplementary-groups '("cgroup" "render" "wheel" "netdev" "audio" "video" "plugdev" "kvm" "input")))
                %base-user-accounts))
 
  ;; Define the render group for ROCm/GPU compute access
@@ -82,8 +82,13 @@
    (simple-service 'fw-fanctrl-config etc-service-type
                   `(("fw-fanctrl/config.json" ,(local-file "fw-fanctrl-config.json"))))
    (service fan-control-service-type)
-   (service containerd-service-type)
-   (service docker-service-type)
+   (service iptables-service-type)  ;; required for podman
+   (service rootless-podman-service-type
+            (rootless-podman-configuration
+             (subgids
+              (list (subid-range (name "ben"))))
+             (subuids
+              (list (subid-range (name "ben"))))))
    (udev-rules-service 'wooting %wooting-rules)
    (udev-rules-service 'uinput %uinput-rules)
    (simple-service 'ratbagd dbus-root-service-type (list libratbag))

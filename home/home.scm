@@ -24,6 +24,7 @@
    (simple-service 'environment-variables
                    home-environment-variables-service-type
                    '(("PNPM_HOME" . "$HOME/.pnpm")
+                     ("GOPATH" . "$HOME/.local/share/go")
                      ("PATH" . "$PNPM_HOME:$HOME/.bun/bin:$HOME/.sst/bin:$HOME/.config/emacs-doom/bin:$HOME/.local/share/gem/ruby/2.0.0/bin:$HOME/.config/rofi/bin:/usr/bin:$GOPATH/bin:$HOME/.dotnet/tools:$HOME/.cargo/bin:$HOME/.local/bin:$PATH")
                      ("TERMCMD" . "wezterm start")
                      ("TERMINAL" . "wezterm")
@@ -37,7 +38,6 @@
                      ("XDG_SCREENSHOTS_DIR" . "$HOME/Downloads")
                      ("XDG_DESKTOP_DIR" . "$HOME/Downloads/Desktop")
                      ("XDG_DATA_DIRS" . "/var/lib/flatpak/exports/share:/home/ben/.local/share/flatpak/exports/share:$XDG_DATA_DIRS")
-                     ("GOPATH" . "$HOME/.local/share/go")
                      ("DELTA_FEATURES" . "side-by-side")
                      ("LEDGER_FILE" . "$HOME/org/.hledger.journal")
                      ("GLIBC_TUNABLES" . "glibc.rtld.dynamic_sort=2")
@@ -55,8 +55,14 @@
                      ("NIXPKGS_ALLOW_UNFREE" . "1")))
    (service home-fish-service-type (home-fish-configuration
                                     (config
-                                     (list (plain-file "config.fish"
-                                                       "set -U fish_greeting 🐟
+                                     (list (plain-file "config.fish" "
+function fish_greeting
+    fish_logo
+end
+funcsave fish_greeting >/dev/null
+
+thefuck --alias | source
+
 source /run/current-system/profile/etc/profile.d/nix.fish
 ")))
                                     (aliases

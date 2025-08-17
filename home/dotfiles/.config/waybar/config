@@ -16,6 +16,9 @@
       "critical": 10
     }
   },
+  "niri/workspaces": {
+    "expand": true,
+  },
   "keyboard-state": {
     "numlock": true,
     "capslock": true,

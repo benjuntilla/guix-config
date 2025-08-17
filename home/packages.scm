@@ -6,7 +6,9 @@
 (define my-packages
   (map specification->package
        '("texlive-koma-script"
-         "docker-compose"
+         "thefuck"
+         "podman"
+         "podman-compose"
          "emacs-popper"
          "libdisplay-info"
          "rime-data"

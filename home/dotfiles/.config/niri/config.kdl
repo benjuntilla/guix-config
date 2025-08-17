@@ -271,12 +271,13 @@ binds {
 
     // Useful applications
     Mod+Return hotkey-overlay-title="Open Terminal" { spawn "kitty"; }
-    Mod+Space hotkey-overlay-title="Run an Application: fuzzel" { spawn "fuzzel"; }
-    Mod+B hotkey-overlay-title="Open Browser" { spawn "firefox"; }
+    Mod+Space hotkey-overlay-title="Application Launcher" { spawn "fuzzel"; }
     Mod+E hotkey-overlay-title="Open emacsclient" { spawn "emacsclient" "-c" "-a" "''"; }
     Mod+P hotkey-overlay-title="Type password" { spawn "tessen"; }
 
-    Super+Alt+L hotkey-overlay-title="Lock the Screen: swaylock" { spawn "swaylock"; }
+    Mod+Shift+Space hotkey-overlay-title="Ask AI" { spawn "ask-claude"; }
+
+    Mod+Alt+L hotkey-overlay-title="Lock the Screen: swaylock" { spawn "swaylock"; }
 
     // Media keys - migrated from sway config
     // The allow-when-locked=true property makes them work even when the session is locked.

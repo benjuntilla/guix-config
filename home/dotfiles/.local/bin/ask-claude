@@ -1,0 +1,15 @@
+#!/usr/bin/env fish
+
+# Get input from user via fuzzel
+set query (echo "" | fuzzel --dmenu --prompt "ask claude: " --lines 0 --width 80)
+
+# Check if user canceled (empty input)
+if test -z "$query"
+    exit 0
+end
+
+# URL encode the query
+set encoded_query (string escape --style=url "$query")
+
+# Open Firefox with the Claude AI URL
+firefox "https://claude.ai/new?q=$encoded_query" &
