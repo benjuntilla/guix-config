@@ -275,7 +275,10 @@ binds {
     Mod+E hotkey-overlay-title="Open emacsclient" { spawn "emacsclient" "-c" "-a" "''"; }
     Mod+P hotkey-overlay-title="Type password" { spawn "tessen"; }
 
+    // some ai conveniences
     Mod+Shift+Space hotkey-overlay-title="Ask AI" { spawn "ask-claude"; }
+    Mod+b hotkey-overlay-title="wispr flow down" { spawn "/home/ben/src/voxbolt/target/release/voxbolt" "ipc" "down"; }
+    Mod+n hotkey-overlay-title="wispr flow up" { spawn "/home/ben/src/voxbolt/target/release/voxbolt" "ipc" "up"; }
 
     Mod+Alt+L hotkey-overlay-title="Lock the Screen: swaylock" { spawn "swaylock"; }
 

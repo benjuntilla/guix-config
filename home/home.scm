@@ -77,6 +77,14 @@ source /run/current-system/profile/etc/profile.d/nix.fish
                                     #:log-file (string-append (getenv "HOME") "/.local/state/log/emacs-daemon.log")))
                           (stop #~(make-kill-destructor))
                           (respawn? #t))))
+   (simple-service 'ydotoold
+                   home-shepherd-service-type
+                   (list (shepherd-service
+                          (provision '(ydotoold))
+                          (start #~(make-forkexec-constructor
+                                    (list "ydotoold")))
+                          (stop #~(make-kill-destructor))
+                          (respawn? #t))))
    (simple-service 'my-packages
                    home-profile-service-type
                    my-packages)
