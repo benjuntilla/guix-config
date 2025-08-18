@@ -16,6 +16,7 @@
          "aspell-dict-en"
          "font-ghostscript"
          "font-dejavu"
+         "shirah"
          "hicolor-icon-theme"
          "font-fira-code"
          "font-google-noto-serif-cjk"
