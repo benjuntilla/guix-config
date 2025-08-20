@@ -28,7 +28,7 @@
                      ("PATH" . "$PNPM_HOME:$HOME/.bun/bin:$HOME/.sst/bin:$HOME/.config/emacs-doom/bin:$HOME/.local/share/gem/ruby/2.0.0/bin:$HOME/.config/rofi/bin:/usr/bin:$GOPATH/bin:$HOME/.dotnet/tools:$HOME/.cargo/bin:$HOME/.local/bin:$PATH")
                      ("TERMCMD" . "wezterm start")
                      ("TERMINAL" . "wezterm")
-                     ("EDITOR" . "nvim")
+                     ("EDITOR" . "helix")
                      ("PAGER" . "less -R")
                      ("BROWSER" . "$HOME/.guix-profile/bin/firefox")
                      ("GDK_BACKEND" . "wayland")
