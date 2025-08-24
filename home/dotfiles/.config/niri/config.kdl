@@ -175,6 +175,7 @@ spawn-at-startup "swww-daemon"
 spawn-at-startup "dropbox" "start"
 spawn-at-startup "xwayland-satellite"
 spawn-at-startup "swaybg" "-i" "/home/ben/.config/niri/bg.jpeg"
+spawn-at-startup "LD_LIBRARY_PATH=$LIBRARY_PATH" "uvx" "--with" "croniter" "safeeyes==3.0.0b5"
 
 // xwayland
 environment {
