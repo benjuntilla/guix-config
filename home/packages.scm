@@ -510,7 +510,5 @@
          "emacs-exec-path-from-shell"
          "niri"
          "qtbase"
-         "wlrctl"  ;; for safeeyes fullscreen detection
-         "alsa-utils"  ;; for safeeyes audio
          "mesa"
          "libxcb")))
