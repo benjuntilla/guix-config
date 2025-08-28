@@ -1,0 +1,143 @@
+#!/usr/bin/env python3
+import re
+import shutil
+import sqlite3
+import tempfile
+import configparser
+import subprocess
+import sys
+from pathlib import Path
+from urllib.parse import quote_plus
+
+FIREFOX_HOME = Path.home() / ".mozilla/firefox"
+SEARCH_ENGINE = "https://duckduckgo.com/?q="  # Change to your preferred search engine
+
+def sqlite_regexp(pattern, string):
+    return re.search(pattern, string) != None
+
+def copy_db(location):
+    destination = Path(tempfile.mkstemp()[1])
+    shutil.copy2(str(location), str(destination))
+    return destination
+
+def get_profile_name():
+    config = configparser.ConfigParser()
+    config.read(FIREFOX_HOME / "profiles.ini")
+    profile = config["Profile0"]["Path"]
+    profiles = [
+        section for section in list(config.keys()) if section.startswith("Profile")
+    ]
+    if profiles and len(profiles) > 1:
+        for name in profiles:
+            if config[name].get("Default") == "1":
+                profile = config[name]["Path"]
+                break
+    return profile
+
+def get_history_and_bookmarks(db_file):
+    conn = sqlite3.connect(db_file)
+    conn.create_function("REGEXP", 2, sqlite_regexp)
+    cursor = conn.cursor()
+    
+    # Get both history and bookmarks with titles
+    select_statement = r"""
+        SELECT DISTINCT 
+            RTRIM(p.url,'/') as url,
+            COALESCE(b.title, p.title, p.url) as title
+        FROM moz_places p
+        LEFT JOIN moz_bookmarks b ON p.id = b.fk
+        WHERE p.url REGEXP '^(.*):\/\/'
+        ORDER BY p.visit_count DESC
+        LIMIT 500
+    """
+    cursor.execute(select_statement)
+    result = cursor.fetchall()
+    cursor.close()
+    return result
+
+def format_for_display(results):
+    """Format results as 'title — url' for better readability"""
+    formatted = []
+    for url, title in results:
+        if title and title != url:
+            formatted.append(f"{title} — {url}")
+        else:
+            formatted.append(url)
+    return formatted
+
+def run_rofi(options):
+    """Run rofi and return the selected option"""
+    rofi_cmd = ["rofi", "-dmenu", "-i", "-p", "Search/URL:", "-matching", "normal"]
+    
+    try:
+        result = subprocess.run(
+            rofi_cmd,
+            input="\n".join(options),
+            text=True,
+            capture_output=True
+        )
+        return result.stdout.strip() if result.returncode == 0 else None
+    except (subprocess.CalledProcessError, FileNotFoundError):
+        return None
+
+def parse_selection(selection, formatted_results):
+    """Parse selection and determine the URL or search query"""
+    if not selection:
+        return None
+    
+    # Check if it's a formatted result (title — url)
+    if " — " in selection:
+        # User selected from history/bookmarks
+        url = selection.split(" — ")[-1]
+        return url
+    
+    # Check if selection matches any URL directly
+    for item in formatted_results:
+        if selection in item:
+            if " — " in item:
+                url = item.split(" — ")[-1]
+            else:
+                url = item
+            return url
+    
+    # Check if it looks like a URL
+    url_patterns = [
+        r'^https?://',
+        r'^[a-zA-Z0-9-]+\.[a-zA-Z]{2,}',  # domain.com
+        r'^localhost',
+        r'^127\.0\.0\.1',
+        r'^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}'  # IP address
+    ]
+    
+    for pattern in url_patterns:
+        if re.match(pattern, selection):
+            # Add protocol if missing
+            if not selection.startswith(('http://', 'https://')):
+                selection = 'https://' + selection
+            return selection
+    
+    # Otherwise, treat as search query
+    return SEARCH_ENGINE + quote_plus(selection)
+
+def main():
+    profile_name = get_profile_name()
+    db_file = copy_db(FIREFOX_HOME / f"{profile_name}/places.sqlite")
+    
+    try:
+        results = get_history_and_bookmarks(db_file)
+        formatted_results = format_for_display(results)
+        
+        # Run rofi with history/bookmarks
+        selection = run_rofi(formatted_results)
+        
+        if selection:
+            url = parse_selection(selection, formatted_results)
+            if url:
+                # Open in Firefox
+                subprocess.run(["firefox", url])
+    
+    finally:
+        db_file.unlink()
+
+if __name__ == "__main__":
+    main()
