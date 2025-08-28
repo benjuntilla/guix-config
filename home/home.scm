@@ -39,7 +39,6 @@
                      ("XDG_DESKTOP_DIR" . "$HOME/Downloads/Desktop")
                      ("XDG_DATA_DIRS" . "/var/lib/flatpak/exports/share:/home/ben/.local/share/flatpak/exports/share:$XDG_DATA_DIRS")
                      ("DELTA_FEATURES" . "side-by-side")
-                     ("LEDGER_FILE" . "$HOME/org/.hledger.journal")
                      ("GLIBC_TUNABLES" . "glibc.rtld.dynamic_sort=2")
                      ("AWS_VAULT_BACKEND" . "pass")
                      ("AWS_VAULT_PASS_PREFIX" . "aws-vault/")
@@ -66,7 +65,11 @@ thefuck --alias | source
 source /run/current-system/profile/etc/profile.d/nix.fish
 ")))
                                     (aliases
-                                     '(("g" . "git")))))
+                                     '(("g" . "git")
+                                       ("l" . "lsd")
+                                       ("ll" . "lsd -l")
+                                       ("la" . "lsd -A")
+                                       ("lla" . "lsd -lA")))))
    (simple-service 'emacs-daemon
                    home-shepherd-service-type
                    (list (shepherd-service
