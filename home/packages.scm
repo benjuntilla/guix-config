@@ -492,7 +492,6 @@
          "mu"
          "pa-notify"
          "mold"
-         "xdg-desktop-portal-gnome"
          "fish"
          "helix"
          "clang-toolchain"
