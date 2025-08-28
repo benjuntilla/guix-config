@@ -10,7 +10,7 @@ from pathlib import Path
 from urllib.parse import quote_plus
 
 FIREFOX_HOME = Path.home() / ".mozilla/firefox"
-SEARCH_ENGINE = "https://duckduckgo.com/?q="  # Change to your preferred search engine
+SEARCH_ENGINE = "https://kagi.com/?q="  # Change to your preferred search engine
 
 def sqlite_regexp(pattern, string):
     return re.search(pattern, string) != None
