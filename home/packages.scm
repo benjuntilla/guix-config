@@ -478,10 +478,7 @@
          "xdg-desktop-portal"
          "fontmanager"
          "mangohud"
-         "unoconv"
-         "libreoffice"
          "libappindicator"
-         "syncplay"
          "unison"
          "maven"
          "obs-advanced-masks"
@@ -508,6 +505,5 @@
          "git-delta"
          "emacs-exec-path-from-shell"
          "niri"
-         "qtbase"
          "mesa"
          "libxcb")))
