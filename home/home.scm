@@ -189,7 +189,7 @@ end
    (service home-gpg-agent-service-type
             (home-gpg-agent-configuration
              (pinentry-program
-              (file-append pinentry-rofi "/bin/pinentry-rofi"))
+              (file-append pinentry-tty "/bin/pinentry-tty"))
              ;; make cache times functionally infinite
              (default-cache-ttl 34560000)
              (max-cache-ttl 34560000)
