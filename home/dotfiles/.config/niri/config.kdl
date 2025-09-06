@@ -176,6 +176,7 @@ spawn-at-startup "dropbox" "start"
 spawn-at-startup "xwayland-satellite"
 spawn-at-startup "swaybg" "-i" "/home/ben/.config/niri/bg.jpeg"
 spawn-at-startup "guix" "shell" "wlrctl" "alsa-utils" "glibc" "python" "gtk" "gtk+" "--" "uvx" "--with" "croniter" "safeeyes"
+spawn-at-startup "darkman" "run"
 
 // xwayland
 environment {

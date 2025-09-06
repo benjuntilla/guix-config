@@ -73,6 +73,7 @@ set GPG_TTY (tty)
 ")))
                                     (aliases
                                      '(("g" . "git")
+                                       ("c" . "claude")
                                        ("l" . "lsd")
                                        ("ll" . "lsd -l")
                                        ("la" . "lsd -A")
