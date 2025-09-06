@@ -450,6 +450,7 @@
          "kirigami"
          "kirigami-addons"
          "firefox"
+         "zen-browser-bin"
          "gnome-console"
          "epiphany"
          "easyeffects"

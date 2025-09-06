@@ -114,15 +114,24 @@ source /run/current-system/profile/etc/profile.d/nix.fish
                             "9edb3f66fd807b096b48283debdcddccfea34bad"
                             (openpgp-fingerprint
                              "BBB0 2DDF 2CEA F6A8 0D1D  E643 A2A0 6DF2 A33A 54FA"))))
-                               (channel
-        (name 'abbe)
-        (url "https://codeberg.org/group/guix-modules.git")
-        (branch "mainline")
-        (introduction
-          (make-channel-introduction
-            "8c754e3a4b49af7459a8c99de130fa880e5ca86a"
-            (openpgp-fingerprint
-              "F682 CDCC 39DC 0FEA E116  20B6 C746 CFA9 E74F A4B0"))))
+                         (channel
+                          (name 'abbe)
+                          (url "https://codeberg.org/group/guix-modules.git")
+                          (branch "mainline")
+                          (introduction
+                           (make-channel-introduction
+                            "8c754e3a4b49af7459a8c99de130fa880e5ca86a"
+                            (openpgp-fingerprint
+                             "F682 CDCC 39DC 0FEA E116  20B6 C746 CFA9 E74F A4B0"))))
+                         (channel
+                          (name 'saayix)
+                          (branch "entropy")
+                          (url "https://codeberg.org/look/saayix")
+                          (introduction
+                           (make-channel-introduction
+                            "12540f593092e9a177eb8a974a57bb4892327752"
+                            (openpgp-fingerprint
+                             "3FFA 7335 973E 0A49 47FC  0A8C 38D5 96BE 07D3 34AB"))))
                          (channel
                           (name 'rosenthal)
                           (url "https://codeberg.org/hako/rosenthal.git")
