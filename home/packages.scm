@@ -422,6 +422,7 @@
          "gallery-dl"
          "pamixer"
          "xdg-desktop-portal-wlr"
+         "xdg-desktop-portal-gtk"
          "python-lsp-server"
          "yt-dlp"
          "wf-recorder"

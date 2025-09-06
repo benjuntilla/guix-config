@@ -37,7 +37,7 @@
                      ("DOTNET_CLI_TELEMETRY_OPTOUT" . "1")
                      ("XDG_SCREENSHOTS_DIR" . "$HOME/Downloads")
                      ("XDG_DESKTOP_DIR" . "$HOME/Downloads/Desktop")
-                     ("XDG_DATA_DIRS" . "/var/lib/flatpak/exports/share:/home/ben/.local/share/flatpak/exports/share:$XDG_DATA_DIRS")
+                     ("XDG_DATA_DIRS" . "/home/ben/.local/share:/var/lib/flatpak/exports/share:/home/ben/.local/share/flatpak/exports/share:$XDG_DATA_DIRS")
                      ("DELTA_FEATURES" . "side-by-side")
                      ("GLIBC_TUNABLES" . "glibc.rtld.dynamic_sort=2")
                      ("AWS_VAULT_BACKEND" . "pass")
