@@ -60,15 +60,16 @@ function fish_greeting
 end
 funcsave fish_greeting >/dev/null
 
-thefuck --alias | source
-
 source /run/current-system/profile/etc/profile.d/nix.fish
 
-# Auto-launch niri on particular tty
+# Auto-launch compositor
 if status is-login
     and test (tty) = \"/dev/tty1\"
     exec niri --session
 end
+
+# required since we use pinentry-tty
+set GPG_TTY (tty)
 ")))
                                     (aliases
                                      '(("g" . "git")
@@ -190,12 +191,6 @@ end
             (home-gpg-agent-configuration
              (pinentry-program
               (file-append pinentry-tty "/bin/pinentry-tty"))
-             ;; make cache times functionally infinite
-             (default-cache-ttl 34560000)
-             (max-cache-ttl 34560000)
-             (default-cache-ttl-ssh 34560000)
-             (max-cache-ttl-ssh 34560000)
-             ;; enable ssh support
              (ssh-support? #t)))
 
    ;; link dotfiles
