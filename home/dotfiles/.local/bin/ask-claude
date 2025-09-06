@@ -11,5 +11,5 @@ end
 # URL encode the query
 set encoded_query (string escape --style=url "$query")
 
-# Open Firefox with the Claude AI URL
-firefox "https://claude.ai/new?q=$encoded_query" &
+# Open browser with the Claude AI URL
+$BROWSER "https://claude.ai/new?q=$encoded_query" &
