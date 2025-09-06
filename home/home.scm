@@ -30,7 +30,7 @@
                      ("TERMINAL" . "wezterm")
                      ("EDITOR" . "hx")
                      ("PAGER" . "less -R")
-                     ("BROWSER" . "$HOME/.guix-profile/bin/zen")
+                     ("BROWSER" . "zen")
                      ("GDK_BACKEND" . "wayland")
                      ("ALTERNATE_EDITOR" . "nvim")
                      ("SDL_VIDEO_MINIMIZE_ON_FOCUS_LOSS" . "0")
