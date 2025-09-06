@@ -63,6 +63,12 @@ funcsave fish_greeting >/dev/null
 thefuck --alias | source
 
 source /run/current-system/profile/etc/profile.d/nix.fish
+
+# Auto-launch niri on tty /dev/pts/1
+if status is-login
+    and test (tty) = "/dev/pts/1"
+    exec niri --session
+end
 ")))
                                     (aliases
                                      '(("g" . "git")
