@@ -64,9 +64,9 @@ thefuck --alias | source
 
 source /run/current-system/profile/etc/profile.d/nix.fish
 
-# Auto-launch niri on tty /dev/pts/1
+# Auto-launch niri on particular tty
 if status is-login
-    and test (tty) = "/dev/pts/1"
+    and test (tty) = \"/dev/tty1\"
     exec niri --session
 end
 ")))
