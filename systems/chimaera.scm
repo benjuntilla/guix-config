@@ -111,8 +111,8 @@
              (using-setuid? #f)))
    (service tlp-service-type
             (tlp-configuration
-             (cpu-scaling-governor-on-ac (list "performance"))
-             (cpu-scaling-governor-on-bat (list "balance_power"))))
+             (cpu-scaling-governor-on-ac (list "powersave"))
+             (cpu-scaling-governor-on-bat (list "powersave"))))
    (service bluetooth-service-type
             (bluetooth-configuration
              (auto-enable? #t)))
