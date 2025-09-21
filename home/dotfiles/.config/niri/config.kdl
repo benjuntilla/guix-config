@@ -176,7 +176,6 @@ spawn-at-startup "dropbox" "start"
 spawn-at-startup "xwayland-satellite"
 spawn-at-startup "swaybg" "-i" "/home/ben/.config/niri/bg.jpeg"
 spawn-at-startup "guix" "shell" "wlrctl" "alsa-utils" "glibc" "python" "gtk" "gtk+" "--" "uvx" "--with" "croniter" "safeeyes"
-spawn-at-startup "darkman" "run"
 
 // xwayland
 environment {
@@ -271,7 +270,7 @@ binds {
     Mod+Shift+Slash { show-hotkey-overlay; }
 
     // Useful applications
-    Mod+Return hotkey-overlay-title="Open Terminal" { spawn "kitty"; }
+    Mod+Return hotkey-overlay-title="Open Terminal" { spawn "ghostty"; }
     Mod+Space hotkey-overlay-title="Application Launcher" { spawn "fuzzel"; }
     Mod+b hotkey-overlay-title="browser  omnibar" { spawn "browser-omnibar"; }
     Mod+E hotkey-overlay-title="Open emacsclient" { spawn "emacsclient" "-c" "-a" "''"; }

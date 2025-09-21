@@ -4,6 +4,7 @@
              (gnu packages)
              (gnu services)
              (home services maestral)
+             (abbe packages golang)
              (guix gexp)
              (guix channels)
              (gnu home services)
@@ -24,6 +25,7 @@
    (simple-service 'environment-variables
                    home-environment-variables-service-type
                    '(("PNPM_HOME" . "$HOME/.pnpm")
+                     ("XDG_DESKTOP_PORTAL_DIR" . "$HOME/.local/share/xdg-desktop-portal/portals")
                      ("GOPATH" . "$HOME/.local/share/go")
                      ("PATH" . "$PNPM_HOME:$HOME/.bun/bin:$HOME/.sst/bin:$HOME/.config/emacs-doom/bin:$HOME/.local/share/gem/ruby/2.0.0/bin:$HOME/.config/rofi/bin:/usr/bin:$GOPATH/bin:$HOME/.dotnet/tools:$HOME/.cargo/bin:$HOME/.local/bin:$PATH")
                      ("TERMCMD" . "wezterm start")
@@ -111,6 +113,16 @@ set GPG_TTY (tty)
    (service home-pipewire-service-type)
    (service home-dbus-service-type)
    (service home-batsignal-service-type)
+   (simple-service
+    'darkman-service
+    home-shepherd-service-type
+    (list (shepherd-service
+           (provision '(darkman))
+           (documentation "Dark/light mode daemon (darkman)")
+           (start #~(make-forkexec-constructor
+                     (list #$(file-append darkman "/bin/darkman") "run")))
+           (stop #~(make-kill-destructor))
+           (auto-start? #t))))
    (simple-service 'extra-channels-service
                    home-channels-service-type
                    (list (channel

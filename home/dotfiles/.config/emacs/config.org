@@ -1509,7 +1509,12 @@ Show whitespace information
 #+end_src
 ** theming
 #+begin_src emacs-lisp
-(load-theme 'ef-cyprus)
+(use-package auto-dark
+  :custom
+  (auto-dark-light-theme 'ef-light)
+  (auto-dark-dark-theme 'ef-dark)
+  :config
+  (auto-dark-mode t))
 #+end_src
 ** diff-hl
 [[https://github.com/dgutov/diff-hl/issues/116#issuecomment-449134234][Minimal fringe code src]]
