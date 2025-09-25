@@ -305,7 +305,7 @@
          "swaylock"
          "gstreamer"
          "egl-wayland"
-         "rofi-wayland"
+         "rofi"
          "wl-clipboard"
          "cmake"
          "mupdf"
