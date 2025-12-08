@@ -403,6 +403,10 @@ Use ~multi-vterm~ to manage multiple ~vterm~ buffers
 #+end_src
 * org
 #+begin_src emacs-lisp
+(with-eval-after-load 'org-agenda
+  (set-face-attribute 'org-scheduled-today nil :foreground 'unspecified :weight 'normal)
+  (set-face-attribute 'org-scheduled nil :foreground 'unspecified))
+
 (use-package org
   :delight (org-indent-mode) (org-cdlatex-mode)
   :hook ((org-mode . (lambda ()
