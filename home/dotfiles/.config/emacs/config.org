@@ -457,6 +457,7 @@ Use ~multi-vterm~ to manage multiple ~vterm~ buffers
   (org-special-ctrl-a/e t)
   (org-modules (quote (org-habit org-protocol)))
   (org-agenda-files `(,(concat org-directory "/gtd.org")))
+  (org-sort-agenda-notime-is-late nil)  ;; overdue tasks go above daily schedule
   (org-tags-exclude-from-inheritance '("todo"))
   (org-agenda-tags-column 0)
   (org-deadline-warning-days 7)
