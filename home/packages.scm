@@ -316,6 +316,7 @@
          "emacs-flymake-proselint"
          "slurp"
          "git"
+         "jujutsu"
          "hledger"
          "texlive"
          "python-black"
