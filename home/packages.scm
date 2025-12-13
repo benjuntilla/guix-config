@@ -317,6 +317,7 @@
          "slurp"
          "git"
          "jujutsu"
+         "jjui"
          "hledger"
          "texlive"
          "python-black"
