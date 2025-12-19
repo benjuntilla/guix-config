@@ -988,9 +988,10 @@ Set up tab configuration
 (setq-default cperl-indent-level 2)
 #+end_src
 
-Use ~auto-fill-mode~ for hard wrapping
+Disable hard wrapping
 #+begin_src emacs-lisp
-(toggle-text-mode-auto-fill)
+(auto-fill-mode -1)
+(remove-hook 'text-mode-hook #'turn-on-auto-fill)
 #+end_src
 
 Use ~org-noter~ for annotating documents
