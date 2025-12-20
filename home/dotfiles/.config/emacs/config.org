@@ -413,7 +413,6 @@ Use ~multi-vterm~ to manage multiple ~vterm~ buffers
                        ;; enable certain modes when in roam dir
                        (when (string-prefix-p (expand-file-name org-root-dir) (buffer-file-name))
                          (setq line-spacing 2)
-                         (adaptive-wrap-prefix-mode)
                          (olivetti-mode)
                          (mixed-pitch-mode))))
          ;; automatically switch TODO entry to done when all its subentries are complete
@@ -1457,12 +1456,6 @@ Miscellaneous
 (setq-default indicate-empty-lines t)
 (custom-set-faces
  '(org-ellipsis ((t (:foreground "deep sky blue" :underline nil)))))
-#+end_src
-
-"Adaptive Wrap Mode is the (soft wrap) analog on the left side, as
-VisualFillColumn is on the right side."
-#+begin_src emacs-lisp
-(use-package adaptive-wrap)
 #+end_src
 
 Show whitespace information

@@ -252,7 +252,6 @@
          "emacs-biblio"
          "emacs-smartparens"
          "emacs-wgrep"
-         "emacs-adaptive-wrap"
          "emacs-dash"
          "emacs-origami"
          "emacs-helpful"
