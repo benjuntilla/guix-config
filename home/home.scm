@@ -72,7 +72,17 @@ end
 
 # required since we use pinentry-tty
 set GPG_TTY (tty)
-")))
+
+# Ctrl+o: fzf directory selection and cd
+function __fzf_select_dir_and_cd
+    set selected (find ~/src -mindepth 1 -maxdepth 1 -type d | sed 's|^~/|~|' | fzf --height 40% --reverse --preview 'ls -la {}')
+    if test -n \"$selected\"
+        cd $selected
+        commandline -f repaint
+    end
+end
+bind \\co '__fzf_select_dir_and_cd'
+"))) 
                                     (aliases
                                      '(("g" . "git")
                                        ("c" . "claude")
