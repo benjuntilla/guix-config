@@ -7,6 +7,7 @@
              (guix gexp)
              (guix channels)
              (gnu home services)
+             (gnu home services niri)
              (gnu home services shells)
              (gnu home services shepherd)
              (gnu home services gnupg)
@@ -62,12 +63,6 @@ end
 funcsave fish_greeting >/dev/null
 
 source /run/current-system/profile/etc/profile.d/nix.fish
-
-# Auto-launch compositor
-if status is-login
-    and test (tty) = \"/dev/tty1\"
-    exec niri --session
-end
 
 # required since we use pinentry-tty
 set GPG_TTY (tty)
@@ -128,6 +123,7 @@ bind \\co '__fzf_select_dir_and_cd'
    (simple-service 'my-packages
                    home-profile-service-type
                    my-packages)
+   (service home-niri-service-type)
    (service home-pipewire-service-type)
    (service home-dbus-service-type)
    (service home-batsignal-service-type)
