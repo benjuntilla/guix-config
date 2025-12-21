@@ -3,9 +3,7 @@
              (gnu home)
              (gnu packages)
              (gnu services)
-             (gnu packages package-management)
              (home services maestral)
-             (abbe packages golang)
              (guix gexp)
              (guix channels)
              (gnu home services)
@@ -18,7 +16,7 @@
              (gnu home services dotfiles)
              (gnu home services guix)
              (home packages))
-(use-package-modules gnupg emacs)
+(use-package-modules gnupg emacs package-management xdisorg)
 
 (home-environment
  (services
@@ -154,15 +152,6 @@ bind \\co '__fzf_select_dir_and_cd'
                             "9edb3f66fd807b096b48283debdcddccfea34bad"
                             (openpgp-fingerprint
                              "BBB0 2DDF 2CEA F6A8 0D1D  E643 A2A0 6DF2 A33A 54FA"))))
-                         (channel
-                          (name 'abbe)
-                          (url "https://codeberg.org/group/guix-modules.git")
-                          (branch "mainline")
-                          (introduction
-                           (make-channel-introduction
-                            "8c754e3a4b49af7459a8c99de130fa880e5ca86a"
-                            (openpgp-fingerprint
-                             "F682 CDCC 39DC 0FEA E116  20B6 C746 CFA9 E74F A4B0"))))
                          (channel
                           (name 'saayix)
                           (branch "entropy")
