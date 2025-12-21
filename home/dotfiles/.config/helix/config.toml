@@ -1,4 +1,6 @@
-theme = "catppuccin_latte"
+[theme]
+dark = "dark_plus"
+light = "catppuccin_latte"
 
 [editor.soft-wrap]
 enable = true
