@@ -95,7 +95,6 @@
          "emacs-git-modes"
          "emacs-olivetti"
          "emacs-modus-themes"
-         "emacs-ef-themes"
          "emacs-ws-butler"
          "emacs-anzu"
          "emacs-evil-anzu"
