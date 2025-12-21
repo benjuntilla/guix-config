@@ -113,7 +113,7 @@ bind \\co '__fzf_select_dir_and_cd'
                    (list (shepherd-service
                           (provision '(voxbolt))
                           (start #~(make-forkexec-constructor
-                                    (list "/home/ben/src/voxbolt/target/release/voxbolt")))
+                                    (list "bash" "-c" "source ~/.env.local && exec /home/ben/src/voxbolt/target/release/voxbolt")))
                           (stop #~(make-kill-destructor))
                           (respawn? #t))))
    (simple-service 'my-packages
