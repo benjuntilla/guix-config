@@ -5,8 +5,7 @@
 
 (define my-packages
   (map specification->package
-       '("texlive-koma-script"
-         "thefuck"
+       '("thefuck"
          "podman"
          "podman-compose"
          "emacs-popper"
@@ -317,7 +316,6 @@
          "jujutsu"
          "jjui"
          "hledger"
-         "texlive"
          "python-black"
          "foot"
          "mesa-opencl"
@@ -329,7 +327,6 @@
          "phoronix-test-suite"
          "fastfetch"
          "asciinema"
-         "texlive-cluttex"
          "tesseract-ocr"
          "emacs-elfeed-org"
          "emacs-guix"
