@@ -1510,8 +1510,8 @@ Show whitespace information
 #+begin_src emacs-lisp
 (use-package auto-dark
   :custom
-  (auto-dark-light-theme 'ef-light)
-  (auto-dark-dark-theme 'ef-dark)
+  (auto-dark-dark-theme 'doom-dark+)
+  (auto-dark-light-theme 'doom-one-light)
   :config
   (auto-dark-mode t))
 #+end_src
