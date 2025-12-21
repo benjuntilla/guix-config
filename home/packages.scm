@@ -337,7 +337,6 @@
          "lm-sensors"
          "dbxfs"
          "git-sizer"
-         "vscodium"
          "java-eclipse-lsp4j-jsonrpc"
          "java-eclipse-jdt-core"
          "emacs-subed"
