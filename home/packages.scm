@@ -284,7 +284,6 @@
          "emacs-all-the-icons"
          "emacs-eglot-tempel"
          "emacs-dirvish"
-         "keybase"
          "ninja"
          "wimlib"
          "mediainfo"

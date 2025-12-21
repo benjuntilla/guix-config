@@ -3,6 +3,7 @@
              (gnu home)
              (gnu packages)
              (gnu services)
+             (gnu packages package-management)
              (home services maestral)
              (abbe packages golang)
              (guix gexp)
@@ -192,15 +193,6 @@ bind \\co '__fzf_select_dir_and_cd'
                              "325d3e2859d482c16da21eb07f2c6ff9c6c72a80"
                              (openpgp-fingerprint
                               "F695 F39E C625 E081 33B5  759F 0FC6 8703 75EF E2F5"))))
-                         (channel
-                          (name 'efraim-dfsg)
-                          (url "https://git.sr.ht/~efraim/my-guix")
-                          (branch "master")
-                          (introduction
-                           (make-channel-introduction
-                            "61c9f87404fcb97e20477ec379b643099e45f1db"
-                            (openpgp-fingerprint
-                             "A28B F40C 3E55 1372 662D  14F7 41AA E7DC CA3D 8351"))))
                          (channel
                           (name 'guix-gaming-games)
                           (url "https://gitlab.com/guix-gaming-channels/games.git")
