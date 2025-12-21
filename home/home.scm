@@ -27,9 +27,6 @@
                    '(("PNPM_HOME" . "$HOME/.pnpm")
                      ("XDG_DESKTOP_PORTAL_DIR" . "$HOME/.local/share/xdg-desktop-portal/portals")
                      ("GOPATH" . "$HOME/.local/share/go")
-                     ("PATH" . "$PNPM_HOME:$HOME/.bun/bin:$HOME/.sst/bin:$HOME/.config/emacs-doom/bin:$HOME/.local/share/gem/ruby/2.0.0/bin:$HOME/.config/rofi/bin:/usr/bin:$GOPATH/bin:$HOME/.dotnet/tools:$HOME/.cargo/bin:$HOME/.local/bin:$PATH")
-                     ("TERMCMD" . "wezterm start")
-                     ("TERMINAL" . "wezterm")
                      ("EDITOR" . "hx")
                      ("PAGER" . "less -R")
                      ("BROWSER" . "zen")
@@ -55,6 +52,8 @@
                      ("GPG_TTY" . "$(tty)")
                      ("NIXPKGS_ALLOW_UNFREE" . "1")))
    (service home-fish-service-type (home-fish-configuration
+                                    (environment-variables
+                                     '(("PATH" . "$PNPM_HOME:$HOME/.bun/bin:$HOME/.sst/bin:$HOME/.config/emacs-doom/bin:$HOME/.local/share/gem/ruby/2.0.0/bin:$HOME/.config/rofi/bin:/usr/bin:$GOPATH/bin:$HOME/.dotnet/tools:$HOME/.cargo/bin:$HOME/.local/bin:$PATH")))
                                     (config
                                      (list (plain-file "config.fish" "
 function fish_greeting
