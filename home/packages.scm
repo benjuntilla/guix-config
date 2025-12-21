@@ -382,7 +382,6 @@
          "libratbag"
          "emacs-cdlatex"
          "emacs-evil-tex"
-         "grub"
          "openjdk"
          "tomb"
          "pinentry"
