@@ -116,10 +116,19 @@ bind \\co '__fzf_select_dir_and_cd'
                                     (list "bash" "-c" "source ~/.env.local && exec /home/ben/src/voxbolt/target/release/voxbolt")))
                           (stop #~(make-kill-destructor))
                           (respawn? #t))))
+   (simple-service 'dropbox
+                   home-shepherd-service-type
+                   (list (shepherd-service
+                          (provision '(dropbox))
+                          (documentation "Dropbox file sync daemon.")
+                          (start #~(make-forkexec-constructor
+                                    (list "dropbox" "start")
+                                    #:pid-file (string-append (getenv "HOME") "/.dropbox/dropbox.pid")))
+                          (stop #~(make-kill-destructor))
+                          (auto-start? #t))))
    (simple-service 'my-packages
                    home-profile-service-type
                    my-packages)
-   (service home-maestral-service-type)
    (service home-pipewire-service-type)
    (service home-dbus-service-type)
    (service home-batsignal-service-type)
