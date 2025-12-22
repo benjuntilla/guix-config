@@ -187,6 +187,7 @@
           "emacs-gptel"
           "font-libertinus"
           "emacs-auto-dark"
+          "darkman"
           "emacs-biblio"
           "emacs-smartparens"
           "emacs-wgrep"
