@@ -137,6 +137,7 @@
           "openssl"
           "inotify-tools"
           "tree"
+          "xwayland-satellite"  ;; automatically used by niri
           "font-ibm-plex"
           "emacs-eglot"
           "emacs-corfu"

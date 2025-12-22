@@ -172,14 +172,8 @@ spawn-at-startup "dunst"
 spawn-at-startup "waybar"
 spawn-at-startup "gammastep-indicator"
 spawn-at-startup "swww-daemon"
-spawn-at-startup "xwayland-satellite"
 spawn-at-startup "swaybg" "-i" "/home/ben/.config/niri/bg.jpeg"
-spawn-at-startup "guix" "shell" "wlrctl" "alsa-utils" "glibc" "python" "gtk" "gtk+" "--" "uvx" "--with" "croniter" "--with" "pywayland" "safeeyes"
-
-// xwayland
-environment {
-    DISPLAY ":0"
-}
+spawn-at-startup "safeeyes
 
 // Uncomment this line to ask the clients to omit their client-side decorations if possible.
 // If the client will specifically ask for CSD, the request will be honored.
