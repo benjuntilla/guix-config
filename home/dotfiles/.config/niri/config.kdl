@@ -173,7 +173,7 @@ spawn-at-startup "waybar"
 spawn-at-startup "gammastep-indicator"
 spawn-at-startup "swww-daemon"
 spawn-at-startup "swaybg" "-i" "/home/ben/.config/niri/bg.jpeg"
-spawn-at-startup "safeeyes
+spawn-at-startup "safeeyes"
 
 // Uncomment this line to ask the clients to omit their client-side decorations if possible.
 // If the client will specifically ask for CSD, the request will be honored.
