@@ -149,7 +149,7 @@ bind \\co '__fzf_select_dir_and_cd'
                              "BBB0 2DDF 2CEA F6A8 0D1D  E643 A2A0 6DF2 A33A 54FA"))))
                          (channel
                           (name 'saayix)
-                          (branch "entropy")
+                          (branch "main")
                           (url "https://codeberg.org/look/saayix")
                           (introduction
                            (make-channel-introduction
