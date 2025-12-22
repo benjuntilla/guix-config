@@ -52,6 +52,7 @@
 #idle_inhibitor,
 #custom-scratchpad-indicator,
 #custom-git-repos,
+#custom-dropbox,
 #custom-notification,
 #workspaces button,
 #tray {
@@ -148,4 +149,24 @@
 
 #custom-git-repos.not-clean {
     border-color: yellow;
+}
+
+#custom-dropbox {
+    color: #1f8dd6;
+}
+
+#custom-dropbox.syncing {
+    border-color: #4da6ff;
+    animation: pulse 1s infinite;
+}
+
+#custom-dropbox.error {
+    border-color: red;
+    color: red;
+}
+
+@keyframes pulse {
+    0% { opacity: 1; }
+    50% { opacity: 0.6; }
+    100% { opacity: 1; }
 }

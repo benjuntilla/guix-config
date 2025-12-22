@@ -2,7 +2,7 @@
   "height": 30,
   "modules-left": ["niri/workspaces", "sway/workspaces", "sway/mode"],
   "modules-center": ["clock"],
-  "modules-right": ["custom/git-repos", "backlight", "pulseaudio", "battery", "tray"],
+  "modules-right": ["custom/git-repos", "custom/dropbox", "backlight", "pulseaudio", "battery", "tray"],
 
   // Module configuration
 	"battery": {
@@ -118,6 +118,12 @@
     "return-type": "json",
     "max-length": 40,
     "exec": "$HOME/.config/waybar/check_git_repos.zsh 2> /dev/null",
+  },
+  "custom/dropbox": {
+    "format": "{}",
+    "interval": 3,
+    "return-type": "json",
+    "exec": "$HOME/.config/waybar/dropbox_status.sh 2> /dev/null",
   },
   "custom/scratchpad-indicator": {
     "interval": 1,
