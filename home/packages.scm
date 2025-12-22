@@ -176,6 +176,8 @@
           "emacs-git-auto-commit-mode"
           "wev"
           "wlr-randr"
+          "python-safeeyes"
+          "wlrctl"  ;; for safeeyes do not disturb support
           "kanshi"
           "eza"
           "tmux"
