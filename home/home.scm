@@ -115,7 +115,7 @@ bind \\co '__fzf_select_dir_and_cd'
                           (provision '(dropbox))
                           (documentation "Dropbox file sync daemon.")
                           (start #~(make-forkexec-constructor
-                                    (list "dropbox" "start")
+                                    (list (string-append (getenv "HOME") "/.local/bin/dropbox") "start")
                                     #:pid-file (string-append (getenv "HOME") "/.dropbox/dropbox.pid")))
                           (stop #~(make-kill-destructor))
                           (auto-start? #t))))
