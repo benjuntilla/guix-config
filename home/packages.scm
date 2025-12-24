@@ -74,6 +74,7 @@
           "emacs-kind-icon"
           "emacs-org-pomodoro"
           "emacs-org-agenda-files-track"
+          "emacs-hide-mode-line"
           "emacs-crux"
           "emacs-git-link"
           "emacs-expand-region"

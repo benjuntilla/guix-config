@@ -1443,29 +1443,26 @@ Enable mouse interaction in terminal
 (xterm-mouse-mode 1)
 #+end_src
 
-Miscellaneous 
+prettify symbols :D
 #+begin_src emacs-lisp
 (global-prettify-symbols-mode)
-(show-paren-mode 1) ; visualize matching parenthesees
-(setq frame-resize-pixelwise t) ; fix gaps in window manager
-;; (plist-put org-format-latex-options :scale 1.5)  ;; bigger inline latex previews
-(setq org-preview-latex-default-process 'imagemagick)
-(setq-default frame-title-format '("%n %b - %F"))
-(setq uniquify-buffer-name-style 'forward)
-(column-number-mode t)
-(setq-default indicate-empty-lines t)
+#+end_src
+
+make ellipses stand out more
+#+begin_src emacs-lisp
 (custom-set-faces
  '(org-ellipsis ((t (:foreground "deep sky blue" :underline nil)))))
 #+end_src
 
-Show whitespace information
+fix gaps in window manager
 #+begin_src emacs-lisp
-;; (add-hook 'org-mode-hook 'whitespace-mode)
-(add-hook 'prog-mode-hook 'whitespace-mode)
-(setq whitespace-style '(face tabs spaces trailing
-                              space-before-tab newline indentation
-                              empty space-after-tab tab-mark
-                              missing-newline-at-eof))
+(setq frame-resize-pixelwise t) ; fix gaps in window manager
+#+end_src
+
+Hide modeline
+#+begin_src emacs-lisp
+(use-package hide-mode-line
+  :hook org-mode)
 #+end_src
 
 ** ~org-superstar~
