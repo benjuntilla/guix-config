@@ -75,6 +75,9 @@ function __fzf_select_dir_and_cd
     end
 end
 bind \\co '__fzf_select_dir_and_cd'
+
+# Ctrl+e: open helix editor in current directory
+bind \\ce 'hx .'
 "))) 
                                     (aliases
                                      '(("g" . "git")
