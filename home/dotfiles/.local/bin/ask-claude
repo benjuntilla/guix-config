@@ -4,6 +4,11 @@ set tmpfile (mktemp)
 
 ghostty --class=ask-claude --title=ask-claude -e bash -c "gum write --placeholder 'Ask Claude...' > $tmpfile"
 
+if test -z (string collect < $tmpfile)
+    rm $tmpfile
+    exit 0
+end
+
 set encoded_prompt (python3 -c 'import sys, urllib.parse; print(urllib.parse.quote(open(sys.argv[1]).read()))' "$tmpfile")
 rm $tmpfile
 

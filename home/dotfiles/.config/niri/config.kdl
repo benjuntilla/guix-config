@@ -259,7 +259,7 @@ window-rule {
 
     default-window-height { proportion 0.5; }
     default-floating-position x=0 y=10 relative-to="bottom"
-    default-column-width { proportion 0.8; }
+    default-column-width { proportion 0.4; }
 }
 
 binds {
