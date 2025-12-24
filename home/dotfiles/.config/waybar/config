@@ -2,7 +2,7 @@
   "height": 30,
   "modules-left": ["niri/workspaces", "sway/workspaces", "sway/mode"],
   "modules-center": ["clock"],
-  "modules-right": ["custom/git-repos", "custom/dropbox", "backlight", "pulseaudio", "battery", "tray"],
+  "modules-right": ["backlight", "pulseaudio", "battery", "custom/git-repos", "custom/dropbox", "tray"],
 
   // Module configuration
 	"battery": {

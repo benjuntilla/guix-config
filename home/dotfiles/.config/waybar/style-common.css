@@ -33,7 +33,7 @@
 }
 
 #waybar {
-    background: @background-color;
+    background: transparent;
     color: @text-color;
     font-family: Cantarell, "Font Awesome 6 Free Solid", FontAwesome, Noto Sans, sans-serif;
     font-size: 13px;
@@ -54,18 +54,29 @@
 #custom-dropbox,
 #custom-notification,
 #tray {
-    border-top: 4px solid transparent;
-    border-color: @accent-color;
-    padding-bottom: 0px;
+    background: @background-color;
+    border-radius: 8px;
+    padding-bottom: 2px;
+    padding-top: 2px;
     padding-left: 10px;
     padding-right: 10px;
-    margin-right: 5px;
+    margin-right: 8px;
+    margin-top: 5px;
+}
+
+#workspaces {
+    background: @background-color;
+    border-radius: 8px;
+    margin-left: 8px;
+    margin-top: 5px;
+    padding-left: 5px;
+    padding-right: 5px;
 }
 
 #workspaces button {
     padding-left: 10px;
     padding-right: 10px;
-    margin-right: 5px;
+    margin-right: 0px;
 }
 
 /* Modules */
@@ -78,24 +89,28 @@
 
 #battery.warning {
     color: orange;
+    border: 1px solid orange;
 }
 
 #battery.critical {
     color: red;
+    border: 1px solid red;
 }
 
 #battery.charging {
-	color: green;
+    color: green;
 }
 
 #battery.warning.discharging {
     animation-name: blink-warning;
     animation-duration: 3s;
+    border: 1px solid orange;
 }
 
 #battery.critical.discharging {
     animation-name: blink-critical;
     animation-duration: 2s;
+    border: 1px solid red;
 }
 
 #cpu.warning {
@@ -124,9 +139,7 @@
 
 #mode {
     background: @mode-background;
-    border-top: 2px solid @mode-border;
-    /* To compensate for the top border and still have vertical centering */
-    padding-bottom: 2px;
+    border: 1px solid @mode-border;
 }
 
 #network.disconnected {
@@ -143,17 +156,13 @@
 
 #workspaces button.focused {
     color: @text-color;
-    border-top: 4px solid @focused-background-color;
-    padding-bottom: 0px;
+    background: @focused-background-color;
+    border-radius: 6px;
 }
 
 #workspaces button.urgent {
     border-color: #c9545d;
     color: #c9545d;
-}
-
-#custom-git-repos.not-clean {
-    border-color: @git-dirty-color;
 }
 
 #custom-dropbox {
