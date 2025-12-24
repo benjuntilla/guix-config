@@ -139,13 +139,13 @@
 max_icon_size=128
 
 [urgency_low]
-background = "#263238"
-foreground = "#556064"
+background = "#000000"
+foreground = "#AAAAAA"
 timeout = 10
 
 [urgency_normal]
-background = "#263238"
-foreground = "#F9FAF9"
+background = "#000000"
+foreground = "#FFFFFF"
 timeout = 10
 
 [urgency_critical]
