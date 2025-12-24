@@ -39,6 +39,11 @@
     font-size: 13px;
 }
 
+#clock {
+    font-family: Space Grotesk;
+    font-weight: bold;
+}
+
 #battery,
 #clock,
 #cpu,
@@ -156,7 +161,7 @@
 
 #workspaces button.focused {
     color: @text-color;
-    background: @focused-background-color;
+    background: rgba(0, 0, 0, 0.15);
     border-radius: 6px;
 }
 

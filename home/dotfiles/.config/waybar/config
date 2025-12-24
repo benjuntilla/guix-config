@@ -44,7 +44,6 @@
   "clock": {
 		"interval": 1,
     "format": "{:%F %T}",
-		"format-alt": "{:%a %b %d %I:%M %p}",
   },
   "cpu": {
     "format": "CPU {usage}%",
