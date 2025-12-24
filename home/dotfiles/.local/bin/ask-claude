@@ -12,4 +12,4 @@ end
 set encoded_prompt (python3 -c 'import sys, urllib.parse; print(urllib.parse.quote(open(sys.argv[1]).read()))' "$tmpfile")
 rm $tmpfile
 
-xdg-open "https://claude.ai/new?q=$encoded_prompt" &
+$BROWSER --new-window "https://claude.ai/new?q=$encoded_prompt" &
