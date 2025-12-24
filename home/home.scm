@@ -17,7 +17,7 @@
              (gnu home services dotfiles)
              (gnu home services guix)
              (home packages))
-(use-package-modules gnupg emacs package-management xdisorg)
+(use-package-modules gnupg emacs package-management xdisorg bash)
 
 (home-environment
  (services
@@ -95,7 +95,8 @@ bind \\ce 'hx .'
                                           "--fg-daemon")
                                     #:log-file (string-append (getenv "HOME") "/.local/state/log/emacs-daemon.log")))
                           (stop #~(make-kill-destructor))
-                          (respawn? #t))))
+                          (respawn? #t)
+                          (auto-start? #t))))
    (simple-service 'ydotoold
                    home-shepherd-service-type
                    (list (shepherd-service
@@ -103,7 +104,8 @@ bind \\ce 'hx .'
                           (start #~(make-forkexec-constructor
                                     (list "ydotoold")))
                           (stop #~(make-kill-destructor))
-                          (respawn? #t))))
+                          (respawn? #t)
+                          (auto-start? #t))))
    (simple-service 'voxbolt
                    home-shepherd-service-type
                    (list (shepherd-service
@@ -111,7 +113,8 @@ bind \\ce 'hx .'
                           (start #~(make-forkexec-constructor
                                     (list "bash" "-c" "source ~/.env.local && exec /home/ben/src/voxbolt/target/release/voxbolt")))
                           (stop #~(make-kill-destructor))
-                          (respawn? #t))))
+                          (respawn? #t)
+                          (auto-start? #t))))
    (simple-service 'dropbox
                    home-shepherd-service-type
                    (list (shepherd-service
@@ -121,6 +124,7 @@ bind \\ce 'hx .'
                                     (list (string-append (getenv "HOME") "/.local/bin/dropbox") "start")
                                     #:pid-file (string-append (getenv "HOME") "/.dropbox/dropbox.pid")))
                           (stop #~(make-kill-destructor))
+                          (respawn? #t)
                           (auto-start? #t))))
    (simple-service 'my-packages
                    home-profile-service-type
@@ -138,7 +142,21 @@ bind \\ce 'hx .'
            (start #~(make-forkexec-constructor
                      (list #$(file-append darkman "/bin/darkman") "run")))
            (stop #~(make-kill-destructor))
+           (respawn? #t)
            (auto-start? #t))))
+    (simple-service
+     'dunst
+     home-shepherd-service-type
+     (list (shepherd-service
+            (provision '(dunst))
+            (documentation "Dunst notification daemon")
+            (start #~(make-forkexec-constructor
+                      (list "dunst")
+                      #:log-file (string-append (getenv "HOME") "/.local/state/log/dunst.log")))
+            (stop #~(make-kill-destructor))
+            (respawn? #f)
+            (auto-start? #t))))
+
    (simple-service 'extra-channels-service
                    home-channels-service-type
                    (list (channel
