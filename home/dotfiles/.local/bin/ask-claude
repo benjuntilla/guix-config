@@ -1,15 +1,10 @@
 #!/usr/bin/env fish
 
-# Get input from user via fuzzel
-set query (echo "" | fuzzel --dmenu --prompt "ask claude: " --lines 0 --width 80)
+set tmpfile (mktemp)
 
-# Check if user canceled (empty input)
-if test -z "$query"
-    exit 0
-end
+ghostty --class=ask-claude --title=ask-claude -e bash -c "gum write --placeholder 'Ask Claude...' > $tmpfile"
 
-# URL encode the query
-set encoded_query (string escape --style=url "$query")
+set encoded_prompt (python3 -c 'import sys, urllib.parse; print(urllib.parse.quote(open(sys.argv[1]).read()))' "$tmpfile")
+rm $tmpfile
 
-# Open browser with the Claude AI URL
-$BROWSER "https://claude.ai/new?q=$encoded_query" &
+xdg-open "https://claude.ai/new?q=$encoded_prompt" &
