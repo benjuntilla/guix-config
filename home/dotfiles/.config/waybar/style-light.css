@@ -1,0 +1,10 @@
+@import "style-defaults.css";
+
+@define-color background-color rgba(255, 255, 255, 0.85);
+@define-color text-color black;
+@define-color accent-color #666666;
+@define-color mode-background #aaaaaa;
+@define-color mode-border black;
+@define-color git-dirty-color #d4a500;
+
+@import "style-common.css";
