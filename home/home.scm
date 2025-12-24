@@ -144,19 +144,6 @@ bind \\ce 'hx .'
            (stop #~(make-kill-destructor))
            (respawn? #t)
            (auto-start? #t))))
-    (simple-service
-     'dunst
-     home-shepherd-service-type
-     (list (shepherd-service
-            (provision '(dunst))
-            (documentation "Dunst notification daemon")
-            (start #~(make-forkexec-constructor
-                      (list "dunst")
-                      #:log-file (string-append (getenv "HOME") "/.local/state/log/dunst.log")))
-            (stop #~(make-kill-destructor))
-            (respawn? #f)
-            (auto-start? #t))))
-
    (simple-service 'extra-channels-service
                    home-channels-service-type
                    (list (channel
