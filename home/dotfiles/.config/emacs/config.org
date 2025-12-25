@@ -539,9 +539,7 @@ cool command to open attachment associated with org-roam file
 
 bind it
 #+begin_src emacs-lisp
-  (with-eval-after-load 'general
-    (general-define-key
-     "C-c r a" 'ben/org-roam-open-attachment))
+(global-set-key (kbd "C-c r a") 'ben/org-roam-open-attachment)
 #+end_src
 ** ~org-agenda~
 #+begin_src emacs-lisp
@@ -617,10 +615,7 @@ Add command to copy path to clipboard
         (clipboard-kill-region (point-min) (point-max)))
       (message "Copied '%s' to clipboard" dir)))
 
-  (with-eval-after-load 'general
-    (general-define-key
-     :keymaps 'dired-mode-map
-     "C-c y" 'dired-copy-path-to-clipboard))
+(define-key dired-mode-map (kbd "C-c y") 'dired-copy-path-to-clipboard)
 #+end_src
 
 Add additional syntax highlighting
@@ -1011,8 +1006,7 @@ eglot integration with tinymist
 ** ~ibuffer~
 Bind [[https://www.emacswiki.org/emacs/IbufferMode][Ibuffer]] for advanced replacement of BufferMenu
 #+begin_src emacs-lisp
-  (with-eval-after-load 'general
-    (general-def "C-x C-b" 'ibuffer))
+(global-set-key (kbd "C-x C-b") 'ibuffer)
 #+end_src
 
 Configure default ~ibuffer~ filter group
