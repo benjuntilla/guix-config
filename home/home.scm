@@ -155,6 +155,14 @@ bind \\ce 'hx .'
                             "9edb3f66fd807b096b48283debdcddccfea34bad"
                             (openpgp-fingerprint
                              "BBB0 2DDF 2CEA F6A8 0D1D  E643 A2A0 6DF2 A33A 54FA"))))
+                          (channel
+                           (name 'emacs)
+                           (url "https://github.com/garrgravarr/guix-emacs")
+                           (introduction
+                            (make-channel-introduction
+                             "d676ef5f94d2c1bd32f11f084d47dcb1a180fdd4"
+                             (openpgp-fingerprint
+                              "2DDF 9601 2828 6172 F10C  51A4 E80D 3600 684C 71BA"))))
                          (channel
                           (name 'saayix)
                           (branch "main")

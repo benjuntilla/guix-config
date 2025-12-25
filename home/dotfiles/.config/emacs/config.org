@@ -21,18 +21,12 @@ Revert pdf files without querying
 (setq revert-without-query '(".pdf"))
 #+end_src
 
-Stuff to run when creating frame
+Disable distracting mouse-oriented UI elements
 #+begin_src emacs-lisp
-(defun my/after-make-frame-commands ()
-  ;; Disable mouse stuff
-  (menu-bar-mode -1)
-  (tool-bar-mode -1)
-  (scroll-bar-mode -1)
-  (tooltip-mode -1)
-  ;; Focus frame on creation
-  (select-frame-set-input-focus (selected-frame)))
-
-(add-hook 'server-after-make-frame-hook #'my/after-make-frame-commands)
+(menu-bar-mode -1)
+(tool-bar-mode -1)
+(scroll-bar-mode -1)
+(tooltip-mode -1)
 #+end_src
 
 yank without newlines
@@ -56,39 +50,23 @@ Set initial scratch message to nil
 #+begin_src emacs-lisp
 (setq initial-scratch-message nil)
 #+end_src
-* ~general~
+* Miscellaneous bindings
 #+begin_src emacs-lisp
-(use-package general)
-#+end_src
-
-Miscellaneous bindings
-#+begin_src emacs-lisp
-(general-def
-  ;; cycle spacing
-  "M-SPC" 'cycle-spacing
-  ;; killing emacs
-  "C-c q" 'save-buffers-kill-emacs
-  ;; comment toggling
-  "C-\\" 'comment-or-uncomment-region
-  ;; reloading init file
-  [f5] '(lambda () (interactive) (load-file user-init-file)))
+(global-set-key (kbd "M-SPC") 'cycle-spacing)
+(global-set-key (kbd "C-c q") 'save-buffers-kill-emacs)
+(global-set-key (kbd "C-\\") 'comment-or-uncomment-region)
+(global-set-key [f5] (lambda () (interactive) (load-file user-init-file)))
 #+end_src
 
 Zooming in & out
 #+begin_src emacs-lisp
-(general-def
-  [C-wheel-down] 'text-scale-decrease
-  [C-wheel-up] 'text-scale-increase)
-(general-def 'normal 'global
-  "z i" 'text-scale-increase
-  "z o" 'text-scale-decrease)
+(global-set-key [C-wheel-down] 'text-scale-decrease)
+(global-set-key [C-wheel-up] 'text-scale-increase)
 #+end_src
 
 Clearing minibuffer
 #+begin_src emacs-lisp
-(general-def
-  minibuffer-local-map
-  "C-u" '(lambda () (interactive) (mark-whole-buffer) (call-interactively 'delete-region)))
+(define-key minibuffer-local-map (kbd "C-u") (lambda () (interactive) (mark-whole-buffer) (call-interactively 'delete-region)))
 #+end_src
 * Helper vars & funcs
 #+begin_src emacs-lisp
@@ -127,8 +105,7 @@ Clearing minibuffer
 Enhance Info
 #+begin_src emacs-lisp
 (use-package info+
-  :general ('normal Info-mode-map
-                    [remap Info-toc] 'Info-toc-outline)
+  :bind (([remap Info-toc] . Info-toc-outline))
   :config
   (set-face-attribute 'info-fixed-pitch nil :height 1.0)
   (Info-variable-pitch-text-mode)
@@ -144,12 +121,6 @@ Pinentry
 #+begin_src emacs-lisp
 (use-package pinentry
   :config (pinentry-start))
-#+end_src
-
-Set default browser to Firefox
-#+begin_src emacs-lisp
-(setq browse-url-browser-function 'browse-url-generic
-      browse-url-generic-program "firefox")
 #+end_src
 
 Enable docs in minibuffer
@@ -263,19 +234,6 @@ Backup & autosaving
 
 (setq auto-save-file-name-transforms (list (list ".*" (concat user-emacs-directory "auto-save-list") t)))
 #+end_src
-
-Async
-#+begin_src emacs-lisp
-(use-package async
-  :config
-  (dired-async-mode)
-  (async-bytecomp-package-mode))
-#+end_src
-
-Prefer newer package files
-#+begin_src emacs-lisp
-(setq load-prefer-newer t)
-#+end_src
 * Meta Emacs Stuff
 Use ~proced~ for listing processes
 #+begin_src emacs-lisp
@@ -313,11 +271,10 @@ Bisect files to find errors
 #+begin_src emacs-lisp
 (use-package crux
   :config (crux-reopen-as-root-mode)
-  :general (:prefix "C-c"
-                    "R" 'crux-rename-file-and-buffer
-                    "D" 'crux-delete-file-and-buffer
-                    "n" 'crux-cleanup-buffer-or-region
-                    "F" 'crux-recentf-find-directory))
+  :bind (("C-c R" . crux-rename-file-and-buffer)
+         ("C-c D" . crux-delete-file-and-buffer)
+         ("C-c n" . crux-cleanup-buffer-or-region)
+         ("C-c F" . crux-recentf-find-directory)))
 #+end_src
 ** ~which-key~
 #+begin_src emacs-lisp
@@ -331,28 +288,10 @@ Bisect files to find errors
 Use ~vterm~ for fast terminal emulation
 #+begin_src emacs-lisp
 (use-package vterm
-  :general (vterm-mode-map
-            "C-q" #'vterm-send-next-key)
+  :bind (:map vterm-mode-map
+         ("C-q" . vterm-send-next-key))
   :custom
   (vterm-keymap-exceptions '("C-c" "C-w ""C-x" "C-u" "C-g" "C-h" "C-l" "M-x" "M-o" "C-y" "M-y")))
-#+end_src
-
-custom command for running fireplace ascii art
-#+begin_src emacs-lisp
-(defun ben/open-fire-vterm ()
-  "Open a vterm terminal named *fire* and run the command 'fire'."
-  (interactive)
-  (let ((buffer-name "*fire*"))
-    ;; Open vterm with the specified buffer name if it doesn't already exist
-    (unless (get-buffer buffer-name)
-      (vterm buffer-name))
-    ;; Switch to the vterm buffer
-    (switch-to-buffer buffer-name)
-    ;; Send the command 'fire' to the vterm
-    (run-with-timer 1 nil
-                    (lambda ()
-                      (vterm-send-string "fire")
-                      (vterm-send-return)))))
 #+end_src
 
 Use ~vterm~ for ~project.el~
@@ -380,13 +319,11 @@ if one already exists."
 Use ~multi-vterm~ to manage multiple ~vterm~ buffers
 #+begin_src emacs-lisp
 (use-package multi-vterm
-  :general
-  (:prefix "C-c t"
-           "c" #'multi-vterm
-           "n" #'multi-vterm-next
-           "p" #'multi-vterm-prev
-           "t" #'multi-vterm-dedicated-toggle
-           "p" #'multi-vterm-project)
+  :bind (("C-c t c" . multi-vterm)
+         ("C-c t n" . multi-vterm-next)
+         ("C-c t p" . multi-vterm-prev)
+         ("C-c t t" . multi-vterm-dedicated-toggle)
+         ("C-c t p" . multi-vterm-project))
   :config
   ;; handy advice that makes it so that calling C-d on multi-vterm buffer closes the window
   (advice-add 'multi-vterm :after #'toggle-window-dedicated))
@@ -394,14 +331,20 @@ Use ~multi-vterm~ to manage multiple ~vterm~ buffers
 ** ~helpful~
 #+begin_src emacs-lisp
 (use-package helpful
-  :general (("C-h f" 'helpful-callable)
-            ("C-h v" 'helpful-variable)
-            ("C-h k" 'helpful-key)
-            ("C-h F" 'helpful-function)
-            ("C-h C" 'helpful-command)
-            ("C-c C-d" 'helpful-at-point)))
+  :bind (("C-h f" . helpful-callable)
+         ("C-h v" . helpful-variable)
+         ("C-h k" . helpful-key)
+         ("C-h F" . helpful-function)
+         ("C-h C" . helpful-command)
+         ("C-c C-d" . helpful-at-point)))
 #+end_src
 * org
+Olivetti mode for beautiful L/R margins
+#+begin_src emacs-lisp
+  (use-package olivetti
+    :hook org-mode)
+#+end_src
+
 #+begin_src emacs-lisp
 (with-eval-after-load 'org-agenda
   (set-face-attribute 'org-scheduled-today nil :foreground 'unspecified :weight 'normal)
@@ -412,9 +355,7 @@ Use ~multi-vterm~ to manage multiple ~vterm~ buffers
   :hook ((org-mode . (lambda ()
                        ;; enable certain modes when in roam dir
                        (when (string-prefix-p (expand-file-name org-root-dir) (buffer-file-name))
-                         (setq line-spacing 2)
-                         (olivetti-mode)
-                         (mixed-pitch-mode))))
+                         (setq line-spacing 2))))
          ;; automatically switch TODO entry to done when all its subentries are complete
          (org-after-todo-statistics . my/org-summary-todo)
          ;; redisplay inline images after org-babel execution
@@ -422,13 +363,11 @@ Use ~multi-vterm~ to manage multiple ~vterm~ buffers
                                       (when org-inline-image-overlays
                                         (org-redisplay-inline-images))))
          (org-mode . org-cdlatex-mode))
-  :general
-  ("C-c A" 'org-capture
-   "C-c a" 'org-agenda)
-  (org-mode-map
-   "C-c l y" 'my/org-yank-link)
-  (:keymaps 'org-mode-map :states 'insert
-            "$" #'cdlatex-dollar)
+  :bind (("C-c A" . org-capture)
+         ("C-c a" . org-agenda)
+         :map org-mode-map
+         ("C-c l y" . my/org-yank-link)
+         ("$" . cdlatex-dollar))
   :custom
   (org-highlight-latex-and-related '(latex script entities))
   (org-attach-auto-tag nil)
@@ -546,12 +485,11 @@ format of your Org-mode documents and the exact requirements you have.
 ** ~org-roam~
 #+begin_src emacs-lisp
 (use-package org-roam
-  :general
-  ("C-c r f" 'org-roam-node-find
-   "C-c r g" 'org-roam-graph)
-  (org-mode-map
-   "C-c r r" 'org-roam-buffer-toggle
-   "C-c l r" 'org-roam-node-insert)
+  :bind (("C-c r f" . org-roam-node-find)
+         ("C-c r g" . org-roam-graph)
+         :map org-mode-map
+         ("C-c r r" . org-roam-buffer-toggle)
+         ("C-c l r" . org-roam-node-insert))
   :config
   (org-roam-db-autosync-mode)
   :custom
@@ -601,8 +539,9 @@ cool command to open attachment associated with org-roam file
 
 bind it
 #+begin_src emacs-lisp
-(general-define-key
- "C-c r a" 'ben/org-roam-open-attachment)
+  (with-eval-after-load 'general
+    (general-define-key
+     "C-c r a" 'ben/org-roam-open-attachment))
 #+end_src
 ** ~org-agenda~
 #+begin_src emacs-lisp
@@ -641,37 +580,6 @@ bind it
       my/papers (concat org-ref-dir "/papers/")
       my/notes (concat org-ref-dir "/notes"))
 #+end_src
-
-Use ~citar~ for completing-read bibliography interface
-#+begin_src emacs-lisp
-(use-package citar
-  :bind
-  (:map org-mode-map ("C-c b" . #'org-cite-insert))
-  :custom
-  (org-cite-global-bibliography `(,my/bib))
-  (citar-bibliography org-cite-global-bibliography)
-  (citar-notes-paths `(,org-directory))
-  (org-cite-insert-processor 'citar)
-  (org-cite-follow-processor 'citar)
-  (org-cite-activate-processor 'citar)
-  (citar-at-point-function 'embark-act)
-  :hook
-  ((LaTeX-mode org-mode) . citar-capf-setup))
-#+end_src
-Also add ~embark~ support
-#+begin_src emacs-lisp
-(use-package citar-embark
-  :delight
-  :after (citar embark)
-  :config (citar-embark-mode))
-#+end_src
-Also add ~org-roam~ integration
-#+begin_src emacs-lisp
-(use-package citar-org-roam
-  :delight
-  :after (citar org-roam)
-  :config (citar-org-roam-mode))
-#+end_src
 ** ~ebib~
 #+begin_src emacs-lisp
 (use-package ebib
@@ -695,24 +603,24 @@ arXiv, Dissemin, and doi.org from Emacs
 #+begin_src emacs-lisp
 (use-package pdf-tools
   :custom (pdf-view-display-size 'fit-page)
-  :config (pdf-tools-install)
   :mode ("\\.pdf\\'" . pdf-view-mode))
 #+end_src
 ** ~dired~
 Add command to copy path to clipboard
 #+begin_src emacs-lisp
-(defun ben/dired-copy-path-to-clipboard ()
-  "Copy the current directory path in dired to the clipboard."
-  (interactive)
-  (let ((dir (dired-current-directory)))
-    (with-temp-buffer
-      (insert dir)
-      (clipboard-kill-region (point-min) (point-max)))
-    (message "Copied '%s' to clipboard" dir)))
+  (defun ben/dired-copy-path-to-clipboard ()
+    "Copy the current directory path in dired to the clipboard."
+    (interactive)
+    (let ((dir (dired-current-directory)))
+      (with-temp-buffer
+        (insert dir)
+        (clipboard-kill-region (point-min) (point-max)))
+      (message "Copied '%s' to clipboard" dir)))
 
-(general-define-key
- :keymaps 'dired-mode-map
- "C-c y" 'dired-copy-path-to-clipboard)
+  (with-eval-after-load 'general
+    (general-define-key
+     :keymaps 'dired-mode-map
+     "C-c y" 'dired-copy-path-to-clipboard))
 #+end_src
 
 Add additional syntax highlighting
@@ -754,13 +662,13 @@ Add mouse support
 *** ~dirvish~
 #+begin_src emacs-lisp
 (use-package dirvish
-  :init (dirvish-override-dired-mode)
-  :general (dirvish-mode-map
-            "C-c d l" #'dirvish-layout-switch
-            "C-c d L" #'dirvish-layout-toggle
-            "g z" #'dirvish-quick-access
-            "<tab>" #'dirvish-subtree-toggle
-            "<backtab>" #'dirvish-subtree-clear)
+  :config (dirvish-override-dired-mode)
+  :bind (:map dirvish-mode-map
+         ("C-c d l" . dirvish-layout-switch)
+         ("C-c d L" . dirvish-layout-toggle)
+         ("g z" . dirvish-quick-access)
+         ("<tab>" . dirvish-subtree-toggle)
+         ("<backtab>" . dirvish-subtree-clear))
   :custom
   (dirvish-attributes
            '(vc-state subtree-state all-the-icons collapse git-msg file-size))
@@ -799,9 +707,7 @@ This is actually so tough
 automatically add bullets when pressing enter in lists
 #+begin_src emacs-lisp
 (use-package org-autolist
-  :vc (:url https://github.com/calvinwyoung/org-autolist
-            :branch "master")
-  :hook (org-mode . org-autolist-mode))
+  :hook org-mode)
 #+end_src
 
 aidermacs
@@ -831,11 +737,9 @@ talk to ai with ~gptel~
   (gptel-default-mode 'org-mode)
   (gptel-track-media t)
   (gptel-prompt-prefix-alist '((markdown-mode . "### ") (org-mode . "* ") (text-mode . "### ")))
-  :general
-  (:prefix "C-c g"
-           "g" #'gptel)
-  (gptel-mode-map :prefix "C-c g"
-            "m" #'gptel-menu)
+  :bind (("C-c g g" . gptel)
+         :map gptel-mode-map
+         ("C-c g m" . gptel-menu))
   :config
   (setq
    gptel-model 'claude-3-7-sonnet-20250219
@@ -863,27 +767,24 @@ major mode for ~.env~ files
 #+begin_src emacs-lisp :tangle no
 (use-package origami
   :hook (prog-mode . origami-mode)
-  :general
-  (:map 'normal 'override
-        "<tab>" 'origami-recursively-toggle-node
-        "<backtab>" 'origami-toggle-all-nodes)
-  (:prefix "C-c o"
-           "<tab>" 'origami-recursively-toggle-node
-           "<backtab>" 'origami-toggle-all-nodes
-           "o" 'origami-open-node
-           "O" 'origami-open-node-recursively
-           "c" 'origami-close-node
-           "C" 'origami-close-node-recursively
-           "a" 'origami-open-all-nodes
-           "A" 'origami-close-all-nodes
-           "u" 'origami-undo
-           "r" 'origami-redo
-           "R" 'origami-reset
-           "s" 'origami-show-only-node
-           "f" 'origami-forward-toggle-node
-           "b" 'origami-backward-toggle-node
-           "[" 'origami-previous-fold
-           "]" 'origami-next-fold))
+  :bind (("<tab>" . origami-recursively-toggle-node)
+         ("<backtab>" . origami-toggle-all-nodes)
+         ("C-c o <tab>" . origami-recursively-toggle-node)
+         ("C-c o <backtab>" . origami-toggle-all-nodes)
+         ("C-c o o" . origami-open-node)
+         ("C-c o O" . origami-open-node-recursively)
+         ("C-c o c" . origami-close-node)
+         ("C-c o C" . origami-close-node-recursively)
+         ("C-c o a" . origami-open-all-nodes)
+         ("C-c o A" . origami-close-all-nodes)
+         ("C-c o u" . origami-undo)
+         ("C-c o r" . origami-redo)
+         ("C-c o R" . origami-reset)
+         ("C-c o s" . origami-show-only-node)
+         ("C-c o f" . origami-forward-toggle-node)
+         ("C-c o b" . origami-backward-toggle-node)
+         ("C-c o [" . origami-previous-fold)
+         ("C-c o ]" . origami-next-fold)))
 #+end_src
 
 
@@ -932,9 +833,8 @@ Add emmet support
   :custom
   (emmet-self-closing-tag-style " /")
   (emmet-move-cursor-between-quotes t)
-  :general
-  ('insert 'override
-   "C-j" 'emmet-expand-line))
+  :bind (:map emmet-mode-keymap
+         ("C-j" . emmet-expand-line)))
 #+end_src
 
 Set python interpreter path
@@ -961,16 +861,14 @@ Use ~copilot.el~ for LLM-powered completions.
   :custom
   (copilot-node-executable "~/.guix-profile/bin/node")
   :hook prog-mode
-  :general
-  (override :prefix "C-c c"
-            "c" #'copilot-complete
-            "o" #'copilot-clear-overlay
-            "TAB" #'copilot-accept-completion
-            [tab] #'copilot-accept-completion
-            "w" #'copilot-accept-completion-by-word
-            "l" #'copilot-accept-completion-by-line
-            "n" #'copilot-next-completion
-            "p" #'copilot-previous-completion))
+  :bind (("C-c c c" . copilot-complete)
+         ("C-c c o" . copilot-clear-overlay)
+         ("C-c c TAB" . copilot-accept-completion)
+         ([C-c c tab] . copilot-accept-completion)
+         ("C-c c w" . copilot-accept-completion-by-word)
+         ("C-c c l" . copilot-accept-completion-by-line)
+         ("C-c c n" . copilot-next-completion)
+         ("C-c c p" . copilot-previous-completion)))
 #+end_src
 
 
@@ -1003,8 +901,7 @@ Use ~org-noter~ for annotating documents
 
 Bind key to go to scratch source-file-buffer
 #+begin_src emacs-lisp
-(general-def 'normal :prefix "g"
-  "s" #'scratch-buffer)
+(global-set-key (kbd "C-c s") 'scratch-buffer)
 #+end_src
 
 Use ~typo-mode~ for easy insertion of typographically useful unicode characters
@@ -1071,6 +968,7 @@ Use ~rustic~ for rust stuff
 #+begin_src emacs-lisp
 (use-package tex-site
   :ensure auctex
+  :after auctex
   :custom
   (TeX-auto-save t)
   (TeX-parse-self t)
@@ -1079,8 +977,8 @@ Use ~rustic~ for rust stuff
   (reftex-plug-into-AUCTeX t)
   :config
   (setq-default TeX-master nil)
-  :general (LaTeX-mode-map
-            "TAB" 'cdlatex-tab)
+  :bind (:map LaTeX-mode-map
+         ("TAB" . cdlatex-tab))
   :hook
   (LaTeX-mode . (lambda () (cdlatex-mode) (reftex-mode) (display-line-numbers-mode) (TeX-source-correlate-mode) (outline-minor-mode))))
 #+end_src
@@ -1095,11 +993,9 @@ Use ~rustic~ for rust stuff
 treesitter mode
 #+begin_src emacs-lisp
 (use-package typst-ts-mode
-  :load-path "~/src/typst-ts-mode/"
   :custom
   (typst-ts-watch-options "--open")
   (typst-ts-compile-options "--open"))
-  ;; :vc (:url "https://codeberg.org/meow_king/typst-ts-mode.git"))
 #+end_src
 
 eglot integration with tinymist
@@ -1115,7 +1011,8 @@ eglot integration with tinymist
 ** ~ibuffer~
 Bind [[https://www.emacswiki.org/emacs/IbufferMode][Ibuffer]] for advanced replacement of BufferMenu
 #+begin_src emacs-lisp
-(general-def "C-x C-b" 'ibuffer)
+  (with-eval-after-load 'general
+    (general-def "C-x C-b" 'ibuffer))
 #+end_src
 
 Configure default ~ibuffer~ filter group
@@ -1179,15 +1076,15 @@ Install ~eglot~ to natively use LSP
 (use-package eglot
   :custom
   (completion-category-defaults nil)  ;; override defafult eglot modification to use orderless
-  :general (eglot-mode-map
-            "C-c e r" 'eglot-rename
-            "C-c e f" 'eglot-format
-            "C-c e i" 'eglot-code-action-organize-imports
-            "C-c e q" 'eglot-code-action-quickfix
-            "C-c e x" 'eglot-code-action-extract
-            "C-c e i" 'eglot-code-action-inline
-            "C-c e w" 'eglot-code-action-rewrite
-            "C-c e SPC" 'eglot-code-actions)
+  :bind (:map eglot-mode-map
+         ("C-c e r" . eglot-rename)
+         ("C-c e f" . eglot-format)
+         ("C-c e i" . eglot-code-action-organize-imports)
+         ("C-c e q" . eglot-code-action-quickfix)
+         ("C-c e x" . eglot-code-action-extract)
+         ("C-c e i" . eglot-code-action-inline)
+         ("C-c e w" . eglot-code-action-rewrite)
+         ("C-c e SPC" . eglot-code-actions))
   ;; When to run Eglot
   :hook ((python-ts-mode
           csharp-ts-mode
@@ -1258,9 +1155,8 @@ improve performance
 ** ~expand-region~
 #+begin_src emacs-lisp
 (use-package expand-region
-  :general
-  ("C--" 'er/contract-region)
-  ("C-=" 'er/expand-region))
+  :bind (("C--" . er/contract-region)
+         ("C-=" . er/expand-region)))
 #+end_src
 ** ~wgrep~
 #+begin_src emacs-lisp
@@ -1283,7 +1179,7 @@ improve performance
 ** ~iedit~
 #+begin_src emacs-lisp
 (use-package iedit
-  :general ('visual "C-;" iedit-mode))
+  :bind (("C-;" . iedit-mode)))
 #+end_src
 ** Error checking
 Configure ~jinx~ for spell checking. [[https://github.com/minad/jinx?tab=readme-ov-file#alternative-spell-checking-packages][Considering the alternatives]], this
@@ -1301,7 +1197,6 @@ package uses ~aspell~ by default for English.
 #+begin_src emacs-lisp
 (use-package tempel
   :init
-
   ;; Setup completion at point
   (defun tempel-setup-capf ()
     (setq-local completion-at-point-functions
@@ -1343,9 +1238,7 @@ Use ~ctrl-f~ for better incremental search
   :custom
   ;; focus beginning of match after finishing search
   (ctrlf-go-to-end-of-match nil)
-  :general
-  ('override
-   "C-s" 'ctrlf-forward-default))
+  :bind (("C-s" . ctrlf-forward-default)))
 #+end_src
 ** Window Management
 Use ~shackle~ to make window management nice with sway
@@ -1363,7 +1256,7 @@ Use ~shackle~ to make window management nice with sway
 Use ~ace-window~ for quick window selection
 #+begin_src emacs-lisp
 (use-package ace-window
-  :general ("M-o" 'ace-window)
+  :bind (("M-o" . ace-window))
   :config (ace-window-display-mode 1))
 #+end_src
 
@@ -1379,12 +1272,11 @@ Use ~winner~ to quickly undo/redo window configurations
 (use-package anzu
   :delight
   :config (global-anzu-mode)
-  :general
-  ([remap query-replace] 'anzu-query-replace
-   [remap query-replace-regexp] 'anzu-query-replace-regexp)
-  (isearch-mode-map
-   [remap isearch-query-replace] 'anzu-isearch-query-replace
-   [remap isearch-query-replace-regexp] 'anzu-isearch-query-replace-regexp))
+  :bind (([remap query-replace] . anzu-query-replace)
+         ([remap query-replace-regexp] . anzu-query-replace-regexp)
+         :map isearch-mode-map
+         ([remap isearch-query-replace] . anzu-isearch-query-replace)
+         ([remap isearch-query-replace-regexp] . anzu-isearch-query-replace-regexp)))
 #+end_src
 ** ~avy~
 #+begin_src emacs-lisp
@@ -1398,21 +1290,6 @@ Use ~winner~ to quickly undo/redo window configurations
 minimize ugly highlighting by making it pulse (most visible with gptel responses)
 #+begin_src emacs-lisp
 (setq pulse-flag t)
-#+end_src
-
-Use ~indent-bars~ to style indentation
-#+begin_src emacs-lisp :tangle no
-(use-package indent-bars
-  :vc (:url "https://github.com/jdtsmith/indent-bars"
-            :branch "main")
-  :config
-  (require 'indent-bars-ts)  ; not needed with straight
-  :custom
-  (indent-bars-treesit-support t)
-  (indent-bars-treesit-ignore-blank-lines-types '("module"))
-  (indent-bars-treesit-scope '((python function_definition class_definition for_statement
-                                       if_statement with_statement while_statement)))
-  :hook prog-mode)
 #+end_src
 
 Suppress annoying stuff in minibuffer when using emacscclient
@@ -1505,12 +1382,7 @@ Hide modeline
 #+end_src
 ** theming
 #+begin_src emacs-lisp
-(use-package auto-dark
-  :custom
-  (auto-dark-dark-theme 'doom-dark+)
-  (auto-dark-light-theme 'doom-one-light)
-  :config
-  (auto-dark-mode t))
+(load-theme 'modus-operandi)
 #+end_src
 ** diff-hl
 [[https://github.com/dgutov/diff-hl/issues/116#issuecomment-449134234][Minimal fringe code src]]
@@ -1528,8 +1400,7 @@ Hide modeline
     (define-fringe-bitmap 'my-diff-hl-bitmap bits height width))
   (setq diff-hl-fringe-bmp-function (lambda (type pos) 'my-diff-hl-bitmap))
   ;; set modes
-  (global-diff-hl-mode)
-  (diff-hl-flydiff-mode))
+  (global-diff-hl-mode))
 #+end_src
 ** org-appear
 #+begin_src emacs-lisp
@@ -1566,13 +1437,6 @@ Display candidate documentation or source in a popup next to the candidate menu.
   (corfu-popupinfo-delay nil)
   :config (corfu-popupinfo-mode))
 #+end_src
-** ~corfu-terminal~
-#+begin_src emacs-lisp
-  (use-package corfu-terminal
-    :config
-    (unless (display-graphic-p)
-      (corfu-terminal-mode +1)))
-#+end_src
 ** ~kind-icon~
 Adds SVG icons to ~corfu~
 #+begin_src emacs-lisp
@@ -1595,18 +1459,13 @@ Adds SVG icons to ~corfu~
 ** ~vertico~
 #+begin_src emacs-lisp
 (use-package vertico
-  :init
-  (vertico-mode)
   :custom
   (read-file-name-completion-ignore-case t)
   (read-buffer-completion-ignore-case t)
   (completion-ignore-case t)
   (vertico-cycle t)
   :config
-  ;; jinx configuration
-  (setq vertico-multiform-categories
-        '((jinx grid (vertico-grid-annotate . 20))))
-  (vertico-multiform-mode 1))
+  (vertico-mode))
 #+end_src
 ** ~orderless~
 #+begin_src emacs-lisp
@@ -1660,15 +1519,12 @@ Adds SVG icons to ~corfu~
          ("M-s u" . consult-focus-lines)
          ;; Isearch integration
          ("M-s e" . consult-isearch)
+         ("C-c f" . consult-recent-file)
+         ("C-c l" . consult-line)
          :map isearch-mode-map
          ("M-e" . consult-isearch)                 ;; orig. isearch-edit-string
          ("M-s e" . consult-isearch)               ;; orig. isearch-edit-string
          ("M-s l" . consult-line))                 ;; required by consult-line to detect isearch
-  :general
-  ('normal
-   "C-c f" #'consult-recent-file)
-  ('normal 'override :prefix "g"
-           "L" 'consult-line)
   :init
   ;; Optionally configure the register formatting. This improves the register
   ;; preview for `consult-register', `consult-register-load',
@@ -1701,11 +1557,10 @@ Adds SVG icons to ~corfu~
 *** ~consult-dir~
 #+begin_src emacs-lisp
 (use-package consult-dir
-  :general
-  ("C-x C-d" 'consult-dir)
-  (minibuffer-local-completion-map
-   "C-x C-d" 'consult-dir
-   "C-x C-j" 'consult-dir-jump-file))
+  :bind (("C-x C-d" . consult-dir)
+         :map minibuffer-local-completion-map
+         ("C-x C-d" . consult-dir)
+         ("C-x C-j" . consult-dir-jump-file)))
 #+end_src
 ** ~marginalia~
 #+begin_src emacs-lisp
@@ -1778,7 +1633,7 @@ Adds SVG icons to ~corfu~
 ** ~elfeed~
 #+begin_src emacs-lisp
 (use-package elfeed
-  :general ("C-x w" 'elfeed))
+  :bind (("C-x w" . elfeed)))
 #+end_src
 ** ~elfeed-org~
 #+begin_src emacs-lisp
