@@ -1302,6 +1302,7 @@ Fonts with ~mixed-pitch~
 (use-package mixed-pitch
   :delight
   :custom (mixed-pitch-set-height t)
+  :hook org-mode
   :config
   (setq mixed-pitch-fixed-pitch-faces (append mixed-pitch-fixed-pitch-faces '(org-column org-column-title treemacs-tags-face treemacs-file-face treemacs-root-face treemacs-directory-face)))
   ;; Default fonts
@@ -1311,8 +1312,7 @@ Fonts with ~mixed-pitch~
   (set-face-attribute 'org-document-title nil :height 1.5)
   (set-face-attribute 'org-level-1 nil :height 1.3)
   (set-face-attribute 'org-level-2 nil :height 1.15)
-  (set-face-attribute 'org-level-3 nil :height 1.075)
-  (mixed-pitch-mode))
+  (set-face-attribute 'org-level-3 nil :height 1.075))
 #+end_src
 
 Enable mouse interaction in terminal
