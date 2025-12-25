@@ -2,7 +2,7 @@
 
 @define-color background-color rgba(0, 0, 0, 0.85);
 @define-color text-color white;
-@define-color accent-color #AAAAAA;
+@define-color accent-color #002e09;
 @define-color mode-background #64727D;
 @define-color mode-border white;
 @define-color git-dirty-color yellow;

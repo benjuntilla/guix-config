@@ -161,7 +161,7 @@
 
 #workspaces button.focused {
     color: @text-color;
-    background: rgba(0, 0, 0, 0.15);
+    background: rgba(0, 170, 0, 0.3);
     border-radius: 6px;
 }
 
