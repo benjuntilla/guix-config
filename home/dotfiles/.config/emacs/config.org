@@ -1376,7 +1376,17 @@ Hide modeline
 #+end_src
 ** theming
 #+begin_src emacs-lisp
-(load-theme 'modus-operandi)
+(defun my/server-auto-dark (frame)
+  (with-selected-frame frame
+    (when (display-graphic-p)
+      (auto-dark-mode 1)
+      ;; Remove hook so it only runs once
+      (remove-hook 'after-make-frame-functions #'my/server-auto-dark))))
+
+(use-package auto-dark
+  :config
+  (setq auto-dark-themes '((modus-vivendi) (modus-operandi)))
+  (add-hook 'after-make-frame-functions #'my/server-auto-dark))
 #+end_src
 ** diff-hl
 [[https://github.com/dgutov/diff-hl/issues/116#issuecomment-449134234][Minimal fringe code src]]

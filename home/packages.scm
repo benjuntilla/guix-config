@@ -97,6 +97,7 @@
           "emacs-diredfl"
           "emacs-volatile-highlights"
           "emacs-git-modes"
+          "emacs-auto-dark"
           "emacs-typst-ts-mode"
           "emacs-olivetti@2.0.7"
           "emacs-modus-themes"
