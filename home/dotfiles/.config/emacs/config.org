@@ -50,6 +50,13 @@ Set initial scratch message to nil
 #+begin_src emacs-lisp
 (setq initial-scratch-message nil)
 #+end_src
+
+Kind of a hack but this is so xdg-open properly opens urls and stuff
+#+begin_src emacs-lisp
+(setenv "WAYLAND_DISPLAY" "wayland-1")
+(setenv "XDG_CURRENT_DESKTOP" "sway")
+#+end_src
+
 * Miscellaneous bindings
 #+begin_src emacs-lisp
 (global-set-key (kbd "M-SPC") 'cycle-spacing)
