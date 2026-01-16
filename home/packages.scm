@@ -19,6 +19,7 @@
           "font-google-noto-serif-cjk"
           "font-google-noto-sans-cjk"
           "font-space-grotesk"
+          "font-charter"
           "nss-certs"
           "file"
           "nss-mdns"
