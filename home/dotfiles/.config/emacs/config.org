@@ -579,7 +579,7 @@ bind it
   :hook (dired-mode . org-download-enable)
   :custom
   (org-download-method 'attach)
-  (org-download-timestamp ""))
+  (org-download-screenshot-method "grim -g \"$(slurp)\" %s"))
 #+end_src
 * Citations
 #+begin_src emacs-lisp
