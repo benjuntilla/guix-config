@@ -372,6 +372,7 @@ Olivetti mode for beautiful L/R margins
          (org-mode . org-cdlatex-mode))
   :bind (("C-c A" . org-capture)
          ("C-c a" . org-agenda)
+         ("C-c j" . join-line)
          :map org-mode-map
          ("C-c l y" . my/org-yank-link)
          ("$" . cdlatex-dollar))
@@ -879,6 +880,12 @@ Use ~copilot.el~ for LLM-powered completions.
 Enable [[https://www.gnu.org/software/emacs/manual/html_node/emacs/Repeating.html][repeat-mode]]
 #+begin_src emacs-lisp
 (repeat-mode)
+
+(defvar-keymap join-line-repeat-map
+  :repeat t
+  "j" #'join-line)
+
+(put 'join-line 'repeat-map 'join-line-repeat-map)
 #+end_src
 
 Set up tab configuration
