@@ -54,7 +54,7 @@
    (service home-fish-service-type (home-fish-configuration
                                     (config
                                      (list (plain-file "config.fish" "
-fish_add_path $HOME/.bun/bin $PNPM_HOME $GOPATH/bin $HOME/.cargo/bin $HOME/.local/bin
+fish_add_path $HOME/.bun/bin $PNPM_HOME $GOPATH/bin $HOME/.cargo/bin $HOME/.local/bin $HOME/.opencode/bin
 
 function fish_greeting
     fish_logo
