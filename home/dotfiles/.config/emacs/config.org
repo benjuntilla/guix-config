@@ -1195,7 +1195,7 @@ improve performance
 Configure ~jinx~ for spell checking. [[https://github.com/minad/jinx?tab=readme-ov-file#alternative-spell-checking-packages][Considering the alternatives]], this
 seems to be the most efficient and effective spell checker. This
 package uses ~aspell~ by default for English.
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :tangle no
 (use-package jinx
   :delight
   :hook (emacs-startup . global-jinx-mode)
