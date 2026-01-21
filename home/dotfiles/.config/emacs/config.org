@@ -424,7 +424,9 @@ Olivetti mode for beautiful L/R margins
   (org-capture-templates '(("t" "TODO" entry (file "gtd.org")
                             "* TODO %i%?")
                            ("j" "Daily Journal" entry (file "daily_journal.org")
-                            "* %u")
+                            "* %u\n%?")
+                           ("r" "Resonance calendar" entry (file "resonance_calendar.org")
+                            "* %u %c\n%?")
                            ("w" "Weekly Review" entry
                             (file "~/Dropbox/org/weekly_review.org")
                             (file "~/Dropbox/org/templates/weekly_review.org"))))
