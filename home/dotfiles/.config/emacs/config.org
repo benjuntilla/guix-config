@@ -1253,6 +1253,11 @@ Use ~ctrl-f~ for better incremental search
   :bind (("C-s" . ctrlf-forward-default)))
 #+end_src
 ** Window Management
+now we have the ability to undelete frames
+#+begin_src emacs-lisp
+(undelete-frame-mode)
+#+end_src
+
 Use ~shackle~ to make window management nice with sway
 #+begin_src emacs-lisp
 (use-package shackle
