@@ -492,7 +492,7 @@ format of your Org-mode documents and the exact requirements you have.
 #+end_src
 ** Templates
 #+begin_src emacs-lisp
-(add-to-list 'org-structure-template-alist '("t" . "src emacs-lisp"))
+(add-to-list 'org-structure-template-alist '("t" . "src emacs-lisp\n"))
 #+end_src
 ** ~org-roam~
 #+begin_src emacs-lisp
