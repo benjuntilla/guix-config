@@ -271,6 +271,7 @@
           "pass-otp"
           "password-store"
           "tree-sitter-org"
+          "tree-sitter-yaml"
           "tree-sitter-rust"
           "tree-sitter-java"
           "tree-sitter-python"
