@@ -1008,10 +1008,12 @@ Use ~rustic~ for rust stuff
 ** typst
 treesitter mode
 #+begin_src emacs-lisp
-(use-package typst-ts-mode
-  :custom
-  (typst-ts-watch-options "--open")
-  (typst-ts-compile-options "--open"))
+(use-package typst-ts-mode)
+#+end_src
+
+live previews!!
+#+begin_src emacs-lisp
+(use-package typst-preview)
 #+end_src
 
 eglot integration with tinymist
