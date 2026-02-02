@@ -12,6 +12,7 @@
              (gnu home services shepherd)
              (gnu home services gnupg)
              (gnu home services desktop)
+             (gnu home services ssh)
              (gnu home services pm)
              (gnu home services sound)
              (gnu home services dotfiles)
@@ -97,6 +98,13 @@ bind \\ce 'hx .'
                           (stop #~(make-kill-destructor))
                           (respawn? #t)
                           (auto-start? #t))))
+   (service home-openssh-service-type
+         (home-openssh-configuration
+          (hosts
+           (list (openssh-host
+                  (name "soda")
+                  (host-name "77.37.74.136")
+                  (user "root"))))))
    (simple-service 'ydotoold
                    home-shepherd-service-type
                    (list (shepherd-service
