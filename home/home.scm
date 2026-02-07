@@ -119,7 +119,7 @@ bind \\ce 'hx .'
                    (list (shepherd-service
                           (provision '(voxbolt))
                           (start #~(make-forkexec-constructor
-                                    (list "bash" "-c" "source ~/.env.local && exec /home/ben/src/voxbolt/target/release/voxbolt")))
+                                    (list "bash" "-c" "source ~/.env.local && exec /home/ben/.cargo/bin/voxbolt")))
                           (stop #~(make-kill-destructor))
                           (respawn? #t)
                           (auto-start? #t))))
