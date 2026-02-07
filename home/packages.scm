@@ -106,6 +106,7 @@
           "emacs-typst-preview"  ;; emacs preview
           "emacs-ox-typst"  ;; emacs export backend
           "emacs-olivetti@2.0.7"
+          "antigravity"
           "emacs-modus-themes"
           "emacs-ws-butler"
           "emacs-anzu"
