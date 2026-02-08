@@ -29,18 +29,6 @@ Disable distracting mouse-oriented UI elements
 (tooltip-mode -1)
 #+end_src
 
-yank without newlines
-#+begin_src emacs-lisp
-(defun copy-paragraph-no-newlines ()
-  "Copy the current paragraph as a single line without newlines."
-  (interactive)
-  (save-excursion
-    (mark-paragraph)
-    (let ((text (buffer-substring-no-properties (region-beginning) (region-end))))
-      (kill-new (replace-regexp-in-string "\n" " " text))
-      (message "Paragraph copied without newlines"))))
-#+end_src
-
 Fix fonts when using daemon, as per https://stackoverflow.com/questions/3984730/emacs-gui-with-emacs-daemon-not-loading-fonts-correctly
 #+begin_src emacs-lisp
 (setq default-frame-alist '((font . "Iosevka")))
@@ -162,11 +150,6 @@ Save bookmarks every modification
 Keep track of recent files
 #+begin_src emacs-lisp
 (recentf-mode)
-#+end_src
-
-Enable recursive minibuffers
-#+begin_src emacs-lisp
-(setq enable-recursive-minibuffers t)
 #+end_src
 
 Trash instead of delete
@@ -652,14 +635,9 @@ Automatically revert dired source-file-buffer upon revisit
 #+begin_src emacs-lisp
 (setq dired-auto-revert-buffer t)
 #+end_src
-
-Add mouse support
-#+begin_src emacs-lisp
-(setq dired-mouse-drag-files t
-      mouse-drag-and-drop-region-cross-program t)
-#+end_src
 *** ~dirvish~
 #+begin_src emacs-lisp
+(require 'dirvish)
 (use-package dirvish
   :config (dirvish-override-dired-mode)
   :bind (:map dirvish-mode-map
@@ -682,7 +660,6 @@ Add mouse support
      ("s" "~/src"                       "Src")
      ("d" "~/Downloads/"                "Downloads")
      ("m" "/mnt/"                       "Drives")
-     ("p" "~/Pictures/"                 "Pictures")
      ("t" "~/.local/share/Trash/files/" "TrashCan"))))
 #+end_src
 ** ~tramp~
