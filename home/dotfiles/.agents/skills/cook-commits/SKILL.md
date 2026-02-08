@@ -1,3 +1,8 @@
+---
+name: cook-commits
+description: create git commits based on unstaged changes
+---
+
 look at all of the staged and unstaged changes in our git worktree and figure out a good
 way to split up the changes into focused commits with clear, concise
 messages. strike a good balance between many smaller, atomic commits
