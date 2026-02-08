@@ -141,17 +141,9 @@ bind \\ce 'hx .'
    (service home-pipewire-service-type)
    (service home-dbus-service-type)
    (service home-batsignal-service-type)
-   (simple-service
-    'darkman-service
-    home-shepherd-service-type
-    (list (shepherd-service
-           (provision '(darkman))
-           (documentation "Dark/light mode daemon (darkman)")
-           (start #~(make-forkexec-constructor
-                     (list #$(file-append darkman "/bin/darkman") "run")))
-           (stop #~(make-kill-destructor))
-           (respawn? #t)
-           (auto-start? #t))))
+   (service home-darkman-service-type
+            (home-darkman-configuration
+             (use-geoclue #t)))
    (simple-service 'extra-channels-service
                    home-channels-service-type
                    (list (channel
