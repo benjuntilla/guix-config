@@ -116,8 +116,8 @@ binds {
 
     // some ai conveniences
     Mod+Shift+Space hotkey-overlay-title="Ask AI" { spawn "ask-claude"; }
-    Home repeat=false { spawn-sh "~/.cargo/bin/voxbolt ipc down"; }
-    Home repeat=false release=true allow-invalidation=false { spawn-sh "~/.cargo/bin/voxbolt ipc up"; }
+    Mod+Z { spawn "voxbolt" "ipc" "down"; }
+    Mod+X { spawn "voxbolt" "ipc" "up"; }
 
     Mod+Alt+L hotkey-overlay-title="Lock the Screen: swaylock" { spawn "swaylock"; }
 
