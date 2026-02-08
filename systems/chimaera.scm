@@ -1,6 +1,6 @@
 (define-module (systems chimaera))
 (use-modules (gnu) (nongnu packages linux) (gnu system nss) (gnu system accounts))
-(use-service-modules base cups desktop networking ssh xorg pm dbus security-token shepherd nix containers)
+(use-service-modules base cups desktop networking ssh xorg pm security-token shepherd nix containers)
 (use-package-modules wm shells security-token cups gnome linux python package-management)
 
 (define %wooting-rules
@@ -91,12 +91,8 @@
               (list (subid-range (name "ben"))))))
    (udev-rules-service 'wooting %wooting-rules)
    (udev-rules-service 'uinput %uinput-rules)
-   (simple-service 'ratbagd dbus-root-service-type (list libratbag))
    (service openssh-service-type)
    (service pcscd-service-type)
-	 ;; (service libvirt-service-type
-   ;;          (libvirt-configuration
-   ;;           (unix-sock-group "libvirt")))
    (service cups-service-type
             (cups-configuration
              (web-interface? #t)
