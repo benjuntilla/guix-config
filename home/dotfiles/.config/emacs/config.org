@@ -1044,7 +1044,7 @@ improve performance
 Configure ~jinx~ for spell checking. [[https://github.com/minad/jinx?tab=readme-ov-file#alternative-spell-checking-packages][Considering the alternatives]], this
 seems to be the most efficient and effective spell checker. This
 package uses ~aspell~ by default for English.
-#+begin_src emacs-lisp :tangle no
+#+begin_src emacs-lisp
 (use-package jinx
   :delight
   :hook (emacs-startup . global-jinx-mode)
@@ -1347,7 +1347,8 @@ Adds SVG icons to ~corfu~
   :custom
   (completion-styles '(orderless basic))
   (completion-category-defaults nil)
-  (completion-category-overrides '((file (styles partial-completion)))))
+  (completion-category-overrides '((file (styles partial-completion))))
+  (completion-pcm-leading-wildcard t))
 #+end_src
 ** ~consult~
 #+begin_src emacs-lisp
