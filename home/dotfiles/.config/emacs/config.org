@@ -720,83 +720,11 @@ automatically add bullets when pressing enter in lists
   :hook org-mode)
 #+end_src
 
-aidermacs
-#+begin_src emacs-lisp
-(use-package aidermacs
-  :bind (("C-c d" . aidermacs-transient-menu))
-  :config
-  (setenv "OPENROUTER_API_KEY" (auth-source-pass-get "api-key-aidermacs" "openrouter.ai/ben@benjuntilla.com"))
-  (setenv "GEMINI_API_KEY" (auth-source-pass-get "api-key-aidermacs" "gemini"))
-  :custom
-  (aidermacs-default-model "openrouter/anthropic/claude-3.7-sonnet")
-  (aidermacs-architect-model "openrouter/anthropic/claude-3.7-sonnet")
-  (aidermacs-use-architect-mode t)
-  (aidermacs-backend 'vterm))
-#+end_src
-
 unified formatting interface
 #+begin_src emacs-lisp
 (use-package format-all
   :hook (prog-mode))
 #+end_src
-
-talk to ai with ~gptel~
-#+begin_src emacs-lisp
-(use-package gptel
-  :custom
-  (gptel-default-mode 'org-mode)
-  (gptel-track-media t)
-  (gptel-prompt-prefix-alist '((markdown-mode . "### ") (org-mode . "* ") (text-mode . "### ")))
-  :bind (("C-c g g" . gptel)
-         :map gptel-mode-map
-         ("C-c g m" . gptel-menu))
-  :config
-  (setq
-   gptel-model 'claude-3-7-sonnet-20250219
-   gptel-backend
-   (gptel-make-anthropic "Claude"
-     :stream t
-     :key (lambda () (auth-source-pass-get "api-key-gptel" "claude.ai/ben@benjuntilla.com")))
-   gptel-directives '((default
-                       . "You are a large language model living in Emacs and a helpful assistant. Respond concisely.")
-                      (coach
-                       . "You are a large language model and a life coach. Provide guidance and feedback based on the provided information about myself.")
-                      (programming
-                       . "You are a large language model and a careful programmer. Provide code and only code as output without any additional text, prompt or note.")
-                      (writing
-                       . "You are a large language model and a writing assistant. Respond concisely."))))
-#+end_src
-
-major mode for ~.env~ files
-#+begin_src emacs-lisp
-(add-to-list 'auto-mode-alist
-             '("\\.env\\'" . guix-env-var-mode))
-#+end_src
-
-~origami~ for code folding
-#+begin_src emacs-lisp :tangle no
-(use-package origami
-  :hook (prog-mode . origami-mode)
-  :bind (("<tab>" . origami-recursively-toggle-node)
-         ("<backtab>" . origami-toggle-all-nodes)
-         ("C-c o <tab>" . origami-recursively-toggle-node)
-         ("C-c o <backtab>" . origami-toggle-all-nodes)
-         ("C-c o o" . origami-open-node)
-         ("C-c o O" . origami-open-node-recursively)
-         ("C-c o c" . origami-close-node)
-         ("C-c o C" . origami-close-node-recursively)
-         ("C-c o a" . origami-open-all-nodes)
-         ("C-c o A" . origami-close-all-nodes)
-         ("C-c o u" . origami-undo)
-         ("C-c o r" . origami-redo)
-         ("C-c o R" . origami-reset)
-         ("C-c o s" . origami-show-only-node)
-         ("C-c o f" . origami-forward-toggle-node)
-         ("C-c o b" . origami-backward-toggle-node)
-         ("C-c o [" . origami-previous-fold)
-         ("C-c o ]" . origami-next-fold)))
-#+end_src
-
 
 #+begin_src emacs-lisp
 (setq-default org-catch-invisible-edits 'smart)
@@ -864,23 +792,6 @@ Use ~editorconfig~ for consistent IDE settings
   :config
   (editorconfig-mode 1))
 #+end_src
-
-Use ~copilot.el~ for LLM-powered completions.
-#+begin_src emacs-lisp :tangle no
-(use-package copilot
-  :custom
-  (copilot-node-executable "~/.guix-profile/bin/node")
-  :hook prog-mode
-  :bind (("C-c c c" . copilot-complete)
-         ("C-c c o" . copilot-clear-overlay)
-         ("C-c c TAB" . copilot-accept-completion)
-         ([C-c c tab] . copilot-accept-completion)
-         ("C-c c w" . copilot-accept-completion-by-word)
-         ("C-c c l" . copilot-accept-completion-by-line)
-         ("C-c c n" . copilot-next-completion)
-         ("C-c c p" . copilot-previous-completion)))
-#+end_src
-
 
 Enable [[https://www.gnu.org/software/emacs/manual/html_node/emacs/Repeating.html][repeat-mode]]
 #+begin_src emacs-lisp
