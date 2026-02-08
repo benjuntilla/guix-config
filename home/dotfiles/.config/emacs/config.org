@@ -124,12 +124,6 @@ Delete text when selecting and typing over it
 (setq delete-selection-mode t)
 #+end_src
 
-Pinentry
-#+begin_src emacs-lisp
-(use-package pinentry
-  :config (pinentry-start))
-#+end_src
-
 Enable docs in minibuffer
 #+begin_src emacs-lisp
 (eldoc-mode)
@@ -268,11 +262,6 @@ Use ~proced~ for listing processes
 ** ~delight~
 #+begin_src emacs-lisp
 (use-package delight)
-#+end_src
-** ~bug-hunter~
-Bisect files to find errors
-#+begin_src emacs-lisp
-(use-package bug-hunter)
 #+end_src
 ** ~crux~
 #+begin_src emacs-lisp
@@ -1476,86 +1465,6 @@ Adds SVG icons to ~corfu~
   :config
   (marginalia-mode))
 #+end_src
-* Exporting/Publishing
-#+begin_src emacs-lisp
-(with-eval-after-load 'ox-latex
-  (add-to-list 'org-latex-classes
-               '("plain"
-                 "\\documentclass[12pt]{article}
-
-                  \\usepackage[margin=1in]{geometry}
-                  \\usepackage{helvet}
-                  \\renewcommand\\familydefault\\sfdefault
-                  \\renewcommand\\tableofcontents{}
-
-                  \\makeatletter
-                  \\renewcommand\\maketitle{ { {\\Large\\@title} \\hfill {\\large\\@author} \\hfill {\\large\\@date} } \\medskip\\hrule\\medskip}
-                  \\makeatother"
-
-                 ("\\section{%s}" . "\\section*{%s}")
-                 ("\\subsection{%s}" . "\\subsection*{%s}")
-                 ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
-                 ("\\paragraph{%s}" . "\\paragraph*{%s}")
-                 ("\\subparagraph{%s}" . "\\subparagraph*{%s}")))
-  (add-to-list 'org-latex-classes
-               '("mla"
-                 "\\documentclass{mla}"
-                 ("\\section{%s}" . "\\section*{%s}")
-                 ("\\subsection{%s}" . "\\subsection*{%s}")
-                 ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
-                 ("\\paragraph{%s}" . "\\paragraph*{%s}")
-                 ("\\subparagraph{%s}" . "\\subparagraph*{%s}")))
-  (add-to-list 'org-latex-classes
-               '("apa7"
-                 "\\documentclass{apa7}"
-                 ("\\section{%s}" . "\\section*{%s}")
-                 ("\\subsection{%s}" . "\\subsection*{%s}")
-                 ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
-                 ("\\paragraph{%s}" . "\\paragraph*{%s}")
-                 ("\\subparagraph{%s}" . "\\subparagraph*{%s}")))
-  (add-to-list 'org-latex-classes
-               '("scrlttr2"
-                 "\\documentclass{scrlttr2}"
-                 ("\\section{%s}" . "\\section*{%s}")
-                 ("\\subsection{%s}" . "\\subsection*{%s}")
-                 ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
-                 ("\\paragraph{%s}" . "\\paragraph*{%s}")
-                 ("\\subparagraph{%s}" . "\\subparagraph*{%s}")))
-  (add-to-list 'org-latex-classes
-               '("scrartcl"
-                 "\\documentclass{scrartcl}"
-                 ("\\section{%s}" . "\\section*{%s}")
-                 ("\\subsection{%s}" . "\\subsection*{%s}")
-                 ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
-                 ("\\paragraph{%s}" . "\\paragraph*{%s}")
-                 ("\\subparagraph{%s}" . "\\subparagraph*{%s}")))
-  (setq org-latex-compiler "pdflatex"
-        org-latex-bib-compiler "biber"
-        org-latex-image-default-width ".7\\linewidth"
-        org-latex-caption-above '(table image)
-        org-latex-default-figure-position "H"
-        org-latex-pdf-process (list "latexmk --synctex=1 -shell-escape -f -pdf -norc -bibtex %f")
-        org-latex-default-class "plain"))
-#+end_src
-* rss
-** ~elfeed~
-#+begin_src emacs-lisp
-(use-package elfeed
-  :bind (("C-x w" . elfeed)))
-#+end_src
-** ~elfeed-org~
-#+begin_src emacs-lisp
-(use-package elfeed-org
-  :custom
-  (rmh-elfeed-org-files (list "~/Dropbox/org/elfeed.org"))
-  :config (elfeed-org))
-#+end_src
-** ~elfeed-goodies~
-#+begin_src emacs-lisp
-(use-package elfeed-goodies
-  :after elfeed
-  :config (elfeed-goodies/setup))
-#+end_src
 * secrets
 Use ~pass~ emacs interface
 #+begin_src emacs-lisp
@@ -1565,16 +1474,4 @@ Use ~pass~ emacs interface
 Set ~pass~ as ~auth-sources~ backend
 #+begin_src emacs-lisp
 (setq auth-sources '(password-store))
-#+end_src
-* personal finance
-hledger
-#+begin_src emacs-lisp
-(use-package hledger-mode
-  :mode ("\\.journal\\'" "\\.hledger\\'")
-  :custom
-  (ledger-jfile (concat org-directory "/.hledger.journal"))
-  :config
-  ;; Auto-completion for account names
-  (with-eval-after-load 'company
-    (add-to-list 'company-backends 'hledger-company)))
 #+end_src
