@@ -870,20 +870,6 @@ Configure ~sgml-mode~
     (sgml-electric-tag-pair-mode)))
 #+end_src
 
-Create derived ~vue-mode~ for use with ~eglot~. Credit to [[https://github.com/joaotavora/eglot/discussions/1184]]
-#+begin_src emacs-lisp
-;; web-mode setup
-(define-derived-mode vue-mode web-mode "Vue")
-(add-to-list 'auto-mode-alist '("\\.vue\\'" . vue-mode))
-#+end_src
-
-Create derived ~svelte-mode~ for use with ~eglot~.
-#+begin_src emacs-lisp
-;; web-mode setup
-(define-derived-mode svelte-mode web-mode "Svelte")
-(add-to-list 'auto-mode-alist '("\\.svelte\\'" . svelte-mode))
-#+end_src
-
 Use ~rustic~ for rust stuff
 #+begin_src emacs-lisp
 (use-package rustic
@@ -985,22 +971,6 @@ manager.
 ** ~eglot~
 Install ~eglot~ to natively use LSP
 #+begin_src emacs-lisp
-(defun vue-eglot-init-options ()
-             (let ((tsdk-path "/home/ben/.pnpm/global/5/node_modules/typescript/lib"))
-               `(:typescript (:tsdk ,tsdk-path
-                              :languageFeatures (:completion
-                                                 (:defaultTagNameCase "both"
-                                                  :defaultAttrNameCase "kebabCase"
-                                                  :getDocumentNameCasesRequest nil
-                                                  :getDocumentSelectionRequest nil)
-                                                 :diagnostics
-                                                 (:getDocumentVersionRequest nil))
-                              :documentFeatures (:documentFormatting
-                                                 (:defaultPrintWidth 100
-                                                  :getDocumentPrintWidthRequest nil)
-                                                 :documentSymbol t
-                                                 :documentColor t)))))
-
 (use-package eglot
   :custom
   (completion-category-defaults nil)  ;; override defafult eglot modification to use orderless
@@ -1031,11 +1001,6 @@ Install ~eglot~ to natively use LSP
                  ("rust-analyzer" :initializationOptions (:check (:command "clippy")))))
   (add-to-list 'eglot-server-programs
                '(LaTeX-mode . ("ltex-ls")))
-  (add-to-list 'eglot-server-programs
-               '(svelte-mode . ("svelteserver" "--stdio")))
-  ;; Must have volar installed for this
-  (add-to-list 'eglot-server-programs
-               `(vue-mode . ("vue-language-server" "--stdio" :initializationOptions ,(vue-eglot-init-options))))
   ;; configure language servers
   (setq-default eglot-workspace-configuration
                 '((:pylsp .
