@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+url="${1:-}"
+if [[ -z "${url}" ]]; then
+  exit 1
+fi
+
+escaped_url="$(printf '%s' "${url}" | sed -e 's/\\/\\\\/g' -e 's/"/\\"/g')"
+exec emacsclient -c -a "" --eval "(browse-url-mail \"${escaped_url}\")"

@@ -1,0 +1,14 @@
+[Desktop Entry]
+Categories=Network;Email;
+Comment=Compose email with Emacsclient
+Exec=emacsclient-mailto %u
+GenericName=Mail Client
+Icon=emacs
+MimeType=x-scheme-handler/mailto;
+Name=Emacsclient Mail
+NoDisplay=true
+StartupNotify=true
+StartupWMClass=Emacs
+Terminal=false
+Type=Application
+Version=1.0
