@@ -202,7 +202,7 @@ bind \\ce 'hx .'
                           (name 'ben-guix)
                           (url (string-append "file://" (getenv "HOME") "/src/ben-guix"))
                           (branch "main"))
-                          (channel
+                         (channel
                            (name 'rustup)
                            (url "https://github.com/declantsien/guix-rustup")
                            (introduction
