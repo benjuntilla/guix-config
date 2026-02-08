@@ -18,7 +18,7 @@
              (gnu home services dotfiles)
              (gnu home services guix)
              (home packages))
-(use-package-modules gnupg emacs package-management xdisorg bash)
+(use-package-modules gnupg emacs package-management xdisorg bash shells)
 
 (home-environment
  (services
@@ -119,7 +119,13 @@ bind \\ce 'hx .'
                    (list (shepherd-service
                           (provision '(voxbolt))
                           (start #~(make-forkexec-constructor
-                                    (list "fish" "-c" "source ~/.env.local && voxbolt")))
+                                    (list #$(file-append fish "/bin/fish") "-lc" "source ~/.env.local; and exec voxbolt")
+                                    #:environment-variables
+                                    (cons* #$(string-append "DISPLAY="
+                                                            (or (getenv "DISPLAY") ":0"))
+                                           #$(string-append "WAYLAND_DISPLAY="
+                                                            (or (getenv "WAYLAND_DISPLAY") "wayland-1"))
+                                           (default-environment-variables))))
                           (stop #~(make-kill-destructor))
                           (respawn? #t)
                           (auto-start? #t))))
