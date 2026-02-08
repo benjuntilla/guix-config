@@ -200,8 +200,9 @@
           "emacs-jinx"
           "emacs-gptel"
           "font-libertinus"
-          "darkman"
           "emacs-biblio"
+          "emacs-vue-mode"
+          "emacs-svelte-mode"
           "emacs-smartparens"
           "emacs-wgrep"
           "emacs-dash"
@@ -380,5 +381,7 @@
           "emacs-exec-path-from-shell"
           "niri"
           "mesa"
-          "libxcb"))
+          "libxcb"
+          "qemu"
+          "virt-viewer"))
    (list ghostty)))
