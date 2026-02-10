@@ -1,6 +1,6 @@
 (define-module (systems chimaera))
 (use-modules (gnu) (nongnu packages linux) (gnu system nss) (gnu system accounts))
-(use-service-modules base cups desktop networking ssh xorg pm security-token shepherd nix containers)
+(use-service-modules base cups desktop networking ssh xorg pm security-token shepherd nix containers dbus)
 (use-package-modules wm shells security-token cups gnome linux python package-management)
 
 (define %wooting-rules
@@ -41,9 +41,22 @@
                                                 #:log-file "/var/log/fw-fanctrl.log"
                                                 #:environment-variables
                                                 '("PATH=/usr/bin:/run/current-system/profile/bin:/bin")))
-                                      (stop #~(make-kill-destructor))
-                                      (respawn? #t)))))))
+                                     (stop #~(make-kill-destructor))
+                                     (respawn? #t)))))))
     (default-value '())))
+
+(define %geoclue-dbus-policy
+  ;; geoclue-service-type wraps the activatable service entry but the wrapper
+  ;; currently does not carry over share/dbus-1/system.d policy files.
+  ;; Add the missing policy directory explicitly so GetClient is allowed.
+  (computed-file
+   "geoclue-dbus-policy"
+   #~(begin
+       (mkdir #$output)
+       (mkdir (string-append #$output "/share"))
+       (mkdir (string-append #$output "/share/dbus-1"))
+       (symlink (string-append #$geoclue "/share/dbus-1/system.d")
+                (string-append #$output "/share/dbus-1/system.d")))))
 
 (operating-system
  (kernel linux)
@@ -112,8 +125,16 @@
    (service bluetooth-service-type
             (bluetooth-configuration
              (auto-enable? #t)))
+   (simple-service 'geoclue-dbus-policy dbus-root-service-type
+                   (list %geoclue-dbus-policy))
    (modify-services %desktop-services
                     (delete gdm-service-type)
+                    (geoclue-service-type _ => (geoclue-configuration
+                                                (applications
+                                                 (cons (geoclue-application
+                                                        "darkman"
+                                                        #:system? #f)
+                                                       %standard-geoclue-applications))))
                     (guix-service-type config => (guix-configuration
                                                   (inherit config)
                                                   (substitute-urls
