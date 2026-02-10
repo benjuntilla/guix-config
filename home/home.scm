@@ -17,7 +17,8 @@
              (gnu home services sound)
              (gnu home services dotfiles)
              (gnu home services guix)
-             (home packages))
+             (home packages)
+             (ben-guix packages waybar))
 (use-package-modules gnupg emacs package-management xdisorg bash shells)
 
 (home-environment
@@ -143,7 +144,6 @@ bind \\ce 'hx .'
    (simple-service 'my-packages
                    home-profile-service-type
                    my-packages)
-   (service home-niri-service-type)
    (service home-pipewire-service-type)
    (service home-dbus-service-type)
    (service home-batsignal-service-type)
@@ -223,6 +223,12 @@ bind \\ce 'hx .'
              (pinentry-program
               (file-append pinentry-rofi "/bin/pinentry-rofi"))
              (ssh-support? #t)))
+
+   (simple-service 'waybar-niri-workspaces
+                   home-xdg-configuration-files-service-type
+                   `(("waybar/niri-workspaces-enhanced.so"
+                      ,(file-append waybar-niri-workspaces-enhanced
+                                    "/lib/libwaybar_niri_workspaces_enhanced.so"))))
 
    ;; link dotfiles
    (service home-dotfiles-service-type

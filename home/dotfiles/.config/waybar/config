@@ -1,6 +1,6 @@
 {
   "height": 30,
-  "modules-left": ["niri/workspaces", "sway/workspaces", "sway/mode"],
+  "modules-left": ["cffi/niri-workspaces-enhanced", "sway/workspaces", "sway/mode"],
   "modules-center": ["clock"],
   "modules-right": ["backlight", "pulseaudio", "battery", "custom/git-repos", "custom/dropbox", "tray"],
 
@@ -16,8 +16,20 @@
       "critical": 10
     }
   },
-  "niri/workspaces": {
-    "expand": true,
+  "cffi/niri-workspaces-enhanced": {
+    "module_path": "/home/ben/.config/waybar/niri-workspaces-enhanced.so",
+    "format": "[{index-and-name}] {window-icons}",
+    "window-icon-format": {
+      "default": "{icon}",
+      "urgent": "<span foreground='red'>{icon}</span>",
+      "focused": "<span foreground='blue'>{icon}</span>"
+    },
+    "window-icons": {
+      "com.mitchellh.ghostty": "👻",
+      "emacs": "✍️",
+      "zen": "🏄",
+    },
+    "window-icon-default": "🪟"
   },
   "keyboard-state": {
     "numlock": true,
