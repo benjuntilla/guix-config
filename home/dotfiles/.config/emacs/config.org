@@ -10,6 +10,17 @@ Suppress warnings
 (add-to-list 'warning-suppress-types '(emacs))
 #+end_src
 
+zone out...
+#+begin_src emacs-lisp
+(require 'zone)
+(zone-when-idle 10)
+#+end_src
+
+recursive minibuffer
+#+begin_src emacs-lisp
+(setq enable-recursive-minibuffers t)
+#+end_src
+
 Save places
 #+begin_src emacs-lisp
 (require 'saveplace-pdf-view)
@@ -399,9 +410,11 @@ Olivetti mode for beautiful L/R margins
                             "* %u\n%?")
                            ("r" "Just templates that start with r")
                            ("rc" "Resonance calendar" entry (file "resonance_calendar.org")
-                            "* %u %c\n%?")
+                            "* %u %c\n%?"
+                            :prepend t)
                            ("rl" "Reading list" entry (file "reading_list.org")
-                            "* %u %c\n%?")
+                            "* %u %c\n%?"
+                            :prepend t)
                            ("w" "Weekly Review" entry
                             (file "~/Dropbox/org/weekly_review.org")
                             (file "~/Dropbox/org/templates/weekly_review.org"))))
@@ -680,6 +693,19 @@ This is actually so tough
   (git-link-open-in-browser t))
 #+end_src
 * Editing & Programming
+coding agents
+#+begin_src emacs-lisp :tangle no
+(use-package agent-shell
+  :custom
+  (agent-shell-openai-codex-command (list "pnpm" "dlx" "@zed-industries/codex-acp"))
+  (agent-shell-anthropic-claude-command (list "pnpm" "dlx" "@zed-industries/claude-code-acp")))
+#+end_src
+
+auto-close parens/brackets
+#+begin_src emacs-lisp
+(electric-pair-mode)
+#+end_src
+
 automatically add bullets when pressing enter in lists
 #+begin_src emacs-lisp
 (use-package org-autolist
@@ -1044,7 +1070,7 @@ improve performance
 Configure ~jinx~ for spell checking. [[https://github.com/minad/jinx?tab=readme-ov-file#alternative-spell-checking-packages][Considering the alternatives]], this
 seems to be the most efficient and effective spell checker. This
 package uses ~aspell~ by default for English.
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :tangle no
 (use-package jinx
   :delight
   :hook (emacs-startup . global-jinx-mode)
@@ -1148,7 +1174,7 @@ Use ~winner~ to quickly undo/redo window configurations
   :config
   (avy-setup-default))
 
-(global-set-key (kbd "C-:") 'avy-goto-char)
+(global-set-key (kbd "C-:") 'avy-goto-char-timer)
 #+end_src
 * Appearance
 minimize ugly highlighting by making it pulse (most visible with gptel responses)
