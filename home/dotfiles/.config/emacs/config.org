@@ -694,7 +694,7 @@ This is actually so tough
 #+end_src
 * Editing & Programming
 coding agents
-#+begin_src emacs-lisp :tangle no
+#+begin_src emacs-lisp
 (use-package agent-shell
   :custom
   (agent-shell-openai-codex-command (list "pnpm" "dlx" "@zed-industries/codex-acp"))

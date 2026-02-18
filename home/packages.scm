@@ -217,6 +217,7 @@
           "cliphist"
           "emacs-ein"
           "rclone"
+          "emacs-agent-shell"
           "emacs-org-super-agenda"
           "emacs-org-noter"
           "emacs-org-agenda-files-track-ql"
