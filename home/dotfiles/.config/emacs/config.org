@@ -895,9 +895,10 @@ Use ~rustic~ for rust stuff
   (add-to-list 'cdlatex-math-modify-alist '(?B "\\mathbb" nil t nil)))
 #+end_src
 ** typst
-treesitter mode
+treesitter mode, and also auto-compile on save
 #+begin_src emacs-lisp
-(use-package typst-ts-mode)
+(use-package typst-ts-mode
+  :hook (typst-ts-mode . (lambda () (add-hook 'after-save-hook #'typst-ts-compile nil t))))
 #+end_src
 
 live previews!!
