@@ -66,6 +66,8 @@
           "emacs-iedit"
           "emacs-yasnippet-snippets"
           "emacs-ace-window"
+          "wine64"
+          "unoconv"
           "emacs-perspective"
           "emacs-ctrlf"
           "emacs-avy"
