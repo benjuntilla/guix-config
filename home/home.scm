@@ -102,10 +102,15 @@ bind \\ce 'hx .'
    (service home-openssh-service-type
          (home-openssh-configuration
           (hosts
-           (list (openssh-host
-                  (name "soda")
-                  (host-name "77.37.74.136")
-                  (user "root"))))))
+           (list
+            (openssh-host
+             (name "ultra")
+             (host-name "169.150.219.153")
+             (user "benjuntilla"))
+            (openssh-host
+             (name "soda")
+             (host-name "77.37.74.136")
+             (user "root"))))))
    (simple-service 'ydotoold
                    home-shepherd-service-type
                    (list (shepherd-service
