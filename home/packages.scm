@@ -1,6 +1,7 @@
 (define-module (home packages)
   #:use-module (gnu packages)
   #:use-module (guix packages)
+  #:use-module (gnu packages emacs-xyz)
   #:use-module (ben-guix packages terminals)
   #:export (my-packages))
 
@@ -255,7 +256,6 @@
           "mupdf"
           "enchant"
           "poppler"
-          "emacs-pdf-tools"
           "clang"
           "emacs-flymake-proselint"
           "git"
@@ -390,4 +390,4 @@
           "libxcb"
           "qemu"
           "virt-viewer"))
-   (list ghostty)))
+   (list ghostty emacs-pdf-tools)))
