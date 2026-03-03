@@ -1,0 +1,20 @@
+{
+  "env": {
+    "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS": "1"
+  },
+  "permissions": {
+    "defaultMode": "default",
+    "allow": [
+      "Bash(find:*)",
+      "Bash(guix-home-reconfigure:*)"
+    ],
+    "deny": []
+  },
+  "model": "opus",
+  "enabledPlugins": {
+    "typescript-lsp@claude-plugins-official": true,
+    "clangd-lsp@claude-plugins-official": true
+  },
+  "alwaysThinkingEnabled": true,
+  "skipDangerousModePermissionPrompt": true
+}
