@@ -5,6 +5,22 @@ Place customization variables outside of ~init.el~ for writability
 (load custom-file 'noerror)
 #+end_src
 
+Restore sessions firefox-style!
+#+begin_src emacs-lisp
+(defun restore-desktop (frame)
+  "Restores desktop and cancels hook after first frame opens.
+     So the daemon can run at startup and it'll still work"
+  (with-selected-frame frame
+    (desktop-save-mode 1)
+    (desktop-read)
+    (remove-hook 'after-make-frame-functions 'restore-desktop)))
+(setq desktop-load-locked-desktop 'check-pid)
+(setq desktop-restore-forces-onscreen nil)
+(setq desktop-restore-eager 5)
+(setq desktop-auto-save-timeout 5)
+(add-hook 'after-make-frame-functions 'restore-desktop)
+#+end_src
+
 Suppress warnings
 #+begin_src emacs-lisp
 (add-to-list 'warning-suppress-types '(emacs))
