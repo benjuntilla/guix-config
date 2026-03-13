@@ -5,4 +5,5 @@
 - prefer fd over find
 - when you're commenting code, don't be redundant and explain what's
   already there. comments should be for explaining or clarifying intent
+- when adding new code, always ask: is there a simpler way i could do this?
  
