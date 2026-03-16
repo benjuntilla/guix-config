@@ -188,6 +188,7 @@ Automatically revert buffers whenever files are changed
 #+begin_src emacs-lisp
 (global-auto-revert-mode 1)
 (setq auto-revert-interval 1)
+(setq global-auto-revert-non-file-buffers t)
 #+end_src
 
 Auto +x script files
@@ -670,6 +671,7 @@ Automatically revert dired source-file-buffer upon revisit
 (use-package dirvish
   :config (dirvish-override-dired-mode)
   :bind (:map dirvish-mode-map
+         ("r" . revert-buffer)
          ("C-c d l" . dirvish-layout-switch)
          ("C-c d L" . dirvish-layout-toggle)
          ("g z" . dirvish-quick-access)
