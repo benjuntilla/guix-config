@@ -389,5 +389,6 @@
           "mesa"
           "libxcb"
           "qemu"
-          "virt-viewer"))
+          "virt-viewer"
+          "tailscale"))
    (list ghostty emacs-pdf-tools)))
