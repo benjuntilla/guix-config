@@ -2,6 +2,7 @@
 (use-modules (gnu) (nongnu packages linux) (gnu system nss) (gnu system accounts))
 (use-service-modules base cups desktop networking ssh xorg pm security-token shepherd nix containers dbus)
 (use-package-modules wm shells security-token cups gnome linux python package-management)
+(use-modules (px packages networking))
 
 (define %wooting-rules
   (udev-rule
@@ -104,6 +105,16 @@
               (list (subid-range (name "ben"))))))
    (udev-rules-service 'wooting %wooting-rules)
    (udev-rules-service 'uinput %uinput-rules)
+   (simple-service 'tailscaled shepherd-root-service-type
+                    (list (shepherd-service
+                           (provision '(tailscaled))
+                           (requirement '(networking))
+                           (start #~(make-forkexec-constructor
+                                     (list #$(file-append tailscaled "/bin/tailscaled")
+                                           "--state=/var/lib/tailscale/tailscaled.state")
+                                     #:log-file "/var/log/tailscaled.log"))
+                           (stop #~(make-kill-destructor))
+                           (respawn? #t))))
    (service openssh-service-type)
    (service pcscd-service-type)
    (service cups-service-type
