@@ -5,6 +5,12 @@ Place customization variables outside of ~init.el~ for writability
 (load custom-file 'noerror)
 #+end_src
 
+[[https://emacsredux.com/blog/2026/04/04/read-extended-command-predicate/][Declutter M-x with read-extended-command-predicate | Emacs Redux]]
+#+begin_src emacs-lisp
+(setq read-extended-command-predicate
+      #'command-completion-default-include-p)
+#+end_src
+
 Restore sessions firefox-style!
 #+begin_src emacs-lisp
 (defun restore-desktop (frame)
