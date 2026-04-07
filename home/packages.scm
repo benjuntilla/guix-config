@@ -105,7 +105,7 @@
           "typst"  ;; actual binary
           "emacs-typst-ts-mode"  ;; emacs mode
           "tree-sitter-typst"  ;; treesitter library
-          "tinymist"  ;; language service
+          ;; "tinymist"  ;; language service
           "emacs-typst-preview"  ;; emacs preview
           "emacs-ox-typst"  ;; emacs export backend
           "emacs-olivetti@2.0.7"
