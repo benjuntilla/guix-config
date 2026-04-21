@@ -84,6 +84,7 @@ bind \\ce 'hx .'
                                     (aliases
                                      '(("g" . "git")
                                        ("c" . "claude --allow-dangerously-skip-permissions")
+                                       ("p" . "pnpm")
                                        ("l" . "lsd")
                                        ("ll" . "lsd -l")
                                        ("la" . "lsd -A")
