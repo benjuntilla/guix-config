@@ -42,6 +42,7 @@
           obsidian
           r2modman
           ruff
+          vhs
           yazi
           zed-editor
           zellij
