@@ -12,7 +12,7 @@ Place customization variables outside of ~init.el~ for writability
 #+end_src
 
 Restore sessions firefox-style!
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :tangle no
 (defun restore-desktop (frame)
   "Restores desktop and cancels hook after first frame opens.
      So the daemon can run at startup and it'll still work"
