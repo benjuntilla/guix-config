@@ -94,7 +94,7 @@ end
 ")))
                                     (aliases
                                      '(("g" . "git")
-                                       ("c" . "claude --allow-dangerously-skip-permissions")
+                                       ("c" . "claude --dangerously-skip-permissions")
                                        ("p" . "pnpm")
                                        ("l" . "lsd")
                                        ("ll" . "lsd -l")
