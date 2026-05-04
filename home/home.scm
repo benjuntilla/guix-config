@@ -86,6 +86,11 @@ bind \\ce 'hx .'
 if test -f $HOME/.local/share/grove/git-worktree-aliases.fish
     source $HOME/.local/share/grove/git-worktree-aliases.fish
 end
+
+# worktrunk — auto-cd on `wt switch`
+if command -q wt
+    wt config shell init fish | source
+end
 ")))
                                     (aliases
                                      '(("g" . "git")
