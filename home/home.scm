@@ -27,6 +27,7 @@
    (simple-service 'environment-variables
                    home-environment-variables-service-type
                    '(("PNPM_HOME" . "$HOME/.pnpm")
+                     ("CLOUDFLARE_ACCOUNT_ID" . "3d275686d20e190931adbada39b35957")  ; hokia
                      ("XDG_DESKTOP_PORTAL_DIR" . "$HOME/.local/share/xdg-desktop-portal/portals")
                      ("GOPATH" . "$HOME/.local/share/go")
                      ("EDITOR" . "hx")
@@ -80,7 +81,7 @@ bind \\co '__fzf_select_dir_and_cd'
 
 # Ctrl+e: open helix editor in current directory
 bind \\ce 'hx .'
-"))) 
+")))
                                     (aliases
                                      '(("g" . "git")
                                        ("c" . "claude --allow-dangerously-skip-permissions")
