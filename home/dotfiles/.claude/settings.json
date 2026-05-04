@@ -13,7 +13,12 @@
   "model": "opus",
   "enabledPlugins": {
     "typescript-lsp@claude-plugins-official": true,
-    "clangd-lsp@claude-plugins-official": true
+    "clangd-lsp@claude-plugins-official": true,
+    "worktrunk@worktrunk": true
+  },
+  "statusLine": {
+    "type": "command",
+    "command": "wt list statusline --format=claude-code"
   },
   "alwaysThinkingEnabled": true,
   "skipDangerousModePermissionPrompt": true
