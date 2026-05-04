@@ -7,3 +7,11 @@ or begin
   cat /tmp/fisher_update.log
   exit 1
 end
+
+set -l nix_flake "path:$HOME/src/guix-config/nix"
+set -l nix_args --extra-experimental-features 'nix-command flakes'
+if nix $nix_args profile list 2>/dev/null | grep -qF "$nix_flake"
+    nix $nix_args profile upgrade --all
+else
+    nix $nix_args profile install "$nix_flake#default"
+end
