@@ -81,6 +81,11 @@ bind \\co '__fzf_select_dir_and_cd'
 
 # Ctrl+e: open helix editor in current directory
 bind \\ce 'hx .'
+
+# Grove — git worktree workspace
+if test -f $HOME/.local/share/grove/git-worktree-aliases.fish
+    source $HOME/.local/share/grove/git-worktree-aliases.fish
+end
 ")))
                                     (aliases
                                      '(("g" . "git")
