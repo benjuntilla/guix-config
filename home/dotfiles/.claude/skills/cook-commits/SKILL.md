@@ -1,1 +1,0 @@
-/home/ben/src/guix-config/home/dotfiles/.agents/skills/cook-commits/SKILL.md
