@@ -91,6 +91,11 @@ end
 if command -q wt
     wt config shell init fish | source
 end
+
+# mise
+if command -q mise
+    mise activate fish | source
+end
 ")))
                                     (aliases
                                      '(("g" . "git")
