@@ -32,6 +32,7 @@
       packages.${system}.default = pkgs.buildEnv {
         name = "guix-config-nix-profile";
         paths = (with pkgs; [
+          mise
           anki
           bluebubbles
           cryptomator
