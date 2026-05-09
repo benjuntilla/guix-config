@@ -1,7 +1,10 @@
-# [commit.generation]
-# command = "CLAUDECODE= MAX_THINKING_TOKENS=0 claude -p --no-session-persistence --model=haiku --tools='' --disable-slash-commands --setting-sources='' --system-prompt=''"
+[commit.generation]
+command = "CLAUDECODE= MAX_THINKING_TOKENS=0 claude -p --no-session-persistence --model=haiku --tools='' --disable-slash-commands --setting-sources='' --system-prompt=''"
 
 [list]
 summary = true    # Enable LLM branch summaries (requires [commit.generation])
 full = true       # Show CI, main…± diffstat, and LLM summaries (--full)
 
+[aliases]
+c = "wt switch -x c -c {{ args }}"
+m = "wt merge {{ args }}"
