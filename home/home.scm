@@ -102,6 +102,7 @@ end
                                        ("c" . "claude --dangerously-skip-permissions")
                                        ("p" . "pnpm")
                                        ("l" . "lsd")
+                                       ("h" . "hx .")
                                        ("ll" . "lsd -l")
                                        ("la" . "lsd -A")
                                        ("lla" . "lsd -lA")))))
