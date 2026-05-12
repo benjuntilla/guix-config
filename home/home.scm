@@ -99,7 +99,7 @@ end
 ")))
                                     (aliases
                                      '(("g" . "git")
-                                       ("c" . "claude --dangerously-skip-permissions")
+                                       ("c" . "claude agents")
                                        ("p" . "pnpm")
                                        ("l" . "lsd")
                                        ("h" . "hx .")
