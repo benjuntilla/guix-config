@@ -6,6 +6,7 @@
     "enabled": true,
     "mode": "hold"
   },
+  "tui": "fullscreen",
   "permissions": {
     "defaultMode": "default",
     "allow": [
