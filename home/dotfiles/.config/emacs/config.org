@@ -1,3 +1,4 @@
+# -*- lexical-binding: t; -*-
 Place customization variables outside of ~init.el~ for writability
 (This is the only non-deterministic part of this configuration)
 #+begin_src emacs-lisp
