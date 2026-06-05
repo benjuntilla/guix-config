@@ -202,6 +202,7 @@
           "powertop"
           "emacs-jinx"
           "emacs-gptel"
+          "emacs-ghostel"
           "font-libertinus"
           "emacs-biblio"
           "emacs-vue-mode"
