@@ -184,7 +184,7 @@
           "emacs-elfeed"
           "hwinfo"
           "wtype"
-          "python-next"
+          "python"
           "ghostscript"
           "git-filter-repo"
           "emacs-git-auto-commit-mode"
