@@ -1,7 +1,7 @@
 (define-module (systems chimaera))
 (use-modules (gnu) (nongnu packages linux) (gnu system nss) (gnu system accounts))
 (use-service-modules base cups desktop networking ssh xorg pm security-token shepherd nix containers dbus)
-(use-package-modules wm shells security-token cups gnome linux python package-management)
+(use-package-modules wm shells security-token cups gnome linux python package-management ssh)
 (use-modules (px packages networking))
 
 (define %wooting-rules
@@ -85,7 +85,7 @@
  (groups (cons (user-group (system? #t) (name "render"))
                %base-groups))
 
- (packages (append (list nix)
+ (packages (append (list nix mosh)
                    %base-packages))
 
  (services
