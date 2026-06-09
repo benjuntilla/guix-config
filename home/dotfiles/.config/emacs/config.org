@@ -1553,6 +1553,13 @@ pass insert -m smtp.fastmail.com/ben@benjuntilla.com
   (gnus-message-archive-group "Sent")
   (gnus-gcc-mark-as-read t)
   (nnmail-expiry-target "nnimap+fastmail:Trash")
+  ;; Render HTML mail closer to a browser via shr: keep big images inside the
+  ;; window, keep email colors legible against the dark theme, and load remote
+  ;; images (accepting that they double as read-tracking pixels). K H still
+  ;; pops a message into the real browser when shr can't cope.
+  (shr-max-image-proportion 0.7)
+  (shr-color-visible-luminance-min 75)
+  (gnus-blocked-images nil)
   ;; Keep Gnus' bookkeeping under ~/.config/emacs instead of $HOME.
   (gnus-init-file (locate-user-emacs-file "gnus.el"))
   (gnus-startup-file (locate-user-emacs-file "newsrc"))
