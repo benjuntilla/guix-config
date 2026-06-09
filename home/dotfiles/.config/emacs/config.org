@@ -1501,9 +1501,12 @@ Use ~pass~ emacs interface
 (use-package pass)
 #+end_src
 
-Set ~pass~ as ~auth-sources~ backend
+Set ~auth-sources~ backends. ~pass~ is the primary store; the plaintext
+~~/.authinfo~ holds the Fastmail app password while the GPG encryption subkey is
+expired and ~pass insert~ can't write new entries. It's checked first, so move
+those secrets back into ~pass~ and drop this file once the key is renewed.
 #+begin_src emacs-lisp
-(setq auth-sources '(password-store))
+(setq auth-sources '("~/.authinfo" password-store))
 #+end_src
 
 * mail
