@@ -1562,6 +1562,10 @@ pass insert -m smtp.fastmail.com/ben@benjuntilla.com
   (shr-max-image-proportion 0.7)
   (shr-color-visible-luminance-min 75)
   (gnus-blocked-images nil)
+  ;; Always replay the dribble (auto-save) file without asking. The Emacs daemon
+  ;; gets killed rather than exiting Gnus cleanly, so a dribble is always left
+  ;; behind — and we always want to restore our read/mark state from it.
+  (gnus-always-read-dribble-file t)
   ;; Keep Gnus' bookkeeping under ~/.config/emacs instead of $HOME.
   (gnus-init-file (locate-user-emacs-file "gnus.el"))
   (gnus-startup-file (locate-user-emacs-file "newsrc"))
