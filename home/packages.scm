@@ -312,7 +312,7 @@
           "pinentry-gtk2"
           "emacs-pass"
           "gparted"
-          "emacs-next-pgtk"
+          "emacs-pgtk"
           "wdisplays"
           "dragon-drop"
           "emacs-auctex"

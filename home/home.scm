@@ -111,7 +111,7 @@ end
                    (list (shepherd-service
                           (provision '(emacs))
                           (start #~(make-forkexec-constructor
-                                    (list #$(file-append emacs-next-pgtk "/bin/emacs")
+                                    (list #$(file-append emacs-pgtk "/bin/emacs")
                                           "--fg-daemon")
                                     #:log-file (string-append (getenv "HOME") "/.local/state/log/emacs-daemon.log")))
                           (stop #~(make-kill-destructor))
