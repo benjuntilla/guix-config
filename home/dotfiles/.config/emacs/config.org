@@ -1505,3 +1505,60 @@ Set ~pass~ as ~auth-sources~ backend
 #+begin_src emacs-lisp
 (setq auth-sources '(password-store))
 #+end_src
+
+* mail
+Gnus reads/sends mail directly against Fastmail over IMAP/SMTP. Credentials
+come from ~pass~ via the ~auth-source~ backend configured above; create the
+matching store entries with an app password (see below).
+
+Fastmail requires an app-specific password (the account password won't work for
+IMAP/SMTP). Generate one at [[https://app.fastmail.com/settings/security/devicekeys][Settings → Privacy & Security → App passwords]] with
+"Mail (IMAP/POP/SMTP)" access, then store it under both hosts so ~auth-source~
+finds it. The first line of each entry is the password:
+
+#+begin_src sh :tangle no
+pass insert -m imap.fastmail.com/ben@benjuntilla.com
+pass insert -m smtp.fastmail.com/ben@benjuntilla.com
+#+end_src
+
+#+begin_src emacs-lisp
+(use-package gnus
+  :commands gnus
+  :custom
+  ;; Read mail straight from Fastmail over IMAP.
+  (gnus-select-method
+   '(nnimap "fastmail"
+            (nnimap-address "imap.fastmail.com")
+            (nnimap-server-port 993)
+            (nnimap-stream ssl)
+            (nnimap-user "ben@benjuntilla.com")))
+  ;; Mail-only setup; don't go looking for Usenet.
+  (gnus-secondary-select-methods nil)
+  ;; Submit outgoing mail through Fastmail.
+  (message-send-mail-function #'smtpmail-send-it)
+  (smtpmail-smtp-server "smtp.fastmail.com")
+  (smtpmail-smtp-service 465)
+  (smtpmail-stream-type 'ssl)
+  (smtpmail-smtp-user "ben@benjuntilla.com")
+  ;; Save a copy of every sent message into Fastmail's server-side Sent folder
+  ;; (SMTP submission doesn't do this on its own), and let deletes land in Trash
+  ;; so state mirrors the webmail and phone.
+  (gnus-message-archive-method '(nnimap "fastmail"))
+  (gnus-message-archive-group "Sent")
+  (gnus-gcc-mark-as-read t)
+  (nnmail-expiry-target "nnimap+fastmail:Trash")
+  ;; Keep Gnus' bookkeeping under ~/.config/emacs instead of $HOME.
+  (gnus-init-file (locate-user-emacs-file "gnus.el"))
+  (gnus-startup-file (locate-user-emacs-file "newsrc"))
+  (gnus-directory (locate-user-emacs-file "gnus/")))
+#+end_src
+
+Send from any of the verified Fastmail identities by matching on the group or by
+switching ~From~ in the message buffer; the default is ~user-mail-address~.
+#+begin_src emacs-lisp :tangle no
+(setq gnus-posting-styles
+      '((".*"
+         (address "ben@benjuntilla.com"))
+        ("nnimap\\+fastmail:.*canvas"
+         (address "canvas-ninja@benjuntilla.com"))))
+#+end_src
