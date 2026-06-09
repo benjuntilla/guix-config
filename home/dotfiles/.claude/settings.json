@@ -8,7 +8,7 @@
   },
   "tui": "fullscreen",
   "permissions": {
-    "defaultMode": "default",
+    "defaultMode": "auto",
     "allow": [
       "Bash(find:*)",
       "Bash(guix-home-reconfigure:*)"
@@ -26,5 +26,8 @@
     "command": "wt list statusline --format=claude-code"
   },
   "alwaysThinkingEnabled": true,
-  "skipDangerousModePermissionPrompt": true
+  "skipDangerousModePermissionPrompt": true,
+  "worktree": {
+    "bgIsolation": "none"
+  }
 }
