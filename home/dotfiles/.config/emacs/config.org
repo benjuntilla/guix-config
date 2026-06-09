@@ -1537,6 +1537,9 @@ pass insert -m smtp.fastmail.com/ben@benjuntilla.com
             (nnimap-user "ben@benjuntilla.com")))
   ;; Mail-only setup; don't go looking for Usenet.
   (gnus-secondary-select-methods nil)
+  ;; Show the whole INBOX (read and unread), not just unread, so already-seen
+  ;; but unarchived mail stays visible.
+  (gnus-parameters '(("nnimap\\+fastmail:INBOX" (display . all))))
   ;; Submit outgoing mail through Fastmail.
   (message-send-mail-function #'smtpmail-send-it)
   (smtpmail-smtp-server "smtp.fastmail.com")
