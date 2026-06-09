@@ -1617,16 +1617,14 @@ pass insert -m smtp.fastmail.com/ben@benjuntilla.com
   ;; Fastmail Archive (replaces the rarely-used gnus-summary-edit-article, which
   ;; is still available via M-x).
   (defun my/gnus-archive (&optional n)
-    "Move the current or process-marked article(s) to the Fastmail Archive.
-Moved articles keep a (stale) `gnus-canceled-mark' line in the summary, so
-delete those lines to make archived mail vanish from view immediately."
+    "Move the current or process-marked article(s) to the Fastmail Archive,
+then hide the resulting `gnus-canceled-mark' lines from view.
+Hiding is done by limiting them out rather than deleting buffer lines: a raw
+line delete desyncs Gnus' position data and breaks N/P at the gap, whereas
+limiting rebuilds the summary consistently.  Widen again with `/ w'."
     (interactive "P")
-    (let ((articles (gnus-summary-work-articles n)))
-      (gnus-summary-move-article n "nnimap+fastmail:Archive")
-      (dolist (article articles)
-        (when (gnus-summary-goto-subject article)
-          (let ((inhibit-read-only t))
-            (gnus-delete-line))))))
+    (gnus-summary-move-article n "nnimap+fastmail:Archive")
+    (gnus-summary-limit-to-marks (char-to-string gnus-canceled-mark) t))
   (define-key gnus-summary-mode-map (kbd "e") #'my/gnus-archive))
 #+end_src
 
