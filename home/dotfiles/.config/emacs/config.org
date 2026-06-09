@@ -1609,7 +1609,18 @@ pass insert -m smtp.fastmail.com/ben@benjuntilla.com
   ;; gnus-demon-init must be called to actually arm the timer.
   (require 'gnus-demon)
   (gnus-demon-add-handler 'gnus-demon-scan-news 5 t)
-  (gnus-demon-init))
+  (gnus-demon-init)
+  ;; Organize the group buffer into collapsible topics (T n to create a topic,
+  ;; T m to move a group into one).
+  (add-hook 'gnus-group-mode-hook #'gnus-topic-mode)
+  ;; One-key archive: `e' moves the current or process-marked article(s) to the
+  ;; Fastmail Archive (replaces the rarely-used gnus-summary-edit-article, which
+  ;; is still available via M-x).
+  (defun my/gnus-archive (&optional n)
+    "Move the current or process-marked article(s) to the Fastmail Archive."
+    (interactive "P")
+    (gnus-summary-move-article n "nnimap+fastmail:Archive"))
+  (define-key gnus-summary-mode-map (kbd "e") #'my/gnus-archive))
 #+end_src
 
 Send from any of the verified Fastmail identities by matching on the group or by
