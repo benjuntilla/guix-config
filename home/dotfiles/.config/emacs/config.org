@@ -1563,7 +1563,15 @@ pass insert -m smtp.fastmail.com/ben@benjuntilla.com
   ;; Keep Gnus' bookkeeping under ~/.config/emacs instead of $HOME.
   (gnus-init-file (locate-user-emacs-file "gnus.el"))
   (gnus-startup-file (locate-user-emacs-file "newsrc"))
-  (gnus-directory (locate-user-emacs-file "gnus/")))
+  (gnus-directory (locate-user-emacs-file "gnus/"))
+  :config
+  ;; Poll Fastmail in the background so new mail appears without pressing `g`:
+  ;; every 5 minutes, but only while Emacs is idle so it never blocks a keystroke.
+  ;; gnus-demon-scan-news no-ops unless Gnus is actually running, and
+  ;; gnus-demon-init must be called to actually arm the timer.
+  (require 'gnus-demon)
+  (gnus-demon-add-handler 'gnus-demon-scan-news 5 t)
+  (gnus-demon-init))
 #+end_src
 
 Send from any of the verified Fastmail identities by matching on the group or by
