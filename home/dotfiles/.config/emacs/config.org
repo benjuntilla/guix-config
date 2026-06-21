@@ -33,12 +33,6 @@ Suppress warnings
 (add-to-list 'warning-suppress-types '(emacs))
 #+end_src
 
-zone out...
-#+begin_src emacs-lisp
-(require 'zone)
-(zone-when-idle 60)
-#+end_src
-
 recursive minibuffer
 #+begin_src emacs-lisp
 (setq enable-recursive-minibuffers t)
