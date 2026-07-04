@@ -247,11 +247,11 @@ end
               (file-append pinentry-rofi "/bin/pinentry-rofi"))
              (ssh-support? #t)))
 
-   (simple-service 'waybar-niri-workspaces
-                   home-xdg-configuration-files-service-type
-                   `(("waybar/niri-workspaces-enhanced.so"
-                      ,(file-append waybar-niri-workspaces-enhanced
-                                    "/lib/libwaybar_niri_workspaces_enhanced.so"))))
+   ;; (simple-service 'waybar-niri-workspaces
+   ;;                 home-xdg-configuration-files-service-type
+   ;;                 `(("waybar/niri-workspaces-enhanced.so"
+   ;;                    ,(file-append waybar-niri-workspaces-enhanced
+   ;;                                  "/lib/libwaybar_niri_workspaces_enhanced.so"))))
 
    ;; link dotfiles
    (service home-dotfiles-service-type

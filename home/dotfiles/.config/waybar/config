@@ -17,7 +17,7 @@
     }
   },
   "cffi/niri-workspaces-enhanced": {
-    "module_path": "/home/ben/.config/waybar/niri-workspaces-enhanced.so",
+    "module_path": "/home/ben/.config/waybar/libwaybar_niri_workspaces_enhanced.so",
     "format": "[{index-and-name}] {window-icons}",
     "window-icon-format": {
       "default": "{icon}",
