@@ -3,6 +3,12 @@ input {
     mod-key-nested "Alt"
     workspace-auto-back-and-forth
 
+    keyboard {
+        xkb {
+            options "ctrl:nocaps"
+        }
+    }
+
     touchpad {
         tap
         dwt
