@@ -3,14 +3,13 @@
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
-    claude-desktop-debian.url = "github:aaddrick/claude-desktop-debian";
     nixgl = {
       url = "github:nix-community/nixGL";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
 
-  outputs = { self, nixpkgs, claude-desktop-debian, nixgl }:
+  outputs = { self, nixpkgs, nixgl }:
     let
       system = "x86_64-linux";
       pkgs = import nixpkgs {
@@ -75,7 +74,6 @@
           zed-editor
           zellij
         ]) ++ [
-          claude-desktop-debian.packages.${system}.default
           worktrunk
           davinci-resolve
         ];
