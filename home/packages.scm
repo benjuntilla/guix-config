@@ -22,6 +22,7 @@
           "font-space-grotesk"
           "font-charter"
           "nss-certs"
+          "claude-desktop"
           "file"
           "nss-mdns"
           "pkg-config"
